@@ -95,8 +95,13 @@ Existing GN argument changes must be reviewed and backed up before replacement;
 the build driver continues to reject an unexpected existing `args.gn`.
 The first explicit-toolchain shader action then reached Apple's compiler but
 failed writing its module cache under the macOS per-user `C/clang/ModuleCache`
-directory. Permission was granted for that specific cache and the incremental
-build was restarted; shader completion still requires verification.
+directory. A specific permission grant did not resolve the failure. A direct
+retry with `-fmodules-cache-path` inside `.build/chromium/` compiled the same
+shader successfully (150,688-byte AIR output). The driver now generates small
+local adapters for ANGLE: `metal` receives that explicit cache flag and
+`metallib` delegates unchanged. These execute the installed Apple tools and
+keep compiler caches inside the build root. Full compilation has been restarted;
+final shader-library generation and browser build still require verification.
 Reserve at least 160 GiB for the initial checkout/build;
 actual usage depends on build options.
 

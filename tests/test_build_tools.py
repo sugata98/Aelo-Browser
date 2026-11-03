@@ -69,11 +69,15 @@ class BuildSafetyTests(unittest.TestCase):
                     path.chmod(0o755)
                 builder = chromium.ChromiumBuild(root / 'build')
                 self.assertEqual(builder.metal_tools, tools.resolve())
-                self.assertIn('angle_metal_toolchain_dir = ' + json.dumps(str(tools.resolve())),
+                self.assertIn('angle_metal_toolchain_dir = ' + json.dumps(str(builder.root / 'metal-tools')),
                               builder.gn_arguments())
                 with mock.patch.object(builder, 'run') as run:
                     builder.preflight()
                 self.assertEqual(run.call_args.args, (tools.resolve() / 'metal', '--version'))
+                adapter = (builder.root / 'metal-tools/metal').read_text()
+                self.assertIn('-fmodules-cache-path=', adapter)
+                self.assertIn('metal-module-cache', adapter)
+                self.assertNotIn('-fmodules-cache-path=', (builder.root / 'metal-tools/metallib').read_text())
 
     def test_existing_repository_is_not_repointed(self):
         with tempfile.TemporaryDirectory() as directory:

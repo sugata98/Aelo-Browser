@@ -90,3 +90,8 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   the build now supports ANGLE's explicit toolchain-directory option through
   `AELO_METAL_TOOLCHAIN_DIR`. All 10 build-tool tests pass. Build completion
   and launch remain unverified.
+
+- The failed ANGLE Metal shader compiles successfully when its module cache
+  is explicitly placed under the build root (150,688-byte AIR probe output).
+  The driver now applies this through generated tool adapters; all 10 build
+  safety tests still pass. Full compilation has been restarted.

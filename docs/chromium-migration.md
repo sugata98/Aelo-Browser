@@ -73,6 +73,9 @@ can select another dedicated path without spaces. Unexpected origins,
 revisions, source changes or existing configuration block replacement.
 A driver lock prevents duplicate invocations. `state.json` records command
 PID, time and outcome; a still-running interrupted command blocks a new driver.
+The source guard accepts a changed tracked gitlink only when its HEAD matches
+a declared dependency override and its own worktree is clean. Unexpected
+source edits, staged changes and dirty overridden dependencies still block sync.
 
 Public Google Storage dependencies use an anonymous headless downloader.
 Its config, state, Python environments and caches stay inside the build root.

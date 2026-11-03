@@ -165,15 +165,35 @@ class ChromiumBuild:
         if config.exists() and config.read_text() != spec:
             raise RuntimeError("Existing .gclient configuration differs; inspect it before continuing")
         if self.src.exists() and (self.src / ".git").exists():
-            dirty = self.run("git", "status", "--porcelain", "--untracked-files=no",
-                             cwd=self.src, capture=True)
-            if dirty:
-                raise RuntimeError("Chromium has local source changes; do not sync over them")
+            self.check_source_changes()
         config.write_text(spec)
         self.ensure_git(self.src, LOCK['repository'], LOCK['revision'])
         self.run(self.tools / "gclient", "sync", "--nohooks", "--no-history",
                  f"--revision=src@{LOCK['revision']}", f"--jobs={self.jobs}", cwd=self.checkout)
         self.verify_revision()
+
+    def check_source_changes(self):
+        dirty = self.run("git", "status", "--porcelain=v1", "-z", "--untracked-files=no",
+                         cwd=self.src, capture=True)
+        overrides = {path.removeprefix("src/"): url.rsplit("@", 1)[-1]
+                     for path, url in LOCK.get("custom_deps", {}).items() if isinstance(url, str)}
+        for entry in dirty.split("\0"):
+            if not entry:
+                continue
+            path = entry[3:]
+            expected = overrides.get(path)
+            # A declared override changes a tracked gitlink's worktree HEAD.
+            # Never excuse staged edits, ordinary source files or dirty deps.
+            if entry[:2] == " M" and expected:
+                tree = self.run("git", "ls-tree", "HEAD", "--", path,
+                                cwd=self.src, capture=True)
+                if tree.startswith("160000 commit "):
+                    head = self.run("git", "rev-parse", "HEAD", cwd=self.src / path, capture=True).strip()
+                    local = self.run("git", "status", "--porcelain", "--untracked-files=all",
+                                     cwd=self.src / path, capture=True)
+                    if head == expected and not local:
+                        continue
+            raise RuntimeError(f"Chromium has unexpected local source changes at {path}; do not sync over them")
 
     def verify_revision(self):
         actual = self.run("git", "rev-parse", "HEAD", cwd=self.src, capture=True).strip()

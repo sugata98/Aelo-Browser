@@ -76,6 +76,50 @@ class BuildSafetyTests(unittest.TestCase):
             self.assertEqual(sentinel.read_text(), "unrelated source")
             self.assertFalse((source / ".git").exists())
 
+    def test_source_guard_accepts_only_clean_declared_gitlink_overrides(self):
+        with tempfile.TemporaryDirectory() as directory:
+            builder = chromium.ChromiumBuild(Path(directory) / 'build')
+            source = builder.src
+            source.mkdir(parents=True)
+            dependency = source / 'dependency'
+            dependency.mkdir()
+
+            def git(path, *args):
+                return subprocess.check_output([
+                    'git', '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
+                    '-c', 'commit.gpgsign=false', '-c', 'core.hooksPath=/dev/null', *args
+                ], cwd=path, text=True).strip()
+
+            git(source, 'init', '-q')
+            git(dependency, 'init', '-q')
+            tracked = dependency / 'input.txt'
+            tracked.write_text('original\n')
+            git(dependency, 'add', 'input.txt')
+            git(dependency, 'commit', '-qm', 'original')
+            original = git(dependency, 'rev-parse', 'HEAD')
+            owned = source / 'owned.txt'
+            owned.write_text('keep\n')
+            git(source, 'add', 'owned.txt')
+            git(source, 'update-index', '--add', '--cacheinfo', '160000,' + original + ',dependency')
+            git(source, 'commit', '-qm', 'source baseline')
+            tracked.write_text('updated\n')
+            git(dependency, 'commit', '-qam', 'public override')
+            replacement = git(dependency, 'rev-parse', 'HEAD')
+            with mock.patch.dict(chromium.LOCK, {'custom_deps': {
+                    'src/dependency': 'https://chromium.googlesource.com/fixture.git@' + replacement}}):
+                builder.check_source_changes()
+                tracked.write_text('uncommitted edit\n')
+                with self.assertRaisesRegex(RuntimeError, 'unexpected local source changes'):
+                    builder.check_source_changes()
+                tracked.write_text('updated\n')
+                owned.write_text('local source edit\n')
+                with self.assertRaisesRegex(RuntimeError, 'unexpected local source changes'):
+                    builder.check_source_changes()
+                owned.write_text('keep\n')
+                git(source, 'add', 'dependency')
+                with self.assertRaisesRegex(RuntimeError, 'unexpected local source changes'):
+                    builder.check_source_changes()
+
     def test_previous_live_command_prevents_duplicate_build(self):
         with tempfile.TemporaryDirectory() as directory:
             builder = chromium.ChromiumBuild(Path(directory) / "build")

@@ -220,6 +220,8 @@ class BuildSafetyTests(unittest.TestCase):
             self.assertEqual(builder.env['BOTO_CONFIG'], builder.env['BOTO_PATH'])
             self.assertIn(str(builder.root / 'gsutil-state'), Path(builder.env['BOTO_CONFIG']).read_text())
             self.assertEqual(builder.env['SWARMING_HEADLESS'], '1')
+            self.assertEqual(builder.env['GOCACHE'], str(builder.root / 'go-cache'))
+            self.assertEqual(builder.env['GOMODCACHE'], str(builder.root / 'go-modules'))
             run.assert_called_once_with('git-lfs', 'version')
 
     def test_icon_container_has_all_resolution_entries(self):

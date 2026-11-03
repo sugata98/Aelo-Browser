@@ -59,6 +59,8 @@ class ChromiumBuild:
             "CIPD_CACHE_DIR": str(self.root / "cipd-cache"),
             "VPYTHON_VIRTUALENV_ROOT": str(self.root / "vpython"),
             "XDG_CACHE_HOME": str(self.root / "cache"),
+            "GOCACHE": str(self.root / "go-cache"),
+            "GOMODCACHE": str(self.root / "go-modules"),
             # Public DEPS objects need no account. Skip interactive LUCI auth
             # and keep gsutil's config/state inside this dedicated build root.
             "SWARMING_HEADLESS": "1",

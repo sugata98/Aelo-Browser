@@ -103,8 +103,12 @@ local adapters for ANGLE: `metal` receives that explicit cache flag and
 keep compiler caches inside the build root. The resumed full build has now
 produced both ANGLE outputs: a 150,608-byte AIR file and a 360,535-byte
 Metal library. The driver lock is held and the Ninja output log is advancing.
-The Metal shader blocker is resolved; final browser build and launch remain
-unverified.
+The Metal shader blocker is resolved. The next attempt completed another
+522 steps before Dawn/Tint source generation failed writing Go's default
+user cache outside the build root. The driver now sets `GOCACHE` and
+`GOMODCACHE` inside its dedicated root and the incremental build has been
+restarted. The cache fix, final browser build and launch still need live
+verification.
 Reserve at least 160 GiB for the initial checkout/build;
 actual usage depends on build options.
 

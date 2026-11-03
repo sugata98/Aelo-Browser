@@ -100,3 +100,9 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   AIR (150,608 bytes) and Metal library (360,535 bytes). The driver lock was
   held and Ninja output records were advancing when checked. This verifies
   the Metal build fix; browser build completion and launch remain unverified.
+
+- After the Metal fix, the full build completed another 522 steps and stopped
+  at Dawn/Tint source generation because Go attempted to write its default
+  user cache. The driver now confines Go build/module caches to the build
+  root; all 10 build-tool tests pass. An incremental retry is underway;
+  generator completion and final browser launch remain unverified.

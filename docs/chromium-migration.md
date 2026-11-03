@@ -16,10 +16,12 @@ GN generation subsequently succeeded, creating 36,370 targets. The first build
 scheduler stopped on a missing LiteRT schema: its earlier failed LFS checkout
 had left an uninitialized working tree despite gclient's successful return.
 The incomplete files were preserved under `.build/chromium/recovery/` and
-LiteRT was restored at its original pinned commit. Independent validation now
-checks all 150 pinned Git dependencies before configuration and after sync.
-Full Chromium compilation, launch and workspace integration have
-**not** been verified. The new target is upstream `chrome`, including browser
+LiteRT was restored at its original pinned commit, and `git lfs fsck --objects`
+passed. Independent validation now checks all 150 pinned Git dependencies
+before configuration and after sync. Full Chromium compilation is underway:
+the first progress check confirmed 255 completed native object files in Ninja's
+output log. Build completion, launch and workspace integration have
+**not** been verified. The target is upstream `chrome`, including browser
 profile and extension services, separately from the CEF targets.
 
 The user has prioritized completing and launching this build. CEF UI work is

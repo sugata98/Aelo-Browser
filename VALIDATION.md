@@ -59,7 +59,10 @@ found a missing LiteRT schema caused by an incomplete earlier LFS checkout.
 LiteRT was recovered at the original pinned commit using its official upstream
 LFS transport, preserving the incomplete files separately. Independent checks
 passed for the revisions and missing-file checks of all 150 Git dependencies.
-Full compilation and launch are not yet verified.
+`git lfs fsck --objects` passed for the recovered LiteRT checkout. The full
+Chromium build is now compiling native objects; Ninja's first progress check
+confirmed 255 completed `.o` outputs. The nine build-tool tests pass. Successful
+build completion and launch are not yet verified.
 
 `git apply --check` accepts the four-file branding/data/Keychain/native-host
 isolation patch against that pinned source. Live behavior under those new

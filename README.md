@@ -6,6 +6,8 @@ A working native macOS browser prototype, built from the Arc reconstruction audi
 
 The app is installed at **`~/Applications/Orbit Preview.app`**. Launch it from Finder. Building creates an ad-hoc signed local preview archive at `dist/Orbit-preview.zip`.
 
+**Prebuilt download:** [Developer Preview 1](https://github.com/sugata98/Aelo-Browser/releases/tag/v0.1.0-preview.1) for Apple Silicon macOS. The app still uses the working name Orbit. This prerelease is ad-hoc signed and not notarized; macOS may block opening it. See the release notes for requirements and limitations.
+
 ## What works in this milestone
 
 - Native macOS sidebar and browser window, with an original bundled icon.

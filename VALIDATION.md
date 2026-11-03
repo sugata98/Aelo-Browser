@@ -111,3 +111,8 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   in Ninja (including `gen/src/tint/cmd/bench/enums_core_bench.cc`). This
   verifies the Go-cache fix in the real full Chromium build. Compilation
   continues with four jobs; final app build and launch remain pending.
+
+- Clang crashed once compiling Blink display-lock state. The exact compile
+  command passed on retry with unchanged source/compiler/flags. Crash
+  reproducers and retry log are retained in ignored build storage; the cause
+  remains unestablished. The incremental full build was resumed.

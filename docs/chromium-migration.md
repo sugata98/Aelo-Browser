@@ -218,3 +218,16 @@ Required before declaring the engine switch complete:
 The paused CEF investigation reproduced a blank pane after layout changes;
 an experimental host-lifetime change is unqualified and must not be described
 as a verified shutdown fix.
+
+## Compiler crash during the first full build
+
+The four-job attempt stopped after 2 h 11 min with 30,799 steps done and
+32,968 remaining. Clang 24 crashed during IR generation for a
+`std::optional<blink::LocalFrameMetricsAggregator::MetricId>` constructor
+while compiling `display_lock_document_state.cc`. Its generated reproducers
+are retained under the ignored `out/clang-crashreports/` directory. Re-running
+the exact failed compile command with the same compiler, source and flags
+succeeded (exit 0), recorded in `.build/chromium/clang-display-lock-retry.log`.
+The failure is not yet reproducible; no compiler substitution, source workaround
+or security change was made. The full incremental build was resumed with four
+jobs. Final completion and launch remain unverified.

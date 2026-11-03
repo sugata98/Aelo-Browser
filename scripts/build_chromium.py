@@ -212,6 +212,10 @@ class ChromiumBuild:
 
     def configure(self):
         self.preflight()
+        # gclient's own VPython can run before the shell GN/autoninja launchers
+        # have their hermetic Python metadata. Bootstrap the pinned tools;
+        # unlike update_depot_tools, this does not change their Git revision.
+        self.run(self.tools / "ensure_bootstrap")
         self.patch()
         self.run(self.tools / "gclient", "runhooks", cwd=self.checkout)
         self.out.mkdir(parents=True, exist_ok=True)

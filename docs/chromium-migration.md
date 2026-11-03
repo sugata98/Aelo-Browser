@@ -8,7 +8,10 @@ Branch: `feat/full-chromium-migration`. The published
 The full Chromium source checkout is present at the pinned revision below.
 Xcode 26.6 and its macOS 26.5 SDK pass preflight. Dependency sync completed
 successfully on 3 November 2026 at 11:16 IST. The reviewed isolation patch has
-been applied, and the build driver has started Chromium's dependency hooks.
+been applied, and Chromium's dependency hooks completed successfully. The
+initial GN launcher stopped on missing depot_tools hermetic-Python metadata;
+the build now explicitly runs the pinned tools' `ensure_bootstrap` before
+configuration. That bootstrap does not update the depot_tools Git revision.
 Full Chromium compilation, launch and workspace integration have
 **not** been verified. The new target is upstream `chrome`, including browser
 profile and extension services, separately from the CEF targets.

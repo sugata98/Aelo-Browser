@@ -17,7 +17,7 @@ static NSMutableDictionary *MutableCopy(id value) {
   _fileURL = url;
   NSData *bytes = [NSData dataWithContentsOfURL:url];
   if (!bytes && [NSFileManager.defaultManager fileExistsAtPath:url.path]) {
-    @throw [NSException exceptionWithName:@"WorkspaceRecoveryRequired" reason:@"The workspace file exists but could not be read. Check its permissions; Orbit has not replaced it." userInfo:nil];
+    @throw [NSException exceptionWithName:@"WorkspaceRecoveryRequired" reason:@"The workspace file exists but could not be read. Check its permissions; Aelo has not replaced it." userInfo:nil];
   }
   if (bytes) {
     NSError *readError=nil;
@@ -31,7 +31,7 @@ static NSMutableDictionary *MutableCopy(id value) {
       _data = prior ? [NSJSONSerialization JSONObjectWithData:prior options:NSJSONReadingMutableContainers error:nil] : nil;
       if (![self validate:nil]) {
         @throw [NSException exceptionWithName:@"WorkspaceRecoveryRequired"
-                                      reason:@"Your workspace could not be read. The original file is preserved; restore a valid backup before opening Orbit."
+                                      reason:@"Your workspace could not be read. The original file is preserved; restore a valid backup before opening Aelo."
                                     userInfo:nil];
       }
       // The original invalid file remains available for recovery.
@@ -67,7 +67,7 @@ static NSMutableDictionary *MutableCopy(id value) {
 - (NSMutableDictionary *)addTab:(NSString *)url space:(NSString *)space {
   NSParameterAssert([self space:space]);
   NSMutableDictionary *tab = [@{@"id":NewID(), @"spaceID":space, @"url":url,
-    @"title":[url isEqual:@"orbit://home"] ? @"New Tab" : url, @"pinned":@NO,
+    @"title":[url isEqual:@"aelo://home"] ? @"New Tab" : url, @"pinned":@NO,
     @"created":@([NSDate timeIntervalSinceReferenceDate]), @"lastActive":@([NSDate timeIntervalSinceReferenceDate])} mutableCopy];
   [_data[@"tabs"] addObject:tab];
   [self activate:tab[@"id"]];
@@ -82,7 +82,7 @@ static NSMutableDictionary *MutableCopy(id value) {
   NSMutableDictionary *space = [@{@"id":NewID(), @"name":name, @"profileID":profile,
     @"theme":@([self.spaces count] % 4)} mutableCopy];
   [_data[@"spaces"] addObject:space];
-  [self addTab:@"orbit://home" space:space[@"id"]];
+  [self addTab:@"aelo://home" space:space[@"id"]];
   return space;
 }
 - (void)activate:(NSString *)identifier {
@@ -102,7 +102,7 @@ static NSMutableDictionary *MutableCopy(id value) {
   [_data[@"tabs"] removeObject:tab];
   [_data[@"splitTabs"] removeObject:identifier];
   NSArray *remaining = [self tabsIn:spaceID];
-  if (!remaining.count) [self addTab:@"orbit://home" space:spaceID];
+  if (!remaining.count) [self addTab:@"aelo://home" space:spaceID];
   else if ([[self space:spaceID][@"activeTab"] isEqual:identifier]) [self space:spaceID][@"activeTab"] = remaining.firstObject[@"id"];
 }
 - (NSMutableDictionary *)restoreLastArchived {
@@ -143,7 +143,7 @@ static NSMutableDictionary *MutableCopy(id value) {
     }
     for (id identifier in _data[@"splitTabs"]) valid = valid && [self tab:identifier]!=nil;
   }
-  if (!valid && error) *error = [NSError errorWithDomain:@"OrbitWorkspace" code:1 userInfo:@{NSLocalizedDescriptionKey:@"The workspace has invalid references or an unsupported format."}];
+  if (!valid && error) *error = [NSError errorWithDomain:@"AeloWorkspace" code:1 userInfo:@{NSLocalizedDescriptionKey:@"The workspace has invalid references or an unsupported format."}];
   return valid;
 }
 - (BOOL)save {
@@ -167,8 +167,8 @@ static NSMutableDictionary *MutableCopy(id value) {
 }
 + (NSString *)normalizedURL:(NSString *)input {
   NSString *s = [input stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
-  if (!s.length) return @"orbit://home";
-  if ([s isEqual:@"orbit://home"]) return s;
+  if (!s.length) return @"aelo://home";
+  if ([s isEqual:@"aelo://home"]) return s;
   NSURLComponents *parts = [NSURLComponents componentsWithString:s];
   if ([@[@"https",@"http",@"chrome",@"about"] containsObject:parts.scheme.lowercaseString]) return s;
   // All other schemes are treated as search text, never executed as scripts or local files.

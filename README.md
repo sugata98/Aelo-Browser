@@ -1,12 +1,12 @@
 # Aelo Browser
 
-The first native macOS implementation currently uses **Orbit** as its preview app name. Project repository: [sugata98/Aelo-Browser](https://github.com/sugata98/Aelo-Browser).
+Native macOS Chromium browser. Project repository: [sugata98/Aelo-Browser](https://github.com/sugata98/Aelo-Browser).
 
 A working native macOS browser prototype, built from the Arc reconstruction audit. This is the first implementation milestone, not full Arc feature parity.
 
-The app is installed at **`~/Applications/Orbit Preview.app`**. Launch it from Finder. Building creates an ad-hoc signed local preview archive at `dist/Orbit-preview.zip`.
+The app is installed at **`~/Applications/Aelo.app`**. Launch it from Finder. Building creates an ad-hoc signed local preview archive at `dist/Aelo-preview.zip`.
 
-**Prebuilt download:** [Developer Preview 1](https://github.com/sugata98/Aelo-Browser/releases/tag/v0.1.0-preview.1) for Apple Silicon macOS. The app still uses the working name Orbit. This prerelease is ad-hoc signed and not notarized; macOS may block opening it. See the release notes for requirements and limitations.
+**Prebuilt download:** [Developer Preview 1](https://github.com/sugata98/Aelo-Browser/releases/tag/v0.1.0-preview.1) for Apple Silicon macOS. This prerelease is ad-hoc signed and not notarized; macOS may block opening it. See the release notes for requirements and limitations.
 
 ## What works in this milestone
 
@@ -20,7 +20,7 @@ The app is installed at **`~/Applications/Orbit Preview.app`**. Launch it from F
 - Back, forward, reload, native page dialogs and a download save dialog.
 - Workspace export; atomic local persistence with a last-valid backup and corruption recovery.
 - Saved URLs, active Space/tab, pins, window position and split membership restored after restart.
-- Graceful shutdown, including a cancelable unsaved-page confirmation before closing a tab.
+- Cancelable unsaved-page confirmation before closing a tab. Quitting still has a known teardown watchdog issue; see the release notes.
 
 The three top shortcuts are starter links, not yet an editable Favorites system. Reloaded tabs restore their URL; full back/forward session history and unsaved form contents are not restored. The archive currently restores the most recent tab, without a searchable archive UI. Split geometry resets to equal widths after a restart.
 
@@ -46,9 +46,9 @@ Requires an Apple Silicon Mac, macOS 13 or later, Python 3.10+ and Apple's Comma
 python3 scripts/build.py
 ```
 
-The script downloads the pinned official CEF distribution if needed and checks its SHA-256 against `cef.lock.json`. It installs local CMake/Ninja tools into `.build/` only when they are unavailable, compiles the native app and helper processes, runs workspace tests, creates the icon, signs and verifies the app, installs it in `~/Applications/Orbit Preview.app`, and writes `dist/Orbit-preview.zip`. Override the dependency/cache directory with `ORBIT_BUILD_ROOT` if needed. Generated files and personal browser data are excluded from Git.
+The script downloads the pinned official CEF distribution if needed and checks its SHA-256 against `cef.lock.json`. It installs local CMake/Ninja tools into `.build/` only when they are unavailable, compiles the native app and helper processes, runs workspace tests, creates the icon, signs and verifies the app, installs it in `~/Applications/Aelo.app`, and writes `dist/Aelo-preview.zip`. Override the dependency/cache directory with `AELO_BUILD_ROOT` if needed. Generated files and personal browser data are excluded from Git.
 
-App replacement is restricted to a destination with this project's bundle identifier. Quit Orbit before rebuilding. This is an ad-hoc signed local development app, not a notarized public release; a Developer ID release pipeline is still required for distribution.
+App replacement is restricted to a destination with this project's bundle identifier. Quit Aelo before rebuilding. This is an ad-hoc signed local development app, not a notarized public release; a Developer ID release pipeline is still required for distribution.
 
 The renderer sandbox is enabled. No `--no-sandbox`, certificate-error bypass or web-security disabling flag is used. The engine is loaded dynamically using CEF's supported macOS loader and separate sandboxed helper bundles.
 
@@ -56,7 +56,7 @@ The workspace is under a cloud-managed Documents folder on this machine. Finder 
 
 ## Data
 
-Normal browsing data lives in **`~/Library/Application Support/OrbitPreview/`**, independently of Arc:
+Normal browsing data lives in **`~/Library/Application Support/Aelo/`**, independently of Arc:
 
 ```text
 workspace.json           Spaces, tabs, archive, pins and split membership
@@ -69,7 +69,7 @@ engine.log              Local engine diagnostics
 
 Workspace export includes organization and URLs. It does not include passwords, cookies, full browsing history or extension state. Those remain engine profile data. A corrupt workspace falls back to the last valid backup and preserves the damaged file as `.recovery`; if neither file is valid, startup refuses to overwrite them.
 
-Test runs can use `ORBIT_DATA_DIR=/absolute/disposable/path`. Remote debugging is off by default and only opt-in when both `ORBIT_DATA_DIR` and `ORBIT_TEST_DEBUG_PORT` are provided. Do not use a cloud-synced folder for Chromium test profile databases.
+Test runs can use `AELO_DATA_DIR=/absolute/disposable/path`. Remote debugging is off by default and only opt-in when both `AELO_DATA_DIR` and `AELO_TEST_DEBUG_PORT` are provided. Do not use a cloud-synced folder for Chromium test profile databases.
 
 ## Architecture
 
@@ -97,4 +97,4 @@ python3 tests/fixture_server.py
 
 In Personal, navigate to `http://127.0.0.1:8765/set`; then open `/` in Focus and Work. Focus should show the cookie, while Work should show an empty cookie jar. The input field allows testing the unsaved-page confirmation using ⌘W. Tests use only synthetic data.
 
-CEF is redistributed under its bundled license. Its license text is in the app resources, and Chromium credits are reachable from About Orbit → Licenses. This project uses no Arc binaries, branding assets or bundled fonts.
+CEF is redistributed under its bundled license. Its license text is in the app resources, and Chromium credits are reachable from About Aelo → Licenses. This project uses no Arc binaries, branding assets or bundled fonts.

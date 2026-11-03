@@ -21,12 +21,12 @@ The final build completed without compiler warnings. CTest passed. App packaging
 | Pinned tabs | Pin moved the tab into the Pinned section and persisted through restart |
 | Unsaved-page cancel | Typing a synthetic draft, then ⌘W, showed Stay/Leave; Stay preserved the tab and its draft |
 | Unsaved-page accept | Leave archived the tab and created a replacement home tab when needed |
-| Orderly quit | The app exited with status 0 after closing its embedded browser views |
+| Quit behavior | Earlier checks exited normally; the renamed release build also reproduced a teardown watchdog timeout after saving. Clean shutdown is not reliably qualified. |
 | Restart | Active Space, tabs and pins reopened; a saved two-pane layout rendered both pages after a full quit/relaunch |
 
 The fixture server uses concurrent handlers: Chromium may preconnect idle sockets, so a single-threaded HTTP server can otherwise cause a misleading apparent navigation hang across Profiles.
 
-Test data was isolated from Arc and the normal Orbit preview profile. No real account, password, extension or user browsing database was imported. Remote debugging was not enabled for these GUI checks.
+Test data was isolated from Arc and the normal Aelo preview profile. No real account, password, extension or user browsing database was imported. Remote debugging was not enabled for these GUI checks.
 
 ## Not yet verified
 
@@ -40,3 +40,7 @@ Test data was isolated from Arc and the normal Orbit preview profile. No real ac
 - Public notarization and automatic updates (not implemented).
 
 This qualification establishes a working first prototype and several core data/lifecycle behaviors. It is not a browser security audit or an assertion of Arc feature parity.
+
+## Aelo release verification
+
+The renamed app was rebuilt and its native workspace tests passed. Live launch, Aelo branding, menus and two-pane rendering were checked. The native host hierarchy is released before engine shutdown, but the teardown watchdog issue remains reproducible and is disclosed in the release notes.

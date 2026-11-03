@@ -18,8 +18,8 @@ static NSString *DataURL(NSString *html) {
 static NSColor *Ink(void) { return [NSColor colorWithSRGBRed:.18 green:.20 blue:.27 alpha:1]; }
 static NSColor *Accent(void) { return [NSColor colorWithSRGBRed:.34 green:.36 blue:.72 alpha:1]; }
 
-@class OrbitDelegate;
-static OrbitDelegate *gApp;
+@class AeloDelegate;
+static AeloDelegate *gApp;
 
 @interface BrowserSession : NSObject {
 @public
@@ -33,7 +33,7 @@ static OrbitDelegate *gApp;
 @implementation BrowserSession
 @end
 
-@interface OrbitDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate>
+@interface AeloDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate>
 @property(nonatomic) Workspace *store;
 @property(nonatomic) NSWindow *window;
 @property(nonatomic) NSView *sidebar;
@@ -80,11 +80,11 @@ static OrbitDelegate *gApp;
 static std::map<std::string,CefRefPtr<CefRequestContext>> contexts;
 static std::map<int,CefRefPtr<CefBrowser>> liveBrowsers;
 
-class OrbitClient final : public CefClient, public CefLifeSpanHandler,
+class AeloClient final : public CefClient, public CefLifeSpanHandler,
                           public CefDisplayHandler, public CefLoadHandler,
                           public CefFocusHandler, public CefDownloadHandler, public CefJSDialogHandler {
  public:
-  explicit OrbitClient(NSString *identifier) : identifier_(identifier.UTF8String) {}
+  explicit AeloClient(NSString *identifier) : identifier_(identifier.UTF8String) {}
   CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override { return this; }
   CefRefPtr<CefDisplayHandler> GetDisplayHandler() override { return this; }
   CefRefPtr<CefLoadHandler> GetLoadHandler() override { return this; }
@@ -147,25 +147,25 @@ class OrbitClient final : public CefClient, public CefLifeSpanHandler,
  private:
   NSString *ID() { return [NSString stringWithUTF8String:identifier_.c_str()]; }
   const std::string identifier_;
-  IMPLEMENT_REFCOUNTING(OrbitClient);
-  DISALLOW_COPY_AND_ASSIGN(OrbitClient);
+  IMPLEMENT_REFCOUNTING(AeloClient);
+  DISALLOW_COPY_AND_ASSIGN(AeloClient);
 };
 
-class OrbitCEFApp final : public CefApp {
+class AeloCEFApp final : public CefApp {
  public:
   void OnBeforeCommandLineProcessing(const CefString &process_type, CefRefPtr<CefCommandLine> command_line) override {
     // Automation is opt-in and uses only a disposable data directory in tests.
-    const char *port = getenv("ORBIT_TEST_DEBUG_PORT");
-    if (port && getenv("ORBIT_DATA_DIR")) command_line->AppendSwitchWithValue("remote-debugging-port", port);
+    const char *port = getenv("AELO_TEST_DEBUG_PORT");
+    if (port && getenv("AELO_DATA_DIR")) command_line->AppendSwitchWithValue("remote-debugging-port", port);
   }
  private:
-  IMPLEMENT_REFCOUNTING(OrbitCEFApp);
+  IMPLEMENT_REFCOUNTING(AeloCEFApp);
 };
 
-@interface OrbitApplication : NSApplication <CefAppProtocol>
+@interface AeloApplication : NSApplication <CefAppProtocol>
 @property(nonatomic) BOOL handlingSendEvent;
 @end
-@implementation OrbitApplication
+@implementation AeloApplication
 - (BOOL)isHandlingSendEvent { return _handlingSendEvent; }
 - (void)sendEvent:(NSEvent *)event {
   CefScopedSendingEvent scope;
@@ -199,7 +199,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
   return b;
 }
 
-@implementation OrbitDelegate
+@implementation AeloDelegate
 - (NSString *)activeSpace { return self.store.data[@"activeSpace"]; }
 - (NSString *)activeTab { return self.focusedTab ?: [self.store space:self.activeSpace][@"activeTab"]; }
 - (NSMutableDictionary *)activeRecord { return [self.store tab:self.activeTab]; }
@@ -213,7 +213,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
   self.window=[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,1280,820)
     styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable|NSWindowStyleMaskFullSizeContentView
     backing:NSBackingStoreBuffered defer:NO];
-  self.window.title=@"Orbit"; self.window.titleVisibility=NSWindowTitleHidden; self.window.titlebarAppearsTransparent=YES;
+  self.window.title=@"Aelo"; self.window.titleVisibility=NSWindowTitleHidden; self.window.titlebarAppearsTransparent=YES;
   self.window.minSize=NSMakeSize(850,560); self.window.delegate=self;
   self.window.backgroundColor=[NSColor colorWithSRGBRed:.96 green:.96 blue:.98 alpha:1];
   self.window.releasedWhenClosed=NO;
@@ -221,7 +221,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
   if (bounds) [self.window setFrame:NSRectFromString(bounds) display:NO]; else [self.window center];
   NSView *root=self.window.contentView;
   self.sidebar=[[SidebarView alloc] init]; [root addSubview:self.sidebar];
-  NSTextField *brand=Label(@"◉  Orbit",22,NSFontWeightSemibold); [self.sidebar addSubview:brand]; brand.identifier=@"brand";
+  NSTextField *brand=Label(@"◉  Aelo",22,NSFontWeightSemibold); [self.sidebar addSubview:brand]; brand.identifier=@"brand";
   NSButton *newButton=Button(@"New tab",@"plus",self,@selector(newTab:)); newButton.identifier=@"new"; [self.sidebar addSubview:newButton];
   self.spacePicker=[[NSPopUpButton alloc] init]; self.spacePicker.bordered=NO; self.spacePicker.font=[NSFont systemFontOfSize:16 weight:NSFontWeightSemibold];
   self.spacePicker.target=self; self.spacePicker.action=@selector(selectSpace:); [self.spacePicker setAccessibilityLabel:@"Current Space"]; [self.sidebar addSubview:self.spacePicker];
@@ -238,7 +238,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
   scroll.contentView.drawsBackground=NO;
   self.tabs.dataSource=self; self.tabs.delegate=self; self.tabs.target=self; self.tabs.doubleAction=@selector(renameTab:);
   [self.tabs setAccessibilityLabel:@"Tabs in this Space"];
-  [self.tabs registerForDraggedTypes:@[@"dev.orbit.tab"]];
+  [self.tabs registerForDraggedTypes:@[@"dev.aelo.tab"]];
   NSMenu *context=[[NSMenu alloc] initWithTitle:@"Tab"];
   for (NSArray *entry in @[@[@"Pin / Unpin Tab",NSStringFromSelector(@selector(pinTab:))],@[@"Rename Tab…",NSStringFromSelector(@selector(renameTab:))],@[@"Open in Split View",NSStringFromSelector(@selector(splitWithSelected:))],@[@"Archive Tab",NSStringFromSelector(@selector(archiveTab:))]]) {
     NSMenuItem *item=[[NSMenuItem alloc] initWithTitle:entry[0] action:NSSelectorFromString(entry[1]) keyEquivalent:@""]; item.target=self; [context addItem:item];
@@ -263,7 +263,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
 }
 - (void)buildMenus {
   NSMenu *main=[[NSMenu alloc] init]; NSApp.mainMenu=main;
-  NSArray *menus=@[@[@"Orbit",@[@[@"About Orbit",@"about:",@""],@[@"Export Workspace…",@"exportWorkspace:",@""],@[@"Show Data Folder",@"showData:",@""],@[@"Quit Orbit",@"quit:",@"q"]]],
+  NSArray *menus=@[@[@"Aelo",@[@[@"About Aelo",@"about:",@""],@[@"Export Workspace…",@"exportWorkspace:",@""],@[@"Show Data Folder",@"showData:",@""],@[@"Quit Aelo",@"quit:",@"q"]]],
     @[@"File",@[@[@"New Tab",@"newTab:",@"t"],@[@"New Space…",@"newSpace:",@""],@[@"Archive Tab",@"archiveTab:",@"w"],@[@"Restore Archived Tab",@"restoreTab:",@"T"],@[@"Open Location…",@"command:",@"l"]]],
     @[@"Edit",@[@[@"Undo",@"undo:",@"z"],@[@"Redo",@"redo:",@"Z"],@[@"Cut",@"cut:",@"x"],@[@"Copy",@"copy:",@"c"],@[@"Paste",@"paste:",@"v"],@[@"Select All",@"selectAll:",@"a"]]],
     @[@"View",@[@[@"Reload",@"reload:",@"r"],@[@"Split View",@"toggleSplit:",@"\\"],@[@"Pin / Unpin Tab",@"pinTab:",@"d"],@[@"Developer Tools",@"devTools:",@""],@[@"Chromium Settings",@"browserSettings:",@""]]]];
@@ -335,7 +335,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
     NSTextField *text=Label(item[@"heading"],9,NSFontWeightSemibold); text.textColor=[Ink() colorWithAlphaComponent:.43]; text.frame=NSMakeRect(11,7,200,14); [view addSubview:text];
   } else {
     NSString *symbol=table==self.tabs ? ([item[@"pinned"] boolValue]?@"pin.fill":@"globe") : (item[@"symbol"] ?: @"arrow.up.right");
-    if ([item[@"url"] isEqual:@"orbit://home"]) symbol=@"circle.dotted";
+    if ([item[@"url"] isEqual:@"aelo://home"]) symbol=@"circle.dotted";
     NSImageView *icon=[[NSImageView alloc] initWithFrame:NSMakeRect(10,table==self.tabs?10:17,16,16)];
     icon.image=[NSImage imageWithSystemSymbolName:symbol accessibilityDescription:nil]; icon.contentTintColor=[Ink() colorWithAlphaComponent:.65]; [view addSubview:icon];
     NSTextField *text=Label(item[@"title"] ?: @"New Tab",12,NSFontWeightMedium); text.frame=NSMakeRect(36,table==self.tabs?9:24,table.bounds.size.width-48,19); [view addSubview:text];
@@ -352,13 +352,13 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
 }
 - (id<NSPasteboardWriting>)tableView:(NSTableView *)table pasteboardWriterForRow:(NSInteger)row {
   if (table!=self.tabs || !self.rows[row][@"id"]) return nil;
-  NSPasteboardItem *p=[[NSPasteboardItem alloc] init]; [p setString:self.rows[row][@"id"] forType:@"dev.orbit.tab"]; return p;
+  NSPasteboardItem *p=[[NSPasteboardItem alloc] init]; [p setString:self.rows[row][@"id"] forType:@"dev.aelo.tab"]; return p;
 }
 - (NSDragOperation)tableView:(NSTableView *)table validateDrop:(id<NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op {
   return table==self.tabs && info.draggingSource==self.tabs && op==NSTableViewDropAbove ? NSDragOperationMove : NSDragOperationNone;
 }
 - (BOOL)tableView:(NSTableView *)table acceptDrop:(id<NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op {
-  NSMutableDictionary *tab=[self.store tab:[info.draggingPasteboard stringForType:@"dev.orbit.tab"]]; if (!tab) return NO;
+  NSMutableDictionary *tab=[self.store tab:[info.draggingPasteboard stringForType:@"dev.aelo.tab"]]; if (!tab) return NO;
   NSDictionary *target=row<self.rows.count ? self.rows[row] : nil;
   BOOL pinned=target[@"heading"] ? [target[@"heading"] isEqual:@"PINNED"] : [target[@"pinned"] boolValue];
   tab[@"pinned"]=@(pinned); NSMutableArray *all=self.store.data[@"tabs"]; [all removeObject:tab];
@@ -386,8 +386,8 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
   CefWindowInfo windowInfo; windowInfo.SetAsChild((__bridge CefWindowHandle)session.container,CefRect(0,0,(int)session.container.bounds.size.width,(int)session.container.bounds.size.height));
   windowInfo.runtime_style=CEF_RUNTIME_STYLE_ALLOY;
   CefBrowserSettings settings; settings.background_color=CefColorSetARGB(255,250,250,252);
-  session->client=new OrbitClient(identifier);
-  NSString *url=tab[@"url"]; if ([url isEqual:@"orbit://home"]) url=[self homeURL];
+  session->client=new AeloClient(identifier);
+  NSString *url=tab[@"url"]; if ([url isEqual:@"aelo://home"]) url=[self homeURL];
   if (!CefBrowserHost::CreateBrowser(windowInfo,session->client,CS(url),settings,nullptr,context)) {
     [self.sessions removeObjectForKey:identifier]; self.status.stringValue=@"Browser could not start. Your saved tabs are intact.";
   }
@@ -395,7 +395,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
 }
 - (NSString *)homeURL {
   NSString *path=[NSBundle.mainBundle pathForResource:@"home" ofType:@"html"];
-  return DataURL([NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil] ?: @"<h1>Orbit</h1>");
+  return DataURL([NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil] ?: @"<h1>Aelo</h1>");
 }
 - (void)displayTabs {
   NSString *active=self.activeTab;
@@ -410,9 +410,9 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
   if (focused && focused->browser) focused->browser->GetHost()->SetFocus(true);
 }
 - (void)updateAddress {
-  NSDictionary *tab=self.activeRecord; NSString *url=tab[@"url"] ?: @"orbit://home";
-  self.address.title=[url isEqual:@"orbit://home"]?@"    Search or enter a URL                                      ⌘L":[@"    " stringByAppendingString:url];
-  self.window.title=[NSString stringWithFormat:@"%@ — Orbit",tab[@"title"] ?: @"New Tab"];
+  NSDictionary *tab=self.activeRecord; NSString *url=tab[@"url"] ?: @"aelo://home";
+  self.address.title=[url isEqual:@"aelo://home"]?@"    Search or enter a URL                                      ⌘L":[@"    " stringByAppendingString:url];
+  self.window.title=[NSString stringWithFormat:@"%@ — Aelo",tab[@"title"] ?: @"New Tab"];
   BrowserSession *s=self.sessions[self.activeTab];
   self.backButton.enabled=s && s->browser && s->browser->CanGoBack(); self.forwardButton.enabled=s && s->browser && s->browser->CanGoForward();
 }
@@ -424,7 +424,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
   NSView *view=(__bridge NSView *)browser->GetHost()->GetWindowHandle();
   view.frame=s.container.bounds; view.autoresizingMask=NSViewWidthSizable|NSViewHeightSizable;
   NSString *desired=[self.store tab:identifier][@"url"];
-  if (desired && ![desired isEqual:@"orbit://home"] && ![NS(browser->GetMainFrame()->GetURL()) isEqual:desired]) browser->GetMainFrame()->LoadURL(CS(desired));
+  if (desired && ![desired isEqual:@"aelo://home"] && ![NS(browser->GetMainFrame()->GetURL()) isEqual:desired]) browser->GetMainFrame()->LoadURL(CS(desired));
   [self updateAddress];
 }
 - (void)allowClose:(CefRefPtr<CefBrowser>)browser tab:(NSString *)identifier {
@@ -452,7 +452,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
 - (void)didNavigate:(NSString *)url title:(NSString *)title tab:(NSString *)identifier {
   NSMutableDictionary *t=[self.store tab:identifier]; if (!t || self.quitting) return;
   if (url.length && ![url hasPrefix:@"data:"]) t[@"url"]=url;
-  if (title.length && !t[@"customTitle"]) t[@"title"]=[t[@"url"] isEqual:@"orbit://home"]?@"New Tab":title;
+  if (title.length && !t[@"customTitle"]) t[@"title"]=[t[@"url"] isEqual:@"aelo://home"]?@"New Tab":title;
   [self.tabs reloadData]; [self updateAddress];
 }
 - (void)didLoad:(BOOL)loading back:(BOOL)back forward:(BOOL)forward tab:(NSString *)identifier {
@@ -470,7 +470,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
 }
 - (void)loadFailure:(NSString *)message tab:(NSString *)identifier { if ([identifier isEqual:self.activeTab]) self.status.stringValue=message; }
 - (void)newTab:(id)sender {
-  [self.store.data[@"splitTabs"] removeAllObjects]; NSMutableDictionary *t=[self.store addTab:@"orbit://home" space:self.activeSpace]; self.focusedTab=t[@"id"]; [self persist]; [self refresh]; [self command:sender];
+  [self.store.data[@"splitTabs"] removeAllObjects]; NSMutableDictionary *t=[self.store addTab:@"aelo://home" space:self.activeSpace]; self.focusedTab=t[@"id"]; [self persist]; [self refresh]; [self command:sender];
 }
 - (void)quickLink:(NSButton *)sender { [self openURL:sender.identifier newTab:YES]; }
 - (void)openURL:(NSString *)input newTab:(BOOL)newTab {
@@ -479,7 +479,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
     [self.store.data[@"splitTabs"] removeAllObjects]; NSMutableDictionary *t=[self.store addTab:url space:self.activeSpace]; self.focusedTab=t[@"id"]; [self refresh];
   } else {
     NSMutableDictionary *t=self.activeRecord; t[@"url"]=url;
-    BrowserSession *s=[self ensureSession:self.activeTab]; if (s->browser) s->browser->GetMainFrame()->LoadURL(CS([url isEqual:@"orbit://home"]?[self homeURL]:url));
+    BrowserSession *s=[self ensureSession:self.activeTab]; if (s->browser) s->browser->GetMainFrame()->LoadURL(CS([url isEqual:@"aelo://home"]?[self homeURL]:url));
     [self updateAddress];
   }
   [self persist];
@@ -529,7 +529,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
   if (split.count==2) { [split removeAllObjects]; [self persist]; [self displayTabs]; return; }
   NSString *active=self.activeTab; NSString *other=nil;
   for (NSDictionary *t in [self.store tabsIn:self.activeSpace]) if (![t[@"id"] isEqual:active]) { other=t[@"id"]; break; }
-  if (!other) other=[self.store addTab:@"orbit://home" space:self.activeSpace][@"id"];
+  if (!other) other=[self.store addTab:@"aelo://home" space:self.activeSpace][@"id"];
   self.focusedTab=active; [self.store activate:active]; [split setArray:@[active,other]]; [self persist]; [self refresh];
 }
 - (void)splitWithSelected:(id)sender {
@@ -542,7 +542,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
 - (void)reload:(id)sender { BrowserSession *s=self.sessions[self.activeTab]; if (s && s->browser) s->browser->Reload(); }
 - (void)devTools:(id)sender {
   BrowserSession *s=self.sessions[self.activeTab]; if (!s || !s->browser) return;
-  CefWindowInfo info; CefString(&info.window_name)="Orbit Developer Tools"; info.bounds=CefRect(0,0,1000,700); CefBrowserSettings settings;
+  CefWindowInfo info; CefString(&info.window_name)="Aelo Developer Tools"; info.bounds=CefRect(0,0,1000,700); CefBrowserSettings settings;
   s->browser->GetHost()->ShowDevTools(info,nullptr,settings,CefPoint());
 }
 - (void)browserSettings:(id)sender { [self openURL:@"chrome://settings" newTab:YES]; }
@@ -565,7 +565,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
     self.suggestions.backgroundColor=NSColor.clearColor; self.suggestions.dataSource=self; self.suggestions.delegate=self; self.suggestions.rowHeight=48; self.suggestions.target=self; self.suggestions.doubleAction=@selector(submitCommand:); scroll.documentView=self.suggestions; [self.commandPanel.contentView addSubview:scroll];
     NSTextField *hint=Label(@"↑ ↓ to choose     ↵ to open                                         esc to close",10,NSFontWeightRegular); hint.textColor=NSColor.secondaryLabelColor; hint.frame=NSMakeRect(26,10,550,16); [self.commandPanel.contentView addSubview:hint];
   }
-  self.commandInput.stringValue=[self.activeRecord[@"url"] isEqual:@"orbit://home"]?@"":self.activeRecord[@"url"];
+  self.commandInput.stringValue=[self.activeRecord[@"url"] isEqual:@"aelo://home"]?@"":self.activeRecord[@"url"];
   [self updateSuggestions];
   NSRect window=self.window.frame; [self.commandPanel setFrameOrigin:NSMakePoint(NSMidX(window)-300,NSMaxY(window)-450)];
   [self.window beginSheet:self.commandPanel completionHandler:nil]; [self.commandPanel makeFirstResponder:self.commandInput]; [self.commandInput selectText:nil];
@@ -605,7 +605,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
   if ([action isEqual:@"new"]) [self newTab:nil];
 }
 - (void)exportWorkspace:(id)sender {
-  NSSavePanel *panel=[NSSavePanel savePanel]; panel.nameFieldStringValue=@"Orbit-workspace.json";
+  NSSavePanel *panel=[NSSavePanel savePanel]; panel.nameFieldStringValue=@"Aelo-workspace.json";
   [panel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse response) {
     if (response!=NSModalResponseOK) return;
     NSError *error=nil; NSData *bytes=[NSJSONSerialization dataWithJSONObject:self.store.data options:NSJSONWritingPrettyPrinted error:&error];
@@ -615,7 +615,7 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
 }
 - (void)showData:(id)sender { [NSWorkspace.sharedWorkspace openURL:[NSURL fileURLWithPath:self.storageRoot]]; }
 - (void)about:(id)sender {
-  NSAlert *a=[[NSAlert alloc] init]; a.messageText=@"Orbit · Developer Preview 0.1";
+  NSAlert *a=[[NSAlert alloc] init]; a.messageText=@"Aelo · Developer Preview 0.1";
   a.informativeText=@"An independent, local-first Chromium browser.\n\nChromium 156 · native macOS shell\n\nThis first milestone includes Spaces, separate Profiles, tabs, pins, split browsing, archive recovery and workspace export. Extension compatibility, Arc import, Boosts, sync and AI are still on the roadmap.";
   [a addButtonWithTitle:@"Done"]; [a addButtonWithTitle:@"Licenses"];
   [a beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse response) { if (response==NSAlertSecondButtonReturn) [self openURL:@"chrome://credits" newTab:YES]; }];
@@ -637,28 +637,32 @@ static NSButton *Button(NSString *title, NSString *symbol, id target, SEL action
 int main(int argc,char *argv[]) {
   CefScopedLibraryLoader loader; if (!loader.LoadInMain()) return 1;
   @autoreleasepool {
-    [OrbitApplication sharedApplication]; [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-    gApp=[[OrbitDelegate alloc] init];
-    const char *override=getenv("ORBIT_DATA_DIR");
-    gApp.storageRoot=override ? [NSString stringWithUTF8String:override] : [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/OrbitPreview"];
+    [AeloApplication sharedApplication]; [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+    gApp=[[AeloDelegate alloc] init];
+    const char *override=getenv("AELO_DATA_DIR");
+    gApp.storageRoot=override ? [NSString stringWithUTF8String:override] : [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/Aelo"];
     gApp.storageRoot=[gApp.storageRoot stringByStandardizingPath];
     NSError *error=nil; [NSFileManager.defaultManager createDirectoryAtPath:gApp.storageRoot withIntermediateDirectories:YES attributes:@{NSFilePosixPermissions:@0700} error:&error];
     if (error) { NSLog(@"Cannot open data folder: %@",error); return 1; }
     @try { gApp.store=[[Workspace alloc] initWithURL:[NSURL fileURLWithPath:[gApp.storageRoot stringByAppendingPathComponent:@"workspace.json"]]]; }
-    @catch (NSException *e) { NSAlert *a=[[NSAlert alloc] init]; a.messageText=@"Orbit could not restore your workspace"; a.informativeText=e.reason; [a runModal]; return 1; }
+    @catch (NSException *e) { NSAlert *a=[[NSAlert alloc] init]; a.messageText=@"Aelo could not restore your workspace"; a.informativeText=e.reason; [a runModal]; return 1; }
     CefMainArgs args(argc,argv); CefSettings settings;
     CefString(&settings.root_cache_path)=CS(gApp.storageRoot);
     CefString(&settings.cache_path)=CS([gApp.storageRoot stringByAppendingPathComponent:@"Global"]);
     CefString(&settings.log_file)=CS([gApp.storageRoot stringByAppendingPathComponent:@"engine.log"]);
     settings.log_severity=LOGSEVERITY_WARNING;
     settings.persist_session_cookies=true;
-    CefRefPtr<OrbitCEFApp> cefApp=new OrbitCEFApp;
+    CefRefPtr<AeloCEFApp> cefApp=new AeloCEFApp;
     if (!CefInitialize(args,settings,cefApp,nullptr)) return CefGetExitCode();
     NSApp.delegate=gApp;
     [gApp performSelectorOnMainThread:@selector(setup) withObject:nil waitUntilDone:NO];
     CefRunMessageLoop();
-    [gApp.window orderOut:nil]; [gApp.sessions removeAllObjects]; contexts.clear(); liveBrowsers.clear();
-    CefShutdown(); cefApp=nullptr; NSApp.delegate=nil; gApp=nil;
+    // Embedded browsers close independently of their parent window. Release
+    // the native host hierarchy before Chromium tears down its global UI state.
+    [gApp.window orderOut:nil]; [gApp.sessions removeAllObjects];
+    gApp.window.contentView=[[NSView alloc] init]; [gApp.window close];
+    contexts.clear(); liveBrowsers.clear(); NSApp.delegate=nil; gApp=nil;
+    CefShutdown(); cefApp=nullptr;
   }
   return 0;
 }

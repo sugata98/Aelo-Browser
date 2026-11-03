@@ -8,7 +8,7 @@ int main(int argc,char **argv) {
     [[NSColor colorWithWhite:1 alpha:.92] setStroke];
     NSBezierPath *circle=[NSBezierPath bezierPathWithOvalInRect:NSMakeRect(247,247,530,530)]; circle.lineWidth=24; [circle stroke];
     NSAffineTransform *transform=[NSAffineTransform transform]; [transform translateXBy:512 yBy:512]; [transform rotateByDegrees:35];
-    NSBezierPath *orbit=[NSBezierPath bezierPathWithOvalInRect:NSMakeRect(-360,-172,720,344)]; [orbit transformUsingAffineTransform:transform]; orbit.lineWidth=21; [orbit stroke];
+    NSBezierPath *aelo=[NSBezierPath bezierPathWithOvalInRect:NSMakeRect(-360,-172,720,344)]; [aelo transformUsingAffineTransform:transform]; aelo.lineWidth=21; [aelo stroke];
     [[NSColor whiteColor] setFill]; [[NSBezierPath bezierPathWithOvalInRect:NSMakeRect(697,684,66,66)] fill];
     [image unlockFocus]; NSBitmapImageRep *bitmap=[NSBitmapImageRep imageRepWithData:image.TIFFRepresentation];
     NSData *png=[bitmap representationUsingType:NSBitmapImageFileTypePNG properties:@{}];

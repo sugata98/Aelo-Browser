@@ -49,8 +49,10 @@ The renamed app was rebuilt and its native workspace tests passed. Live launch, 
 
 On `feat/full-chromium-migration`, the full Chromium source checkout matches
 `fb096c0011f9d50f0a264a9376420cdea9c421e3` (156.0.8078.80). Xcode 26.6,
-first-launch status and macOS SDK 26.5 preflight passed. Dependency sync is
-ongoing; full Chromium compilation and launch are not yet verified.
+first-launch status and macOS SDK 26.5 preflight passed. Dependency sync
+completed successfully at 11:16 IST with the documented public dependency
+snapshot overrides. The full-browser build driver has entered Chromium's
+dependency hooks; full compilation and launch are not yet verified.
 
 `git apply --check` accepts the four-file branding/data/Keychain/native-host
 isolation patch against that pinned source. Live behavior under those new

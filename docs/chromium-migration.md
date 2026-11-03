@@ -100,8 +100,11 @@ retry with `-fmodules-cache-path` inside `.build/chromium/` compiled the same
 shader successfully (150,688-byte AIR output). The driver now generates small
 local adapters for ANGLE: `metal` receives that explicit cache flag and
 `metallib` delegates unchanged. These execute the installed Apple tools and
-keep compiler caches inside the build root. Full compilation has been restarted;
-final shader-library generation and browser build still require verification.
+keep compiler caches inside the build root. The resumed full build has now
+produced both ANGLE outputs: a 150,608-byte AIR file and a 360,535-byte
+Metal library. The driver lock is held and the Ninja output log is advancing.
+The Metal shader blocker is resolved; final browser build and launch remain
+unverified.
 Reserve at least 160 GiB for the initial checkout/build;
 actual usage depends on build options.
 

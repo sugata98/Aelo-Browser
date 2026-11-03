@@ -95,3 +95,8 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   is explicitly placed under the build root (150,688-byte AIR probe output).
   The driver now applies this through generated tool adapters; all 10 build
   safety tests still pass. Full compilation has been restarted.
+
+- The resumed four-job full Chromium build generated ANGLE's actual shader
+  AIR (150,608 bytes) and Metal library (360,535 bytes). The driver lock was
+  held and Ninja output records were advancing when checked. This verifies
+  the Metal build fix; browser build completion and launch remain unverified.

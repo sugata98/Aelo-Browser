@@ -36,6 +36,12 @@ class ChromiumBuild:
         self.src = self.checkout / "src"
         self.out = self.src / "out/Aelo"
         self.jobs = jobs
+        metal = os.environ.get("AELO_METAL_TOOLCHAIN_DIR")
+        self.metal_tools = Path(metal).expanduser().resolve() if metal else None
+        if self.metal_tools and any(not (self.metal_tools / tool).is_file()
+                                    or not os.access(self.metal_tools / tool, os.X_OK)
+                                    for tool in ("metal", "metallib")):
+            raise ValueError("AELO_METAL_TOOLCHAIN_DIR must contain executable metal and metallib tools")
         self.env = dict(os.environ)
         self.env.update({
             "PATH": str(self.root / "bin") + os.pathsep + str(self.tools) + os.pathsep + os.environ.get("PATH", ""),
@@ -138,7 +144,16 @@ class ChromiumBuild:
             self.run("xcrun", "--sdk", "macosx", "--show-sdk-path")
             # Xcode 26 installs the Metal compiler as an optional component.
             # Execute it: --find can resolve a stub even when it is missing.
-            self.run("xcrun", "--sdk", "macosx", "metal", "--version")
+            if self.metal_tools:
+                self.run(self.metal_tools / "metal", "--version")
+            else:
+                self.run("xcrun", "--sdk", "macosx", "metal", "--version")
+
+    def gn_arguments(self):
+        text = (PROJECT / "chromium/args.gn").read_text()
+        if self.metal_tools:
+            text += "\nangle_metal_toolchain_dir = " + json.dumps(str(self.metal_tools)) + "\n"
+        return text
 
     def ensure_git(self, path, repository, revision):
         if not (path / ".git").exists():
@@ -268,11 +283,11 @@ class ChromiumBuild:
         self.patch()
         self.run(self.tools / "gclient", "runhooks", cwd=self.checkout)
         self.out.mkdir(parents=True, exist_ok=True)
-        args = PROJECT / "chromium/args.gn"
+        args_text = self.gn_arguments()
         destination = self.out / "args.gn"
-        if destination.exists() and destination.read_bytes() != args.read_bytes():
+        if destination.exists() and destination.read_text() != args_text:
             raise RuntimeError("Existing args.gn differs; preserve and review it before replacement")
-        destination.write_bytes(args.read_bytes())
+        destination.write_text(args_text)
         self.run(self.tools / "gn", "gen", "out/Aelo", "--fail-on-unused-args", cwd=self.src)
 
     def build(self):

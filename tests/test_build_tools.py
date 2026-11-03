@@ -55,6 +55,26 @@ class BuildSafetyTests(unittest.TestCase):
         for flag in ("no_sandbox", "disable_web_security", "ignore_certificate_errors"):
             self.assertNotIn(flag, args)
 
+    def test_explicit_metal_tools_require_both_executables_and_emit_gn_path(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            tools = root / 'metal tools'
+            tools.mkdir()
+            with mock.patch.dict(os.environ, {'AELO_METAL_TOOLCHAIN_DIR': str(tools)}):
+                with self.assertRaisesRegex(ValueError, 'metal and metallib'):
+                    chromium.ChromiumBuild(root / 'build')
+                for tool in ('metal', 'metallib'):
+                    path = tools / tool
+                    path.write_text('#!/bin/sh\nexit 0\n')
+                    path.chmod(0o755)
+                builder = chromium.ChromiumBuild(root / 'build')
+                self.assertEqual(builder.metal_tools, tools.resolve())
+                self.assertIn('angle_metal_toolchain_dir = ' + json.dumps(str(tools.resolve())),
+                              builder.gn_arguments())
+                with mock.patch.object(builder, 'run') as run:
+                    builder.preflight()
+                self.assertEqual(run.call_args.args, (tools.resolve() / 'metal', '--version'))
+
     def test_existing_repository_is_not_repointed(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

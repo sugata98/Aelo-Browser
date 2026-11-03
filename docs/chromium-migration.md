@@ -22,7 +22,11 @@ before configuration and after sync. Full Chromium compilation has started:
 the first progress check confirmed 255 completed native object files in Ninja's
 output log. The first compile attempt finished 1,052 build steps before stopping
 at ANGLE's Metal shaders because Xcode's optional Metal Toolchain was missing.
-Preflight now executes `xcrun metal --version` so this prerequisite fails early.
+Preflight now executes the selected Metal compiler so this prerequisite fails early.
+The optional Apple component is installed and both `metal` and `metallib`
+version commands succeed. Compilation is being resumed with ANGLE's existing
+`angle_metal_toolchain_dir` option because the default `xcrun` route still
+selects Xcode's nonworking placeholder in the coding sandbox.
 Build completion, launch and workspace integration have
 **not** been verified. The target is upstream `chrome`, including browser
 profile and extension services, separately from the CEF targets.
@@ -78,10 +82,21 @@ Apple documents installation through Xcode Settings → Components or
 [additional components guide](https://developer.apple.com/documentation/xcode/downloading-and-installing-additional-xcode-components).
 Command-line exports failed to fetch Apple's component catalog, including
 after the reported Xcode cache/mapping-file permissions were granted. Xcode's
-Components UI successfully started the 687.9 MB Metal Toolchain 26.6 (17F109)
-download. Installation is pending; the compiler is not yet verified as available.
-Resume the existing build only after `xcrun --sdk macosx metal --version`
-succeeds. The prior compiled outputs are retained for incremental compilation.
+Components UI installed Metal Toolchain 26.6 (17F109). The installed compiler
+reports Apple Metal 32023.883 and both compiler and library tools execute.
+The sandbox's `xcrun` still selects a placeholder. Set
+`AELO_METAL_TOOLCHAIN_DIR` to the installed Apple toolchain's `usr/bin`
+directory to use ANGLE's upstream explicit toolchain option. Preflight verifies
+the compiler, and generated GN arguments record that directory; no Chromium
+source workaround or graphics feature disablement is needed. The mounted
+component path can change after an OS restart, so inspect it before reuse.
+The prior compiled outputs are retained for incremental compilation.
+Existing GN argument changes must be reviewed and backed up before replacement;
+the build driver continues to reject an unexpected existing `args.gn`.
+The first explicit-toolchain shader action then reached Apple's compiler but
+failed writing its module cache under the macOS per-user `C/clang/ModuleCache`
+directory. Permission was granted for that specific cache and the incremental
+build was restarted; shader completion still requires verification.
 Reserve at least 160 GiB for the initial checkout/build;
 actual usage depends on build options.
 

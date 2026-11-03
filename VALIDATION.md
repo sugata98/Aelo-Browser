@@ -83,3 +83,10 @@ completed teardown. Neither reproduced the documented watchdog failure;
 that issue remains unresolved. Chromium's mock Keychain was used only for
 disposable fixture data, so these runs do not qualify real credential storage.
 CEF UI investigation is paused while the full Chromium build is prioritized.
+
+- Metal Toolchain 26.6 (17F109) was installed through Xcode Components. Both
+  `metal --version` and `metallib --version` run successfully from its mounted
+  Apple toolchain. The default sandboxed `xcrun` still selects a placeholder;
+  the build now supports ANGLE's explicit toolchain-directory option through
+  `AELO_METAL_TOOLCHAIN_DIR`. All 10 build-tool tests pass. Build completion
+  and launch remain unverified.

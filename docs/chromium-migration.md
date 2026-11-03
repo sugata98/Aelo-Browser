@@ -107,8 +107,9 @@ The Metal shader blocker is resolved. The next attempt completed another
 522 steps before Dawn/Tint source generation failed writing Go's default
 user cache outside the build root. The driver now sets `GOCACHE` and
 `GOMODCACHE` inside its dedicated root and the incremental build has been
-restarted. The cache fix, final browser build and launch still need live
-verification.
+restarted. Ninja now records successful completion of the formerly failing
+Dawn/Tint generator, confirming the cache fix in the full build. Compilation
+is continuing with four jobs; final browser build and launch remain unverified.
 Reserve at least 160 GiB for the initial checkout/build;
 actual usage depends on build options.
 

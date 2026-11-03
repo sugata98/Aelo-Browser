@@ -106,3 +106,8 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   user cache. The driver now confines Go build/module caches to the build
   root; all 10 build-tool tests pass. An incremental retry is underway;
   generator completion and final browser launch remain unverified.
+
+- The restarted build successfully completed the Dawn/Tint generator action
+  in Ninja (including `gen/src/tint/cmd/bench/enums_core_bench.cc`). This
+  verifies the Go-cache fix in the real full Chromium build. Compilation
+  continues with four jobs; final app build and launch remain pending.

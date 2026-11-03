@@ -30,9 +30,10 @@ selects Xcode's nonworking placeholder in the coding sandbox.
 The full `chrome` build completed successfully on 3 November 2026; the
 driver recorded `action_completed` and Ninja verified the app libraries.
 The built bundle reports `dev.aelo.chromium`, executable `Aelo`, and version
-156.0.8078.80. A macOS-launched welcome window was observed, but
-disposable-profile page operation, renderer sandbox and workspace integration
-have **not** been verified. The target is upstream `chrome`, including browser
+156.0.8078.80. A user-launched disposable-profile run has now verified HTTPS navigation,
+JavaScript/DOM operation and renderer page pixels through a CDP screenshot.
+The macOS sandbox check returns 1 for observed renderer and GPU processes.
+Workspace integration and broader browser compatibility remain unverified. The target is upstream `chrome`, including browser
 profile and extension services, separately from the CEF targets.
 
 The user has prioritized completing and launching this build. CEF UI work is
@@ -268,3 +269,27 @@ submitted. The Terminal UI fallback was rejected by the computer-use safety
 review. A user-launched disposable-profile run is needed to continue browser
 qualification without weakening the sandbox. Launch state and logs remain in
 ignored `.build/chromium/` storage.
+
+## Verified disposable-profile launch
+
+After the user launched the supplied command from their Terminal, its local
+DevTools endpoint appeared. `chrome://version` confirmed the exact output
+executable and `/private/tmp/aelo-full-chromium-1h09w9db/Default` profile.
+The protocol reports Chrome/156.0.8078.80 and V8 15.6.75.27. HTTPS navigation
+to Example Domain completed; DOM text and `document.readyState` were read,
+and a CDP screenshot verified painted page pixels. The native window capture
+omitted the page surface, so it alone is insufficient for rendering assessment.
+
+Using the same macOS `sandbox_check(pid, NULL, 0)` predicate documented by
+Chromium's `sandbox/mac/seatbelt.cc`, all six observed renderer processes and
+the GPU process returned 1 (sandboxed, errno 0). The browser process returned
+0, as expected for Chromium's broker. No sandbox, certificate or web-security
+disabling flags were present in the observed browser command line.
+
+See `chromium-first-launch-evidence.json` and `chromium-first-launch-page.png`.
+This establishes a completed full Chromium fork build and basic launch/page
+operation, not integration of the native CEF workspace or complete browser
+compatibility. The strict signature/resource-seal failure remains unresolved.
+The version page shows an all-zero revision; source HEAD was independently
+verified against the lock, but embedded build provenance needs correction.
+The build/launch monitor can now stop.

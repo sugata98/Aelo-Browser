@@ -134,3 +134,14 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   launch aborted in AppKit/HIServices registration, and the Terminal fallback
   was rejected by computer-use safety review. User launch with explicit
   disposable-profile arguments is required for the next check.
+
+- Full Chromium disposable-profile launch verified after user Terminal launch.
+  The live version page reports the expected executable and `/private/tmp/`
+  profile. HTTPS Example Domain navigation, document completion and painted
+  page pixels passed through local CDP diagnostics. A native window capture
+  omitted page pixels; the CDP screenshot is retained in docs.
+- macOS `sandbox_check(pid, NULL, 0)` returned 1 for all six observed renderer
+  processes and the GPU process, with errno 0. The browser broker returned 0.
+  No sandbox/certificate/web-security disabling arguments were observed.
+- Strict signature resource-seal verification, embedded revision provenance,
+  workspace integration and broad browser-platform compatibility remain open.

@@ -1,0 +1,43 @@
+{
+  "checked_on": "2026-11-03",
+  "chromium_version": "156.0.8078.80",
+  "executable": "/Users/sugata/Aelo-Browser/.build/chromium/checkout/src/out/Aelo/Aelo.app/Contents/MacOS/Aelo",
+  "profile": "/private/tmp/aelo-full-chromium-1h09w9db/Default",
+  "build_status": "action_completed",
+  "page": {
+    "url": "https://example.com/",
+    "title": "Example Domain",
+    "document_ready_state": "complete",
+    "cdp_screenshot": "chromium-first-launch-page.png"
+  },
+  "process_sandbox": {
+    "method": "macOS sandbox_check(pid, NULL, 0), same check documented in sandbox/mac/seatbelt.cc",
+    "browser_pid": 22092,
+    "browser_result": 0,
+    "renderer_pids": [
+      22359,
+      22350,
+      22349,
+      22348,
+      22272,
+      22110
+    ],
+    "renderer_results": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "gpu_pid": 22104,
+    "gpu_result": 1,
+    "errno": 0
+  },
+  "limitations": [
+    "Native window capture omitted page pixels; renderer CDP screenshot contains rendered page.",
+    "Strict recursive codesign verification failed resource-seal check.",
+    "Workspace shell integration, extension compatibility, keychain separation and shutdown watchdog are not qualified.",
+    "chrome://version displays an all-zero revision despite separately verified pinned Git HEAD; provenance embedding needs correction."
+  ]
+}

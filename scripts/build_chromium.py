@@ -136,6 +136,9 @@ class ChromiumBuild:
             self.run("xcodebuild", "-version")
             self.run("xcodebuild", "-checkFirstLaunchStatus")
             self.run("xcrun", "--sdk", "macosx", "--show-sdk-path")
+            # Xcode 26 installs the Metal compiler as an optional component.
+            # Execute it: --find can resolve a stub even when it is missing.
+            self.run("xcrun", "--sdk", "macosx", "metal", "--version")
 
     def ensure_git(self, path, repository, revision):
         if not (path / ".git").exists():

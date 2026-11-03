@@ -61,8 +61,11 @@ LFS transport, preserving the incomplete files separately. Independent checks
 passed for the revisions and missing-file checks of all 150 Git dependencies.
 `git lfs fsck --objects` passed for the recovered LiteRT checkout. The full
 Chromium build is now compiling native objects; Ninja's first progress check
-confirmed 255 completed `.o` outputs. The nine build-tool tests pass. Successful
-build completion and launch are not yet verified.
+confirmed 255 completed `.o` outputs. The attempt then stopped after 1,052
+completed steps because the optional Xcode Metal compiler was absent. The
+driver now checks the actual Metal compiler during preflight. Its installation
+and successful build completion/launch are not yet verified. The nine
+build-tool tests pass.
 
 `git apply --check` accepts the four-file branding/data/Keychain/native-host
 isolation patch against that pinned source. Live behavior under those new

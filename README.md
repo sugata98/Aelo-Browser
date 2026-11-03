@@ -43,7 +43,7 @@ Right-click a tab for pinning, renaming, splitting and archiving. In the command
 **Full Chromium migration:** run `python3 scripts/build_chromium.py fetch`, then
 `python3 scripts/build_chromium.py build`. This builds upstream's full `chrome`
 target with Aelo's independent browser identity. Dependency sync is complete
-and native compilation is underway; build completion, launch and workspace
+and native compilation has started; build completion, launch and workspace
 integration are not yet qualified. See the
 [migration status and build instructions](docs/chromium-migration.md).
 

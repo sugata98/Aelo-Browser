@@ -230,4 +230,6 @@ the exact failed compile command with the same compiler, source and flags
 succeeded (exit 0), recorded in `.build/chromium/clang-display-lock-retry.log`.
 The failure is not yet reproducible; no compiler substitution, source workaround
 or security change was made. The full incremental build was resumed with four
-jobs. Final completion and launch remain unverified.
+jobs. Ninja subsequently recorded successful compilation of the previously
+failing `display_lock_document_state.o` action in the resumed full build.
+Final completion and launch remain unverified.

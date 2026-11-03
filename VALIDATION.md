@@ -116,3 +116,7 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   command passed on retry with unchanged source/compiler/flags. Crash
   reproducers and retry log are retained in ignored build storage; the cause
   remains unestablished. The incremental full build was resumed.
+
+- The resumed full build also recorded a successful Ninja action for the
+  formerly failing `display_lock_document_state.o`; no failures were present
+  in that resumed build log at the verification check.

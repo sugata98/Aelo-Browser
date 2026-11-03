@@ -120,3 +120,7 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
 - The resumed full build also recorded a successful Ninja action for the
   formerly failing `display_lock_document_state.o`; no failures were present
   in that resumed build log at the verification check.
+
+- A second Clang crash affected the Bluetooth service after 6,923 additional
+  steps. Its exact compile command passed unchanged on retry. The cause is
+  unknown; crash evidence is retained and the four-job full build resumed.

@@ -233,3 +233,11 @@ or security change was made. The full incremental build was resumed with four
 jobs. Ninja subsequently recorded successful compilation of the previously
 failing `display_lock_document_state.o` action in the resumed full build.
 Final completion and launch remain unverified.
+
+A second attempt completed 6,923 more steps before Clang crashed compiling
+`content/browser/bluetooth/web_bluetooth_service_impl.cc`, leaving 26,160
+steps. Its exact compile command also succeeded unchanged on retry (exit 0),
+with `.build/chromium/clang-bluetooth-retry.log` retaining the result. Both
+crash reproducers remain in ignored build storage. The cause is unknown;
+no source/compiler/security workaround was introduced. The four-job
+incremental build was resumed again.

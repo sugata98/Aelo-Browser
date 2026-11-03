@@ -124,3 +124,13 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
 - A second Clang crash affected the Bluetooth service after 6,923 additional
   steps. Its exact compile command passed unchanged on retry. The cause is
   unknown; crash evidence is retained and the four-job full build resumed.
+
+- Full Chromium `chrome` target build completed successfully; driver state
+  is `action_completed`. App identity/version/executable were checked. The
+  native app controller displayed its welcome window. Page rendering and
+  renderer-sandbox qualification using disposable storage remain pending.
+- Strict recursive code-signature verification failed on the generated bundle
+  (resource seal error); distribution signing is unqualified. Direct sandboxed
+  launch aborted in AppKit/HIServices registration, and the Terminal fallback
+  was rejected by computer-use safety review. User launch with explicit
+  disposable-profile arguments is required for the next check.

@@ -27,8 +27,12 @@ The optional Apple component is installed and both `metal` and `metallib`
 version commands succeed. Compilation is being resumed with ANGLE's existing
 `angle_metal_toolchain_dir` option because the default `xcrun` route still
 selects Xcode's nonworking placeholder in the coding sandbox.
-Build completion, launch and workspace integration have
-**not** been verified. The target is upstream `chrome`, including browser
+The full `chrome` build completed successfully on 3 November 2026; the
+driver recorded `action_completed` and Ninja verified the app libraries.
+The built bundle reports `dev.aelo.chromium`, executable `Aelo`, and version
+156.0.8078.80. A macOS-launched welcome window was observed, but
+disposable-profile page operation, renderer sandbox and workspace integration
+have **not** been verified. The target is upstream `chrome`, including browser
 profile and extension services, separately from the CEF targets.
 
 The user has prioritized completing and launching this build. CEF UI work is
@@ -241,3 +245,26 @@ with `.build/chromium/clang-bluetooth-retry.log` retaining the result. Both
 crash reproducers remain in ignored build storage. The cause is unknown;
 no source/compiler/security workaround was introduced. The four-job
 incremental build was resumed again.
+
+## First completed build and launch qualification
+
+The final build log is `.build/chromium-build-bluetooth-retry.log`;
+`state.json` records a completed build. The main Aelo Framework link eventually
+finished after the observed file-open delay; its cause was not established.
+No protection was disabled. The full app is at the documented output path.
+
+`codesign --verify --deep --strict` currently fails with “code has no resources
+but signature indicates they must be present”. This local generated bundle is
+not yet a qualified signed distribution. Do not describe it as notarized or
+signature-verified.
+
+A direct executable launch with a fresh `/private/tmp/aelo-full-chromium-*`
+profile aborted during AppKit/HIServices application registration inside the
+coding sandbox; no DevTools port was produced. Launching through the native
+app controller displayed the Chromium welcome screen in the Aelo app. That
+controller does not pass the test profile arguments, so this observation is
+only basic window startup. The welcome default-browser switch was not
+submitted. The Terminal UI fallback was rejected by the computer-use safety
+review. A user-launched disposable-profile run is needed to continue browser
+qualification without weakening the sandbox. Launch state and logs remain in
+ignored `.build/chromium/` storage.

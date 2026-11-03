@@ -42,10 +42,12 @@ Right-click a tab for pinning, renaming, splitting and archiving. In the command
 
 **Full Chromium migration:** run `python3 scripts/build_chromium.py fetch`, then
 `python3 scripts/build_chromium.py build`. This builds upstream's full `chrome`
-target with Aelo's independent browser identity. Dependency sync is complete
-and native compilation has started; build completion, launch and workspace
-integration are not yet qualified. See the
-[migration status and build instructions](docs/chromium-migration.md).
+target with Aelo's independent browser identity. The full Chromium Aelo fork
+has built and launched with a disposable profile; HTTPS rendering and macOS
+renderer sandbox checks passed. A workspace UI port is now being compiled and
+is not yet qualified. Distribution signing and broad compatibility remain open.
+See the [migration status and build instructions](docs/chromium-migration.md)
+and [workspace port](docs/chromium-workspace-port.md).
 
 The command below builds the released **CEF preview**.
 

@@ -293,3 +293,13 @@ compatibility. The strict signature/resource-seal failure remains unresolved.
 The version page shows an all-zero revision; source HEAD was independently
 verified against the lock, but embedded build provenance needs correction.
 The build/launch monitor can now stop.
+
+
+## Workspace UI integration
+
+The native AppKit sidebar/Spaces design belongs to the CEF preview and was not
+automatically inherited by the first full Chromium build. A native Views port
+is now in progress. See [workspace port status](chromium-workspace-port.md) for
+its current implementation, storage boundaries, differences and validation
+gates. Do not equate the previously verified full-browser launch with a
+verified workspace UI port.

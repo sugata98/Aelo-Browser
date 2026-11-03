@@ -145,3 +145,15 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   No sandbox/certificate/web-security disabling arguments were observed.
 - Strict signature resource-seal verification, embedded revision provenance,
   workspace integration and broad browser-platform compatibility remain open.
+
+
+### Workspace port in progress — 3 November 2026
+
+- Added full-Chromium sidebar/Spaces controls and packaged the existing home
+  design. Compilation and live UI qualification are pending; the earlier
+  successful full-browser launch does not qualify this new patch.
+- Ten build-tool tests and the existing native workspace regression executable
+  passed. The first compile exposed an observer API mismatch, corrected using
+  Chromium's native observer lifetime management; incremental retry is active.
+- See docs/chromium-workspace-port.md for implementation boundaries and required
+  live gates. CEF workspace/profile files were not changed or imported.

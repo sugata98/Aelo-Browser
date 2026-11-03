@@ -27,7 +27,7 @@ The Chromium commit was confirmed through Gitiles and the
 The original GoogleSource fetch stalled during object enumeration; the exact
 same commit was fetched from that mirror. Git integrity checking remains enabled.
 
-Two immutable dependency substitutions are recorded in the lock and
+Two immutable dependency snapshots across three checkout paths are recorded in the lock and
 `chromium/dependency-overrides.json`. The original formatter-helper and
 search-engine-data commits returned HTTP 500 from Git and HTTP 404 from their
 public Gitiles commit endpoints. The replacement snapshots are published by
@@ -40,6 +40,12 @@ The browser source remains at the stable release commit (also confirmed by
 With these explicit substitutions and the isolation patch, this is an Aelo
 fork build, not a byte-for-byte reproduction of the original upstream DEPS.
 Revisit both overrides when the original public revisions become available.
+
+The formatter snapshot also covers Web Page Replay's nested copy at
+`src/third_party/webpagereplay/third_party/clang-format/script`. The first sync
+with top-level overrides reached this nested dependency and failed on the same
+unavailable original commit. Both formatter locations now use the identical
+verified public snapshot.
 
 Follow the [upstream macOS build prerequisites](https://chromium.googlesource.com/chromium/src/+/main/docs/mac_build_instructions.md).
 Use full Xcode with its license accepted by the operator and first-launch

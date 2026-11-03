@@ -41,6 +41,8 @@ class BuildSafetyTests(unittest.TestCase):
         self.assertIn('/Library/Application Support/Aelo/Chromium/NativeMessagingHosts', patch)
         overrides = json.loads((PROJECT / 'chromium/dependency-overrides.json').read_text())['overrides']
         self.assertEqual(set(lock['custom_deps']), {entry['path'] for entry in overrides})
+        self.assertEqual(lock['custom_deps']['src/third_party/clang-format/script'],
+                         lock['custom_deps']['src/third_party/webpagereplay/third_party/clang-format/script'])
         for entry in overrides:
             self.assertRegex(entry['replacement_revision'], r'^[0-9a-f]{40}$')
             self.assertTrue(entry['repository'].startswith('https://chromium.googlesource.com/'))

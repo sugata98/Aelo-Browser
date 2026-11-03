@@ -3,6 +3,14 @@
   "reason": "The original DEPS revisions returned HTTP 500 during Git fetch and HTTP 404 from the public Gitiles commit endpoint. Substitute immutable, verified public snapshots from the same upstream repositories.",
   "overrides": [
     {
+      "path": "src/third_party/webpagereplay/third_party/clang-format/script",
+      "original_revision": "9f796802e5d633c96dbe97e0b6683d5e62594f9f",
+      "replacement_revision": "47dce8466cd71943f64df3860e608957d6e20007",
+      "repository": "https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git",
+      "committed_on": "2026-09-23",
+      "scope": "Nested Web Page Replay formatting helpers; same snapshot as the top-level formatter checkout."
+    },
+    {
       "path": "src/third_party/clang-format/script",
       "original_revision": "9f796802e5d633c96dbe97e0b6683d5e62594f9f",
       "replacement_revision": "47dce8466cd71943f64df3860e608957d6e20007",

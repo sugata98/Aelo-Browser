@@ -5,11 +5,13 @@ Generated dependencies and build output stay in AELO_CHROMIUM_ROOT or .build/.
 This never installs an app, launches a browser or migrates a user profile.
 """
 import argparse
+import ast
 import fcntl
 import json
 import os
 from pathlib import Path
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -171,6 +173,48 @@ class ChromiumBuild:
         self.run(self.tools / "gclient", "sync", "--nohooks", "--no-history",
                  f"--revision=src@{LOCK['revision']}", f"--jobs={self.jobs}", cwd=self.checkout)
         self.verify_revision()
+        self.validate_dependencies()
+
+    def validate_dependencies(self):
+        manifest = self.checkout / ".gclient_entries"
+        if not manifest.is_file():
+            raise RuntimeError("Dependency manifest is missing; complete fetch before building")
+        document = ast.parse(manifest.read_text())
+        assignments = [node for node in document.body if isinstance(node, ast.Assign)
+                       and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
+                       and node.targets[0].id == "entries"]
+        if len(assignments) != 1:
+            raise RuntimeError("Unexpected dependency manifest format")
+        entries = ast.literal_eval(assignments[0].value)
+        if not isinstance(entries, dict):
+            raise RuntimeError("Dependency manifest entries must be a dictionary")
+        checked = 0
+        for relative, url in entries.items():
+            if not isinstance(url, str) or "@" not in url:
+                continue
+            expected = url.rsplit("@", 1)[-1]
+            if not re.fullmatch(r"[0-9a-f]{40}", expected):
+                continue
+            path = (self.checkout / relative).resolve()
+            if path != self.src and self.src not in path.parents:
+                raise RuntimeError(f"Dependency path escapes source checkout: {relative}")
+            if not (path / ".git").exists():
+                raise RuntimeError(f"Missing Git dependency checkout: {relative}")
+            result = subprocess.run(["git", "rev-parse", "--verify", "HEAD"], cwd=path,
+                                    env=self.env, text=True, capture_output=True, timeout=30)
+            if result.returncode:
+                raise RuntimeError(f"Incomplete Git dependency checkout: {relative} has no HEAD")
+            if result.stdout.strip() != expected:
+                raise RuntimeError(f"Unexpected dependency revision: {relative}")
+            # Inspect index paths without content filters or recursive Gitlink
+            # diffs; LFS filters can block an otherwise read-only diff scan.
+            deleted = subprocess.run(["git", "ls-files", "--deleted", "-z"],
+                                     cwd=path, env=self.env, text=True, capture_output=True,
+                                     check=True, timeout=30)
+            if deleted.stdout.strip():
+                raise RuntimeError(f"Missing tracked files in dependency checkout: {relative}")
+            checked += 1
+        print(f"Validated {checked} pinned Git dependency checkouts", flush=True)
 
     def check_source_changes(self):
         dirty = self.run("git", "status", "--porcelain=v1", "-z", "--untracked-files=no",
@@ -212,6 +256,8 @@ class ChromiumBuild:
 
     def configure(self):
         self.preflight()
+        self.verify_revision()
+        self.validate_dependencies()
         # gclient's own VPython can run before the shell GN/autoninja launchers
         # have their hermetic Python metadata. Bootstrap the pinned tools;
         # unlike update_depot_tools, this does not change their Git revision.
@@ -255,7 +301,7 @@ def main():
             getattr(builder, args.action)()
             builder.write_state({"status": "action_completed", "action": args.action,
                                  "ended_at": time.time()})
-    except (RuntimeError, ValueError, subprocess.CalledProcessError) as error:
+    except (RuntimeError, ValueError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
         parser.exit(1, f"Chromium {args.action} stopped: {error}\n")
 
 

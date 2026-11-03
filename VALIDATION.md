@@ -54,6 +54,11 @@ completed successfully at 11:16 IST with the documented public dependency
 snapshot overrides. Chromium's dependency hooks completed. Initial GN
 generation was blocked by missing depot_tools Python bootstrap metadata;
 the build driver now initializes those pinned tools before configuration.
+GN generation later succeeded with 36,370 targets. The initial build scheduler
+found a missing LiteRT schema caused by an incomplete earlier LFS checkout.
+LiteRT was recovered at the original pinned commit using its official upstream
+LFS transport, preserving the incomplete files separately. Independent checks
+passed for the revisions and missing-file checks of all 150 Git dependencies.
 Full compilation and launch are not yet verified.
 
 `git apply --check` accepts the four-file branding/data/Keychain/native-host

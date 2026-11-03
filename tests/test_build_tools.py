@@ -45,7 +45,11 @@ class BuildSafetyTests(unittest.TestCase):
                          lock['custom_deps']['src/third_party/webpagereplay/third_party/clang-format/script'])
         for entry in overrides:
             self.assertRegex(entry['replacement_revision'], r'^[0-9a-f]{40}$')
-            self.assertTrue(entry['repository'].startswith('https://chromium.googlesource.com/'))
+            if entry.get('transport_only'):
+                self.assertEqual(entry['original_revision'], entry['replacement_revision'])
+                self.assertEqual(entry['repository'], 'https://github.com/google-ai-edge/LiteRT.git')
+            else:
+                self.assertTrue(entry['repository'].startswith('https://chromium.googlesource.com/'))
             self.assertEqual(lock['custom_deps'][entry['path']], entry['repository'] + '@' + entry['replacement_revision'])
         args = (PROJECT / "chromium/args.gn").read_text()
         for flag in ("no_sandbox", "disable_web_security", "ignore_certificate_errors"):
@@ -119,6 +123,49 @@ class BuildSafetyTests(unittest.TestCase):
                 git(source, 'add', 'dependency')
                 with self.assertRaisesRegex(RuntimeError, 'unexpected local source changes'):
                     builder.check_source_changes()
+
+    def test_dependency_validation_rejects_partial_and_wrong_checkouts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            builder = chromium.ChromiumBuild(Path(directory) / 'build')
+            dependency = builder.src / 'dependency'
+            dependency.mkdir(parents=True)
+
+            def git(path, *args):
+                return subprocess.check_output([
+                    'git', '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
+                    '-c', 'commit.gpgsign=false', '-c', 'core.hooksPath=/dev/null', *args
+                ], cwd=path, text=True).strip()
+
+            git(dependency, 'init', '-q')
+            tracked = dependency / 'schema.fbs'
+            tracked.write_text('committed fixture\n')
+            git(dependency, 'add', 'schema.fbs')
+            git(dependency, 'commit', '-qm', 'complete dependency')
+            revision = git(dependency, 'rev-parse', 'HEAD')
+            manifest = builder.checkout / '.gclient_entries'
+
+            def entries(path, rev):
+                manifest.write_text('entries = ' + repr({path: 'https://example.invalid/source.git@' + rev}))
+
+            entries('src/dependency', revision)
+            builder.validate_dependencies()
+            tracked.unlink()
+            with self.assertRaisesRegex(RuntimeError, 'Missing tracked files'):
+                builder.validate_dependencies()
+            tracked.write_text('committed fixture\n')
+            entries('src/dependency', '0' * 40)
+            with self.assertRaisesRegex(RuntimeError, 'Unexpected dependency revision'):
+                builder.validate_dependencies()
+            empty = builder.src / 'unfinished'
+            empty.mkdir()
+            git(empty, 'init', '-q')
+            entries('src/unfinished', revision)
+            with self.assertRaisesRegex(RuntimeError, 'has no HEAD'):
+                builder.validate_dependencies()
+            entries('../outside-source', revision)
+            with self.assertRaisesRegex(RuntimeError, 'escapes source checkout'):
+                builder.validate_dependencies()
+            self.assertEqual(tracked.read_text(), 'committed fixture\n')
 
     def test_previous_live_command_prevents_duplicate_build(self):
         with tempfile.TemporaryDirectory() as directory:

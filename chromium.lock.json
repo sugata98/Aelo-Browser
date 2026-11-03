@@ -7,7 +7,8 @@
   "custom_deps": {
     "src/third_party/clang-format/script": "https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git@47dce8466cd71943f64df3860e608957d6e20007",
     "src/third_party/search_engines_data/resources": "https://chromium.googlesource.com/external/search_engines_data.git@effde84e73491653b245b68ac65835ad2fc4e1de",
-    "src/third_party/webpagereplay/third_party/clang-format/script": "https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git@47dce8466cd71943f64df3860e608957d6e20007"
+    "src/third_party/webpagereplay/third_party/clang-format/script": "https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git@47dce8466cd71943f64df3860e608957d6e20007",
+    "src/third_party/litert/src": "https://github.com/google-ai-edge/LiteRT.git@4dac1538b76bc20bb7f2ba314bcc89dc57c0ee2b"
   },
   "target": "chrome",
   "app": "Aelo.app"

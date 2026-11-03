@@ -12,6 +12,12 @@ been applied, and Chromium's dependency hooks completed successfully. The
 initial GN launcher stopped on missing depot_tools hermetic-Python metadata;
 the build now explicitly runs the pinned tools' `ensure_bootstrap` before
 configuration. That bootstrap does not update the depot_tools Git revision.
+GN generation subsequently succeeded, creating 36,370 targets. The first build
+scheduler stopped on a missing LiteRT schema: its earlier failed LFS checkout
+had left an uninitialized working tree despite gclient's successful return.
+The incomplete files were preserved under `.build/chromium/recovery/` and
+LiteRT was restored at its original pinned commit. Independent validation now
+checks all 150 pinned Git dependencies before configuration and after sync.
 Full Chromium compilation, launch and workspace integration have
 **not** been verified. The new target is upstream `chrome`, including browser
 profile and extension services, separately from the CEF targets.
@@ -45,6 +51,13 @@ The browser source remains at the stable release commit (also confirmed by
 With these explicit substitutions and the isolation patch, this is an Aelo
 fork build, not a byte-for-byte reproduction of the original upstream DEPS.
 Revisit both overrides when the original public revisions become available.
+
+A separate transport-only override fetches LiteRT from the
+[official upstream repository](https://github.com/google-ai-edge/LiteRT) at the
+**same** `4dac1538b76bc20bb7f2ba314bcc89dc57c0ee2b` commit. The Chromium Git
+mirror returned HTTP 405 for Git LFS; upstream serves the pinned objects.
+Git LFS object verification stays enabled. This does not substitute a different
+LiteRT source version or disable the WebNN build.
 
 The formatter snapshot also covers Web Page Replay's nested copy at
 `src/third_party/webpagereplay/third_party/clang-format/script`. The first sync
@@ -81,6 +94,10 @@ PID, time and outcome; a still-running interrupted command blocks a new driver.
 The source guard accepts a changed tracked gitlink only when its HEAD matches
 a declared dependency override and its own worktree is clean. Unexpected
 source edits, staged changes and dirty overridden dependencies still block sync.
+The dependency validator independently reads the generated dependency manifest,
+checks pinned Git HEADs and detects missing indexed files. It uses index-path
+checks without invoking LFS content filters, and bounds each Git query with a
+timeout. This catches incomplete checkouts that the sync return code missed.
 
 Public Google Storage dependencies use an anonymous headless downloader.
 Its config, state, Python environments and caches stay inside the build root.

@@ -1,0 +1,145 @@
+# Full Chromium migration
+
+Branch: `feat/full-chromium-migration`. The published
+`v0.1.0-preview.1` remains the native AppKit/CEF preview.
+
+## Status
+
+The full Chromium source checkout is present at the pinned revision below.
+Xcode 26.6 and its macOS 26.5 SDK pass preflight. Dependency sync is in
+progress. Full Chromium compilation, launch and workspace integration have
+**not** been verified. The new target is upstream `chrome`, including browser
+profile and extension services, separately from the CEF targets.
+
+The user has prioritized completing and launching this build. CEF UI work is
+paused. A branded upstream build alone will not establish that the existing
+workspace shell has been ported or that every Chrome extension works.
+
+## Source and build
+
+`chromium.lock.json` pins Chromium **156.0.8078.80**, commit
+`fb096c0011f9d50f0a264a9376420cdea9c421e3`, and depot_tools commit
+`816da11f80777dcf8c10bdaa84df18450dcba12a`. The target is `chrome` and the
+expected output is `Aelo.app`.
+
+The Chromium commit was confirmed through Gitiles and the
+[official GitHub mirror](https://github.com/chromium/chromium).
+The original GoogleSource fetch stalled during object enumeration; the exact
+same commit was fetched from that mirror. Git integrity checking remains enabled.
+
+Two immutable dependency substitutions are recorded in the lock and
+`chromium/dependency-overrides.json`. The original formatter-helper and
+search-engine-data commits returned HTTP 500 from Git and HTTP 404 from their
+public Gitiles commit endpoints. The replacement snapshots are published by
+the same upstream repositories: formatter `47dce846…` (23 September 2026) and
+search definitions `effde84e…` (16 September 2026). The formatter is included,
+not omitted. Search-data generation and runtime behavior still need validation.
+
+The browser source remains at the stable release commit (also confirmed by
+[Chromium Dash](https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Mac&num=1)).
+With these explicit substitutions and the isolation patch, this is an Aelo
+fork build, not a byte-for-byte reproduction of the original upstream DEPS.
+Revisit both overrides when the original public revisions become available.
+
+Follow the [upstream macOS build prerequisites](https://chromium.googlesource.com/chromium/src/+/main/docs/mac_build_instructions.md).
+Use full Xcode with its license accepted by the operator and first-launch
+components installed. Reserve at least 160 GiB for the initial checkout/build;
+actual usage depends on build options.
+
+Git LFS is required by LiteRT's pinned checkout. Preflight uses an existing
+`git-lfs` on PATH, or a build-local symlink to GitHub Desktop's bundled copy
+(3.7.1 on this machine). `AELO_GIT_LFS` can specify another installed executable.
+This does not change global Git configuration or install software system-wide.
+
+```sh
+python3 scripts/build_chromium.py preflight
+python3 scripts/build_chromium.py fetch --jobs 4
+python3 scripts/build_chromium.py build --jobs 4
+```
+
+`build` runs hooks, applies the patch series, generates `out/Aelo` from
+`chromium/args.gn`, and compiles `chrome`. `configure` stops before compilation.
+Use `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer` to select Xcode
+for a command; the script does not change the global developer selection.
+
+The default build root is `.build/chromium/`. `AELO_CHROMIUM_ROOT` or `--root`
+can select another dedicated path without spaces. Unexpected origins,
+revisions, source changes or existing configuration block replacement.
+A driver lock prevents duplicate invocations. `state.json` records command
+PID, time and outcome; a still-running interrupted command blocks a new driver.
+
+Public Google Storage dependencies use an anonymous headless downloader.
+Its config, state, Python environments and caches stay inside the build root.
+This avoids the interactive LUCI authentication path that returned
+`Operation not permitted` in the coding sandbox. The initially failing Perfetto
+object downloaded successfully and matched its pinned SHA-256 before sync was
+resumed. DEPS integrity checks and TLS verification remain enabled.
+
+Generated source, dependencies, profiles, logs and bundles are excluded from
+Git. This script does not install or replace the released preview. Expected
+output after a successful build:
+
+```text
+.build/chromium/checkout/src/out/Aelo/Aelo.app
+```
+
+## Isolation and data preservation
+
+The four-file patch assigns these independent macOS identities:
+
+| Surface | Full Chromium build |
+|---|---|
+| Product | Aelo |
+| Bundle identifier | `dev.aelo.chromium` |
+| Default user data | `~/Library/Application Support/Aelo/Chromium/` |
+| Keychain service/account | `Aelo Safe Storage` / `Aelo` |
+| System native-messaging manifests | `/Library/Application Support/Aelo/Chromium/NativeMessagingHosts` |
+| User native-messaging manifests | `NativeMessagingHosts` within the selected Chromium user-data directory |
+
+Branding alone leaves upstream's hardcoded Keychain and system host identities
+shared with Chromium. The patch separates them along with the default data
+root. This configuration is source-reviewed; live isolation is still unverified.
+
+Existing CEF directories, workspace files, Arc data and other browsers' data
+are preserved. Do not point full Chromium at a CEF profile or copy encrypted
+databases into its new root. Migration needs a versioned, reversible design
+and fixtures. Spaces sharing a Profile must retain that mapping; separate
+Profiles must retain isolated browser data.
+
+Launch qualification must use disposable `--user-data-dir` storage outside
+cloud folders. Preserve renderer sandboxing, certificate checks and web
+security. Native-messaging tests must use disposable manifests, not another
+browser's namespace.
+
+## Validation and remaining work
+
+Established on 3 November 2026:
+
+- Chromium source revision matches the lock.
+- Xcode version, first-launch status and SDK preflight pass.
+- `git apply --check` accepts the isolation patch against the pinned source.
+- Offline tests cover source-directory/origin preservation, pinned build
+  identity, duplicate-process protection and ICNS container assembly.
+- The legacy CEF build and native workspace tests pass. Its generated ICNS
+  decodes with `sips`; packaging verifies recursive app signatures.
+
+Required before declaring the engine switch complete:
+
+1. Complete dependency sync and hooks; compile and launch the full browser.
+2. Verify sandboxed renderer operation and profile/Keychain isolation using
+   disposable data. Record the actual binary and toolchain result.
+3. Integrate the independent workspace with Chromium browser services, including
+   shared/separate Profiles and two live panes. Preserve old data throughout.
+4. Reproduce the documented CEF shutdown watchdog and establish a causal fix.
+   A traced ordinary shutdown completed in 0.212 seconds. The deterministic
+   quit-during-creation case also completed teardown. Neither reproduced the
+   watchdog, so the reported issue remains unresolved.
+5. Qualify MV3 service workers, installation/updates, permissions, popups and
+   native messaging with synthetic fixtures. Real password-manager/Web Store
+   compatibility is still unqualified.
+6. Verify a supported Arc export schema from a sanitized fixture before
+   implementing its parser. Do not guess private profile schemas.
+
+The paused CEF investigation reproduced a blank pane after layout changes;
+an experimental host-lifetime change is unqualified and must not be described
+as a verified shutdown fix.

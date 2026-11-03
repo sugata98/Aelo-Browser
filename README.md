@@ -40,6 +40,14 @@ Right-click a tab for pinning, renaming, splitting and archiving. In the command
 
 ## Build
 
+**Full Chromium migration:** run `python3 scripts/build_chromium.py fetch`, then
+`python3 scripts/build_chromium.py build`. This builds upstream's full `chrome`
+target with Aelo's independent browser identity. Dependency sync is in progress;
+compilation, launch and workspace integration are not yet qualified. See the
+[migration status and build instructions](docs/chromium-migration.md).
+
+The command below builds the released **CEF preview**.
+
 Requires an Apple Silicon Mac, macOS 13 or later, Python 3.10+ and Apple's Command Line Tools. The app has been run on the current machine; macOS 13 itself has not been tested.
 
 ```sh

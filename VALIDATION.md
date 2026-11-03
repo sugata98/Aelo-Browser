@@ -44,3 +44,27 @@ This qualification establishes a working first prototype and several core data/l
 ## Aelo release verification
 
 The renamed app was rebuilt and its native workspace tests passed. Live launch, Aelo branding, menus and two-pane rendering were checked. The native host hierarchy is released before engine shutdown, but the teardown watchdog issue remains reproducible and is disclosed in the release notes.
+
+## Full Chromium migration branch — 3 November 2026
+
+On `feat/full-chromium-migration`, the full Chromium source checkout matches
+`fb096c0011f9d50f0a264a9376420cdea9c421e3` (156.0.8078.80). Xcode 26.6,
+first-launch status and macOS SDK 26.5 preflight passed. Dependency sync is
+ongoing; full Chromium compilation and launch are not yet verified.
+
+`git apply --check` accepts the four-file branding/data/Keychain/native-host
+isolation patch against that pinned source. Live behavior under those new
+identities remains unverified. See [migration details](docs/chromium-migration.md)
+for the exact configuration, download recovery steps and remaining gates.
+
+The build-tool tests and existing native workspace tests pass through CTest.
+The CEF packaging repair produces an ICNS file that `sips` can decode and an
+app whose recursive signatures verify. These checks do not establish full
+Chromium browser compatibility.
+
+An opt-in lifecycle trace with synthetic data recorded an ordinary CEF
+shutdown completing in 0.212 seconds. A quit-during-creation fixture also
+completed teardown. Neither reproduced the documented watchdog failure;
+that issue remains unresolved. Chromium's mock Keychain was used only for
+disposable fixture data, so these runs do not qualify real credential storage.
+CEF UI investigation is paused while the full Chromium build is prioritized.

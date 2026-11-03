@@ -1,0 +1,127 @@
+{
+  "app": {
+    "CFBundleIdentifier": "company.thebrowser.Browser",
+    "CFBundleExecutable": "Arc",
+    "CFBundleShortVersionString": "1.165.1",
+    "CFBundleVersion": "87405",
+    "LSMinimumSystemVersion": "13.0.0",
+    "CFBundleURLTypes": [
+      {
+        "CFBundleURLName": "Email Address URL",
+        "CFBundleURLSchemes": [
+          "mailto"
+        ]
+      },
+      {
+        "CFBundleURLName": "HTTPS URL",
+        "CFBundleURLSchemes": [
+          "https"
+        ]
+      },
+      {
+        "CFBundleURLName": "HTTP URL",
+        "CFBundleURLSchemes": [
+          "http"
+        ]
+      },
+      {
+        "CFBundleTypeRole": "Editor",
+        "CFBundleURLName": "Arc Browser",
+        "CFBundleURLSchemes": [
+          "arcBrowser"
+        ]
+      }
+    ],
+    "NSServices": null
+  },
+  "engine": {
+    "CFBundleIdentifier": "company.thebrowser.browser.framework",
+    "CFBundleExecutable": "ArcCore",
+    "CFBundleShortVersionString": "153.0.8010.53",
+    "CFBundleVersion": "8010.53",
+    "LSMinimumSystemVersion": null,
+    "CFBundleURLTypes": null,
+    "NSServices": null
+  },
+  "feature_bundles": [
+    "ARCClients_AppRestartClient.bundle",
+    "ARCClients_BaseAssets.bundle",
+    "ARCClients_BlockListClient.bundle",
+    "ARCClients_FontsManager.bundle",
+    "ARCClients_Icons.bundle",
+    "ARCFoundation_ARCFoundationBase.bundle",
+    "ARCUI_ARCUI.bundle",
+    "ARC_AboutWindow.bundle",
+    "ARC_AdBlocking.bundle",
+    "ARC_AppTray.bundle",
+    "ARC_ArcMenu.bundle",
+    "ARC_ArcRichTextEditor.bundle",
+    "ARC_AskArc.bundle",
+    "ARC_AuthFeature.bundle",
+    "ARC_BaseHomeComponents.bundle",
+    "ARC_BoostsDialog.bundle",
+    "ARC_BoostsEditor.bundle",
+    "ARC_Capture.bundle",
+    "ARC_CommandBar.bundle",
+    "ARC_ContentPanel.bundle",
+    "ARC_ContextMenus.bundle",
+    "ARC_CustomInfoPicker.bundle",
+    "ARC_DeleteAccountFeature.bundle",
+    "ARC_EaselUI.bundle",
+    "ARC_Emojis.bundle",
+    "ARC_Favicons.bundle",
+    "ARC_GlowProgressLoadingIndicator.bundle",
+    "ARC_HomeButton.bundle",
+    "ARC_ImportFeature.bundle",
+    "ARC_ImportMenuFeature.bundle",
+    "ARC_LittleBrowser.bundle",
+    "ARC_MediaControlsFeature.bundle",
+    "ARC_MembershipCard.bundle",
+    "ARC_PictureInPicture.bundle",
+    "ARC_PreferencesFeature.bundle",
+    "ARC_ProfilesUI.bundle",
+    "ARC_ReferralCodeFeature.bundle",
+    "ARC_SadTab.bundle",
+    "ARC_SharableObjectsFeature.bundle",
+    "ARC_SidebarBanner.bundle",
+    "ARC_SidebarPlusButton.bundle",
+    "ARC_SidebarSyncCloudKit.bundle",
+    "ARC_SiteControlCenter.bundle",
+    "ARC_SoftwareUpdaterClient.bundle",
+    "ARC_SoundEffects.bundle",
+    "ARC_SpaceCreation.bundle",
+    "ARC_SpaceStyleEditor.bundle",
+    "ARC_StorableSidebar.bundle",
+    "ARC_TextEditor.bundle",
+    "ARC_TopDomains.bundle",
+    "ARC_Translation.bundle",
+    "ARC_URLInputter.bundle",
+    "ARC_WebContentBehaviorConfigurationClient.bundle",
+    "ARC_WelcomeToArcFeature.bundle",
+    "ARC_WindowThemeUI.bundle"
+  ],
+  "frameworks": [
+    "grpcpp.framework",
+    "Sparkle.framework",
+    "Sentry.framework",
+    "libswiftCompatibilitySpan.dylib",
+    "FirebaseFirestoreInternal.framework",
+    "grpc.framework",
+    "openssl_grpc.framework",
+    "absl.framework",
+    "Lottie.framework",
+    "ArcCore.framework"
+  ],
+  "binaries": {
+    "app": {
+      "path": "/Applications/Arc.app/Contents/MacOS/Arc",
+      "bytes": 164733504,
+      "sha256": "8e435466264211767801f9977545fd1f07ff5fc713be345890864ea0e23d596e"
+    },
+    "engine": {
+      "path": "/Applications/Arc.app/Contents/Frameworks/ArcCore.framework/Versions/A/ArcCore",
+      "bytes": 490435584,
+      "sha256": "1b4607ae710a828032328042d613bee389fed6e722fc5939a2b6220148043f44"
+    }
+  }
+}

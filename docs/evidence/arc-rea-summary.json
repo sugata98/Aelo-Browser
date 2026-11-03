@@ -1,0 +1,2767 @@
+{
+  "inspection_date": "2026-11-03",
+  "scope": "Partial static metadata; no decompilation or runtime call traces",
+  "records": [
+    {
+      "evidence_id": "ev_40c051a4463b21587f7b5fac1d3a17579fe4c51b921836544f3deeba6c3ce412",
+      "subject": {
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "1b4607ae710a828032328042d613bee389fed6e722fc5939a2b6220148043f44"
+        },
+        "format": "mach-o-universal",
+        "local_path": "/Applications/Arc.app/Contents/Frameworks/ArcCore.framework/Versions/A/ArcCore",
+        "name": "ArcCore"
+      },
+      "parameters": {
+        "max_input_bytes": 500000000,
+        "max_records": 10000
+      },
+      "counts": {
+        "coverage": 8,
+        "objc_categories": 0,
+        "objc_classes": 367,
+        "objc_dispatch_implementations": 2352,
+        "objc_ivars": 593,
+        "objc_protocol_records": 69,
+        "objc_protocols": 69,
+        "relative_pointers": 4702,
+        "swift_conformances": 0,
+        "swift_decls": 0,
+        "swift_dispatch_slots": 0,
+        "swift_symbols": 0
+      },
+      "coverage": [
+        {
+          "decoded": 366,
+          "examined": 368,
+          "facet": "objc_class_method_ivar_metadata",
+          "status": "partial"
+        },
+        {
+          "decoded": 4702,
+          "examined": 4702,
+          "facet": "binary_relative_pointers",
+          "status": "partial"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "objc_properties_categories",
+          "status": "partial"
+        },
+        {
+          "decoded": 2,
+          "examined": 2,
+          "facet": "pointer_fixups",
+          "status": "complete"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "swift_generic_resilient_witnesses_overrides_async_coroutines",
+          "status": "unsupported"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "swift_conformances_static_witness_slots",
+          "status": "partial"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "swift_declarations",
+          "status": "partial"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "swift_class_vtable_descriptors",
+          "status": "partial"
+        }
+      ],
+      "limitations": [
+        "Derived by an REA composed workflow.",
+        "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: Protocol 0xdcfb6d0: Objective-C protocol NSSecureCoding properties: protocol class properties are not decoded; 0xdc59768: Unterminated or oversized metadata string; class ArcBrowserContextDevTools: max_records_reached; protocol NSSecureCoding: protocol class properties are not decoded; max_records_reached",
+        "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: This reader admits Swift nominal type declarations, simple conformance/static witness records and non-generic, non-resilient class vtables; generic/resilient tables and other Swift metadata families are not decoded",
+        "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: chained fixups: DYLD_CHAINED_PTR_64",
+        "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: max_records_reached"
+      ],
+      "selected_classes": [
+        {
+          "name": "BookmarkFolderAppleScript",
+          "superclass": "BookmarkNodeAppleScript",
+          "location": {
+            "address": "0xde3b9e0",
+            "file_offset": 489683424
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "bookmarkFolders",
+              "implementation_address": "0x73f1f58"
+            },
+            {
+              "selector": "bookmarkItems",
+              "implementation_address": "0x73f206c"
+            },
+            {
+              "selector": "insertInBookmarkFolders:",
+              "implementation_address": "0x73f2180"
+            },
+            {
+              "selector": "insertInBookmarkFolders:atIndex:",
+              "implementation_address": "0x73f21e0"
+            },
+            {
+              "selector": "insertFolder:atBookmarkManagerPosition:",
+              "implementation_address": "0x73f2248"
+            },
+            {
+              "selector": "removeFromBookmarkFoldersAtIndex:",
+              "implementation_address": "0x73f241c"
+            },
+            {
+              "selector": "insertInBookmarkItems:",
+              "implementation_address": "0x73f24c8"
+            },
+            {
+              "selector": "insertInBookmarkItems:atIndex:",
+              "implementation_address": "0x73f2528"
+            },
+            {
+              "selector": "insertItem:atBookmarkManagerPosition:",
+              "implementation_address": "0x73f2590"
+            },
+            {
+              "selector": "removeFromBookmarkItemsAtIndex:",
+              "implementation_address": "0x73f284c"
+            },
+            {
+              "selector": "bookmarkManagerPositionOfFolderAt:",
+              "implementation_address": "0x73f28f8"
+            },
+            {
+              "selector": "bookmarkManagerPositionOfItemAt:",
+              "implementation_address": "0x73f297c"
+            }
+          ]
+        },
+        {
+          "name": "BookmarkItemAppleScript",
+          "superclass": "BookmarkNodeAppleScript",
+          "location": {
+            "address": "0xde3ba30",
+            "file_offset": 489683504
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "init",
+              "implementation_address": "0x73f2a00"
+            },
+            {
+              "selector": "didCreateBookmarkNode:",
+              "implementation_address": "0x73f2a60"
+            },
+            {
+              "selector": "URL",
+              "implementation_address": "0x73f2ad4"
+            },
+            {
+              "selector": "setURL:",
+              "implementation_address": "0x73f2b4c"
+            },
+            {
+              "selector": "tempURL",
+              "implementation_address": "0x73f2d14"
+            },
+            {
+              "selector": "setTempURL:",
+              "implementation_address": "0x73f2d24"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x73f2d30"
+            }
+          ]
+        },
+        {
+          "name": "BookmarkNodeAppleScript",
+          "superclass": "ElementAppleScript",
+          "location": {
+            "address": "0xde3ba80",
+            "file_offset": 489683584
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "init",
+              "implementation_address": "0x73f2d44"
+            },
+            {
+              "selector": "initWithBookmarkNode:",
+              "implementation_address": "0x73f2e64"
+            },
+            {
+              "selector": "bookmarkGUID",
+              "implementation_address": "0x73f2f3c"
+            },
+            {
+              "selector": "didCreateBookmarkNode:",
+              "implementation_address": "0x73f2f50"
+            },
+            {
+              "selector": "bookmarkNode",
+              "implementation_address": "0x73f2fd0"
+            },
+            {
+              "selector": "title",
+              "implementation_address": "0x73f3008"
+            },
+            {
+              "selector": "setTitle:",
+              "implementation_address": "0x73f3074"
+            },
+            {
+              "selector": "index",
+              "implementation_address": "0x73f3158"
+            },
+            {
+              "selector": "bookmarkModel",
+              "implementation_address": "0x73f31dc"
+            },
+            {
+              "selector": "tempTitle",
+              "implementation_address": "0x73f3250"
+            },
+            {
+              "selector": "setTempTitle:",
+              "implementation_address": "0x73f3260"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x73f326c"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x73f32c8"
+            }
+          ]
+        },
+        {
+          "name": "ElementAppleScript",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3baf8",
+            "file_offset": 489683704
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "objectSpecifier",
+              "implementation_address": "0x73f32f8"
+            },
+            {
+              "selector": "setContainer:property:",
+              "implementation_address": "0x73f3470"
+            },
+            {
+              "selector": "uniqueID",
+              "implementation_address": "0x3d49a10"
+            },
+            {
+              "selector": "setUniqueID:",
+              "implementation_address": "0x73f34d4"
+            },
+            {
+              "selector": "container",
+              "implementation_address": "0x2f39c0"
+            },
+            {
+              "selector": "setContainer:",
+              "implementation_address": "0x3ef8d90"
+            },
+            {
+              "selector": "containerProperty",
+              "implementation_address": "0x3d82740"
+            },
+            {
+              "selector": "setContainerProperty:",
+              "implementation_address": "0x3ef8d9c"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x73f34dc"
+            }
+          ]
+        },
+        {
+          "name": "TabAppleScript",
+          "superclass": "ElementAppleScript",
+          "location": {
+            "address": "0xde3bb20",
+            "file_offset": 489683744
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "profile",
+              "implementation_address": "0x73f35ac"
+            },
+            {
+              "selector": "isJavaScriptEnabled",
+              "implementation_address": "0x73f35e0"
+            },
+            {
+              "selector": "init",
+              "implementation_address": "0x73f3628"
+            },
+            {
+              "selector": "initWithWebContents:",
+              "implementation_address": "0x73f36bc"
+            },
+            {
+              "selector": "setWebContents:",
+              "implementation_address": "0x73f3804"
+            },
+            {
+              "selector": "URL",
+              "implementation_address": "0x73f395c"
+            },
+            {
+              "selector": "setURL:",
+              "implementation_address": "0x73f3a3c"
+            },
+            {
+              "selector": "title",
+              "implementation_address": "0x73f3c98"
+            },
+            {
+              "selector": "loading",
+              "implementation_address": "0x73f3dd4"
+            },
+            {
+              "selector": "handlesUndoScriptCommand:",
+              "implementation_address": "0x73f3e5c"
+            },
+            {
+              "selector": "handlesRedoScriptCommand:",
+              "implementation_address": "0x73f3ed4"
+            },
+            {
+              "selector": "handlesCutScriptCommand:",
+              "implementation_address": "0x73f3f4c"
+            },
+            {
+              "selector": "handlesCopyScriptCommand:",
+              "implementation_address": "0x73f3fc4"
+            },
+            {
+              "selector": "handlesPasteScriptCommand:",
+              "implementation_address": "0x73f403c"
+            },
+            {
+              "selector": "handlesSelectAllScriptCommand:",
+              "implementation_address": "0x73f40b4"
+            },
+            {
+              "selector": "handlesGoBackScriptCommand:",
+              "implementation_address": "0x73f412c"
+            },
+            {
+              "selector": "handlesGoForwardScriptCommand:",
+              "implementation_address": "0x73f41f8"
+            },
+            {
+              "selector": "handlesReloadScriptCommand:",
+              "implementation_address": "0x73f42c4"
+            },
+            {
+              "selector": "handlesStopScriptCommand:",
+              "implementation_address": "0x73f4348"
+            },
+            {
+              "selector": "handlesPrintScriptCommand:",
+              "implementation_address": "0x73f43c0"
+            },
+            {
+              "selector": "handlesSaveScriptCommand:",
+              "implementation_address": "0x73f4484"
+            },
+            {
+              "selector": "handlesCloseScriptCommand:",
+              "implementation_address": "0x73f4718"
+            },
+            {
+              "selector": "handlesViewSourceScriptCommand:",
+              "implementation_address": "0x73f47b4"
+            },
+            {
+              "selector": "handlesExecuteJavascriptScriptCommand:",
+              "implementation_address": "0x73f4884"
+            },
+            {
+              "selector": "tempURL",
+              "implementation_address": "0x73f4b68"
+            },
+            {
+              "selector": "setTempURL:",
+              "implementation_address": "0x73f4b78"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x73f4b84"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x73f4be4"
+            }
+          ]
+        },
+        {
+          "name": "WindowAppleScript",
+          "superclass": "ElementAppleScript",
+          "location": {
+            "address": "0xde3bb70",
+            "file_offset": 489683824
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "init",
+              "implementation_address": "0x73f4c9c"
+            },
+            {
+              "selector": "initWithProfile:",
+              "implementation_address": "0x73f4e90"
+            },
+            {
+              "selector": "initWithBrowser:",
+              "implementation_address": "0x73f5060"
+            },
+            {
+              "selector": "nativeHandle",
+              "implementation_address": "0x73f5190"
+            },
+            {
+              "selector": "activeTabIndex",
+              "implementation_address": "0x73f526c"
+            },
+            {
+              "selector": "setActiveTabIndex:",
+              "implementation_address": "0x73f5300"
+            },
+            {
+              "selector": "givenName",
+              "implementation_address": "0x73f53f0"
+            },
+            {
+              "selector": "setGivenName:",
+              "implementation_address": "0x73f546c"
+            },
+            {
+              "selector": "mode",
+              "implementation_address": "0x73f5538"
+            },
+            {
+              "selector": "setMode:",
+              "implementation_address": "0x73f55c4"
+            },
+            {
+              "selector": "activeTab",
+              "implementation_address": "0x73f55d4"
+            },
+            {
+              "selector": "tabs",
+              "implementation_address": "0x73f5690"
+            },
+            {
+              "selector": "insertInTabs:",
+              "implementation_address": "0x73f57f4"
+            },
+            {
+              "selector": "insertInTabs:atIndex:",
+              "implementation_address": "0x73f58fc"
+            },
+            {
+              "selector": "removeFromTabsAtIndex:",
+              "implementation_address": "0x73f5a4c"
+            },
+            {
+              "selector": "orderedIndex",
+              "implementation_address": "0x73f5afc"
+            },
+            {
+              "selector": "setOrderedIndex:",
+              "implementation_address": "0x73f5b64"
+            },
+            {
+              "selector": "valueForUndefinedKey:",
+              "implementation_address": "0x73f5be4"
+            },
+            {
+              "selector": "setValue:forUndefinedKey:",
+              "implementation_address": "0x73f5c5c"
+            },
+            {
+              "selector": "handlesCloseScriptCommand:",
+              "implementation_address": "0x73f5cdc"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x73f5d88"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x73f5db4"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowser",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3cca0",
+            "file_offset": 489688224
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "sessionId",
+              "implementation_address": "0x40b1500"
+            },
+            {
+              "selector": "windowIdentifier",
+              "implementation_address": "0x40b154c"
+            },
+            {
+              "selector": "setWindowIdentifier:",
+              "implementation_address": "0x40b164c"
+            },
+            {
+              "selector": "initWithBrowser:",
+              "implementation_address": "0x40b16e4"
+            },
+            {
+              "selector": "isEqual:",
+              "implementation_address": "0x40b1a40"
+            },
+            {
+              "selector": "tryToCloseSkipBeforeUnloadHandlers:callback:",
+              "implementation_address": "0x40b1b8c"
+            },
+            {
+              "selector": "setDelegate:",
+              "implementation_address": "0x40b1c80"
+            },
+            {
+              "selector": "isInitialized",
+              "implementation_address": "0x40b1e7c"
+            },
+            {
+              "selector": "setWindow:",
+              "implementation_address": "0x40b1eb4"
+            },
+            {
+              "selector": "createWebContents:",
+              "implementation_address": "0x40b1f2c"
+            },
+            {
+              "selector": "takeOwnershipOfWebContents:",
+              "implementation_address": "0x40b20cc"
+            },
+            {
+              "selector": "getAllCookies:",
+              "implementation_address": "0x40b2240"
+            },
+            {
+              "selector": "getAllCookies:completion:",
+              "implementation_address": "0x40b23c8"
+            },
+            {
+              "selector": "setCookie:withCookie:",
+              "implementation_address": "0x40b25f0"
+            },
+            {
+              "selector": "removeCookie:withName:",
+              "implementation_address": "0x40b2754"
+            },
+            {
+              "selector": "saveCookiesToDisk",
+              "implementation_address": "0x40b2850"
+            },
+            {
+              "selector": "autocomplete:cursorPosition:preventInlineAutocomplete:startFresh:keyword:error:completion:",
+              "implementation_address": "0x40b2864"
+            },
+            {
+              "selector": "deleteAutocompleteMatch:",
+              "implementation_address": "0x40b2abc"
+            },
+            {
+              "selector": "executeExtensionAction:",
+              "implementation_address": "0x40b2c5c"
+            },
+            {
+              "selector": "pinExtension:",
+              "implementation_address": "0x40b2cf0"
+            },
+            {
+              "selector": "unpinExtension:",
+              "implementation_address": "0x40b2ddc"
+            },
+            {
+              "selector": "showExtensionContextMenu:",
+              "implementation_address": "0x40b2ec8"
+            },
+            {
+              "selector": "moveExtension:targetIndex:",
+              "implementation_address": "0x40b2fb0"
+            },
+            {
+              "selector": "triggerExtensionOmniboxInput:inputText:disposition:",
+              "implementation_address": "0x40b30a8"
+            },
+            {
+              "selector": "type",
+              "implementation_address": "0x40b31d8"
+            },
+            {
+              "selector": "context",
+              "implementation_address": "0x40b320c"
+            },
+            {
+              "selector": "canRestoreWebContentsWithSessionId:",
+              "implementation_address": "0x40b3374"
+            },
+            {
+              "selector": "restoreWebContentsWithSessionId:",
+              "implementation_address": "0x40b33f0"
+            },
+            {
+              "selector": "restoreForeignTab:",
+              "implementation_address": "0x40b3464"
+            },
+            {
+              "selector": "isJavaScriptFromAppleEventsAllowed",
+              "implementation_address": "0x40b3684"
+            },
+            {
+              "selector": "isCastEnabled",
+              "implementation_address": "0x40b3698"
+            },
+            {
+              "selector": "toggleJavaScriptFromAppleEventsAllowed",
+              "implementation_address": "0x40b36ac"
+            },
+            {
+              "selector": "browserCreateParams",
+              "implementation_address": "0x3ef8e08"
+            },
+            {
+              "selector": "nativeBrowser",
+              "implementation_address": "0x40b36c0"
+            },
+            {
+              "selector": "setNativeBrowser:",
+              "implementation_address": "0x40b3700"
+            },
+            {
+              "selector": "browserDelegate",
+              "implementation_address": "0x40b3888"
+            },
+            {
+              "selector": "setBrowserDelegate:",
+              "implementation_address": "0x40b38a8"
+            },
+            {
+              "selector": "sidePanel",
+              "implementation_address": "0x3d49a10"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40b39dc"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40b3b0c"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserApplication",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3cd40",
+            "file_offset": 489688384
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "init",
+              "implementation_address": "0x40b6cbc"
+            },
+            {
+              "selector": "init:",
+              "implementation_address": "0x40b6ccc"
+            },
+            {
+              "selector": "setNotificationCenter:",
+              "implementation_address": "0x40b7080"
+            },
+            {
+              "selector": "setHistogramSamplesDelegate:",
+              "implementation_address": "0x40b70fc"
+            },
+            {
+              "selector": "setBreadcrumbCallback:",
+              "implementation_address": "0x40b72dc"
+            },
+            {
+              "selector": "setDumpWithoutCrashingCallback:",
+              "implementation_address": "0x40b73d8"
+            },
+            {
+              "selector": "setAccessibilityObserver:",
+              "implementation_address": "0x40b74d4"
+            },
+            {
+              "selector": "run",
+              "implementation_address": "0x40b7614"
+            },
+            {
+              "selector": "tryToTerminate:",
+              "implementation_address": "0x40b7634"
+            },
+            {
+              "selector": "initialize:",
+              "implementation_address": "0x40b771c"
+            },
+            {
+              "selector": "createBrowser:withDelegate:forWindow:",
+              "implementation_address": "0x40b779c"
+            },
+            {
+              "selector": "createPopupBrowser:withDelegate:",
+              "implementation_address": "0x40b7bc8"
+            },
+            {
+              "selector": "createAIService:",
+              "implementation_address": "0x40b7f28"
+            },
+            {
+              "selector": "version",
+              "implementation_address": "0x40b8088"
+            },
+            {
+              "selector": "tracingController",
+              "implementation_address": "0x40b8138"
+            },
+            {
+              "selector": "networkActivityMonitor",
+              "implementation_address": "0x40b83b8"
+            },
+            {
+              "selector": "enableAccessibilityForScreenReader",
+              "implementation_address": "0x40b8638"
+            },
+            {
+              "selector": "ensureBasicAccessibilityEnabled",
+              "implementation_address": "0x40b8644"
+            },
+            {
+              "selector": "disableAccessibility",
+              "implementation_address": "0x40b8650"
+            },
+            {
+              "selector": "showTaskManager",
+              "implementation_address": "0x40b865c"
+            },
+            {
+              "selector": "isFeatureEnabled:",
+              "implementation_address": "0x40b8668"
+            },
+            {
+              "selector": "setFeatureEnabled:enabled:",
+              "implementation_address": "0x40b8670"
+            },
+            {
+              "selector": "setStringFeatureValue:value:",
+              "implementation_address": "0x40b86ec"
+            },
+            {
+              "selector": "setIntFeatureValue:value:",
+              "implementation_address": "0x40b8774"
+            },
+            {
+              "selector": "createBrowserContext:type:completion:error:",
+              "implementation_address": "0x40b87e4"
+            },
+            {
+              "selector": "getBrowserContext:type:",
+              "implementation_address": "0x40b89bc"
+            },
+            {
+              "selector": "loadBrowserContext:type:completion:",
+              "implementation_address": "0x40b8bb8"
+            },
+            {
+              "selector": "availableBrowserContextAttributes",
+              "implementation_address": "0x40b8d24"
+            },
+            {
+              "selector": "deleteBrowserContext:error:",
+              "implementation_address": "0x40b8f7c"
+            },
+            {
+              "selector": "availableImportSourceProfiles:",
+              "implementation_address": "0x40b9080"
+            },
+            {
+              "selector": "availableImportSources:",
+              "implementation_address": "0x40b9158"
+            },
+            {
+              "selector": "loadImportSourceProfiles:completion:",
+              "implementation_address": "0x40b9230"
+            },
+            {
+              "selector": "beginImportSequence",
+              "implementation_address": "0x40b9310"
+            },
+            {
+              "selector": "endImportSequence",
+              "implementation_address": "0x40b9354"
+            },
+            {
+              "selector": "debugProperties",
+              "implementation_address": "0x40b9368"
+            },
+            {
+              "selector": "getGPULogMessages",
+              "implementation_address": "0x40b955c"
+            },
+            {
+              "selector": "getHistogramsJSON",
+              "implementation_address": "0x40b97a0"
+            },
+            {
+              "selector": "isEncryptionAvailable",
+              "implementation_address": "0x40b9834"
+            },
+            {
+              "selector": "getBase64EncodedEncryptionKey",
+              "implementation_address": "0x40b9918"
+            },
+            {
+              "selector": "getEnterpriseDeviceID",
+              "implementation_address": "0x40b99f8"
+            },
+            {
+              "selector": "setFreeMemoryTargetOnCriticalMemoryPressure:",
+              "implementation_address": "0x40b9ad0"
+            },
+            {
+              "selector": "getNonDefaultFlags:",
+              "implementation_address": "0x40b9af8"
+            },
+            {
+              "selector": "setAllFlagsToDefault:",
+              "implementation_address": "0x40b9bcc"
+            },
+            {
+              "selector": "setOnWebContentsCloseDebugLogCallback:",
+              "implementation_address": "0x40b9c80"
+            },
+            {
+              "selector": "devToolsWebSocketDebugURL",
+              "implementation_address": "0x7f07688"
+            },
+            {
+              "selector": "loadUrl:withDelegate:",
+              "implementation_address": "0x40b9dcc"
+            },
+            {
+              "selector": "cancelUrlLoad:",
+              "implementation_address": "0x40b9f0c"
+            },
+            {
+              "selector": "setBlockLists:",
+              "implementation_address": "0x40b9f94"
+            },
+            {
+              "selector": "setExcludedDomains:",
+              "implementation_address": "0x40ba2c0"
+            },
+            {
+              "selector": "setArtifactAllowedScriptSources:",
+              "implementation_address": "0x40ba760"
+            },
+            {
+              "selector": "frameForDisplayId:error:",
+              "implementation_address": "0x40bab80"
+            },
+            {
+              "selector": "restoreBrowser:withSessionID:browserCreatedCallback:finishedCallback:",
+              "implementation_address": "0x40bac34"
+            },
+            {
+              "selector": "quit",
+              "implementation_address": "0x40baec4"
+            },
+            {
+              "selector": "browserApplication",
+              "implementation_address": "0x40baed0"
+            },
+            {
+              "selector": "setBrowserApplication:",
+              "implementation_address": "0x40baef0"
+            },
+            {
+              "selector": "browserApplicationDelegate",
+              "implementation_address": "0x40bb024"
+            },
+            {
+              "selector": "setBrowserApplicationDelegate:",
+              "implementation_address": "0x40bb044"
+            },
+            {
+              "selector": "localState",
+              "implementation_address": "0x3d49a10"
+            },
+            {
+              "selector": "setLocalState:",
+              "implementation_address": "0x40bb178"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40bb184"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40bb2b8"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserContextAutocomplete",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3cde0",
+            "file_offset": 489688544
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithAutocompleteController:",
+              "implementation_address": "0x40bcd34"
+            },
+            {
+              "selector": "autocomplete:cursorPosition:preventInlineAutocomplete:completion:",
+              "implementation_address": "0x40bce10"
+            },
+            {
+              "selector": "stop",
+              "implementation_address": "0x40bcfec"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40bd04c"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x3d78480"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserContextID",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3ce30",
+            "file_offset": 489688624
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithBrowserContextID:",
+              "implementation_address": "0x40bd4b4"
+            },
+            {
+              "selector": "isIncognito",
+              "implementation_address": "0x40bd5a8"
+            },
+            {
+              "selector": "directoryBasename",
+              "implementation_address": "0x40bd5c4"
+            },
+            {
+              "selector": "id",
+              "implementation_address": "0x40bd5f4"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40bd664"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40bd68c"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserContextExtensions",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3ced0",
+            "file_offset": 489688784
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithBrowserContextExtensions:forBrowserContext:",
+              "implementation_address": "0x40cb0cc"
+            },
+            {
+              "selector": "isEqual:",
+              "implementation_address": "0x40cb1f8"
+            },
+            {
+              "selector": "hash",
+              "implementation_address": "0x40cb344"
+            },
+            {
+              "selector": "setDelegate:",
+              "implementation_address": "0x40cb37c"
+            },
+            {
+              "selector": "isExtensionSystemReady",
+              "implementation_address": "0x40cb588"
+            },
+            {
+              "selector": "listExtensions",
+              "implementation_address": "0x40cb5e4"
+            },
+            {
+              "selector": "enableExtension:",
+              "implementation_address": "0x40cb7dc"
+            },
+            {
+              "selector": "disableExtension:",
+              "implementation_address": "0x40cb88c"
+            },
+            {
+              "selector": "reloadExtension:",
+              "implementation_address": "0x40cb920"
+            },
+            {
+              "selector": "uninstallExtension:",
+              "implementation_address": "0x40cb9d0"
+            },
+            {
+              "selector": "installExtensionFromWebstore:unattended:completion:",
+              "implementation_address": "0x40cba8c"
+            },
+            {
+              "selector": "installExtensionFromUnpackedPath:completion:",
+              "implementation_address": "0x40cbbf4"
+            },
+            {
+              "selector": "getExtensionInfo:",
+              "implementation_address": "0x40cbd38"
+            },
+            {
+              "selector": "runJSInExtensionBackgroundPage:js_code:",
+              "implementation_address": "0x40cbe70"
+            },
+            {
+              "selector": "getAllExtensionCommands",
+              "implementation_address": "0x40cbf94"
+            },
+            {
+              "selector": "executeExtensionCommand:commandName:",
+              "implementation_address": "0x40cc18c"
+            },
+            {
+              "selector": "getPinnedExtensionOrder",
+              "implementation_address": "0x40cc2a8"
+            },
+            {
+              "selector": "setPinnedExtensionOrder:",
+              "implementation_address": "0x40cc4c4"
+            },
+            {
+              "selector": "browserContextExtensions",
+              "implementation_address": "0x40cc8fc"
+            },
+            {
+              "selector": "owner",
+              "implementation_address": "0x40cc940"
+            },
+            {
+              "selector": "setOwner:",
+              "implementation_address": "0x40cc958"
+            },
+            {
+              "selector": "extensionsDelegate",
+              "implementation_address": "0x40cc964"
+            },
+            {
+              "selector": "setExtensionsDelegate:",
+              "implementation_address": "0x40cc984"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40ccab8"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40ccbd8"
+            }
+          ]
+        },
+        {
+          "name": "ArcWebContentsConfiguration",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3dbc8",
+            "file_offset": 489692104
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "foreground",
+              "implementation_address": "0x2a14980"
+            },
+            {
+              "selector": "setForeground:",
+              "implementation_address": "0x40e1f78"
+            },
+            {
+              "selector": "untracked",
+              "implementation_address": "0x40e1f80"
+            },
+            {
+              "selector": "setUntracked:",
+              "implementation_address": "0x40e1f88"
+            },
+            {
+              "selector": "forceDisplayPDFInline",
+              "implementation_address": "0x3dc1660"
+            },
+            {
+              "selector": "setForceDisplayPDFInline:",
+              "implementation_address": "0x40e1f90"
+            },
+            {
+              "selector": "disallowDownloads",
+              "implementation_address": "0x40e1f98"
+            },
+            {
+              "selector": "setDisallowDownloads:",
+              "implementation_address": "0x40e1fa0"
+            },
+            {
+              "selector": "disallowAutoplay",
+              "implementation_address": "0x40e1fa8"
+            },
+            {
+              "selector": "setDisallowAutoplay:",
+              "implementation_address": "0x40e1fb0"
+            },
+            {
+              "selector": "forceAllowAutoplay",
+              "implementation_address": "0x40e1fb8"
+            },
+            {
+              "selector": "setForceAllowAutoplay:",
+              "implementation_address": "0x40e1fc0"
+            },
+            {
+              "selector": "disallowContextMenus",
+              "implementation_address": "0x33792a0"
+            },
+            {
+              "selector": "setDisallowContextMenus:",
+              "implementation_address": "0x40e1fc8"
+            },
+            {
+              "selector": "transparentBackground",
+              "implementation_address": "0x3d74ae0"
+            },
+            {
+              "selector": "setTransparentBackground:",
+              "implementation_address": "0x40e1fd0"
+            },
+            {
+              "selector": "initiallyHidden",
+              "implementation_address": "0x40e1fd8"
+            },
+            {
+              "selector": "setInitiallyHidden:",
+              "implementation_address": "0x40e1fe0"
+            },
+            {
+              "selector": "initiallyMuted",
+              "implementation_address": "0x40e2000"
+            },
+            {
+              "selector": "setInitiallyMuted:",
+              "implementation_address": "0x40e2008"
+            },
+            {
+              "selector": "forcedViewSize",
+              "implementation_address": "0x40e2010"
+            },
+            {
+              "selector": "setForcedViewSize:",
+              "implementation_address": "0x40e2038"
+            },
+            {
+              "selector": "nativeWebContentsConfiguration",
+              "implementation_address": "0x40e20a8"
+            },
+            {
+              "selector": "setNativeWebContentsConfiguration:",
+              "implementation_address": "0x40e20bc"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x11f40"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40e20d0"
+            }
+          ]
+        },
+        {
+          "name": "ArcWebContentsNavigationController",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3dc90",
+            "file_offset": 489692304
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "init:forWebContents:",
+              "implementation_address": "0x40e3a68"
+            },
+            {
+              "selector": "isEqual:",
+              "implementation_address": "0x40e3b94"
+            },
+            {
+              "selector": "hash",
+              "implementation_address": "0x40e39d4"
+            },
+            {
+              "selector": "addObserver:",
+              "implementation_address": "0x40e3ce0"
+            },
+            {
+              "selector": "removeObserver:",
+              "implementation_address": "0x40e4058"
+            },
+            {
+              "selector": "load:initiatorOrigin:",
+              "implementation_address": "0x40e4284"
+            },
+            {
+              "selector": "load:initiatorOrigin:transition:fromAddressBar:typedWithHttpScheme:",
+              "implementation_address": "0x40e429c"
+            },
+            {
+              "selector": "goBack",
+              "implementation_address": "0x40e474c"
+            },
+            {
+              "selector": "goForward",
+              "implementation_address": "0x40e4a38"
+            },
+            {
+              "selector": "goToBackForwardListItem:",
+              "implementation_address": "0x40e4d24"
+            },
+            {
+              "selector": "reload",
+              "implementation_address": "0x40e50d8"
+            },
+            {
+              "selector": "reloadWithoutCache",
+              "implementation_address": "0x40e53c8"
+            },
+            {
+              "selector": "nativeController",
+              "implementation_address": "0x40d8538"
+            },
+            {
+              "selector": "observers",
+              "implementation_address": "0x40e56b8"
+            },
+            {
+              "selector": "setObservers:",
+              "implementation_address": "0x40e5764"
+            },
+            {
+              "selector": "owner",
+              "implementation_address": "0x40cc940"
+            },
+            {
+              "selector": "setOwner:",
+              "implementation_address": "0x40cc958"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40e5bcc"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40e5d50"
+            }
+          ]
+        },
+        {
+          "name": "ArcDownloadItem",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3e410",
+            "file_offset": 489694224
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithDownloadItem:",
+              "implementation_address": "0x40fbd4c"
+            },
+            {
+              "selector": "completedBytes",
+              "implementation_address": "0x40fbe4c"
+            },
+            {
+              "selector": "totalBytes",
+              "implementation_address": "0x40fbea8"
+            },
+            {
+              "selector": "currentSpeed",
+              "implementation_address": "0x40fbf04"
+            },
+            {
+              "selector": "targetPath",
+              "implementation_address": "0x40fbf68"
+            },
+            {
+              "selector": "sourceURL",
+              "implementation_address": "0x40fc094"
+            },
+            {
+              "selector": "id",
+              "implementation_address": "0x40fc14c"
+            },
+            {
+              "selector": "startTime",
+              "implementation_address": "0x40fc204"
+            },
+            {
+              "selector": "webContents",
+              "implementation_address": "0x40fc254"
+            },
+            {
+              "selector": "currentState",
+              "implementation_address": "0x40fc3fc"
+            },
+            {
+              "selector": "remainingTimeInSeconds",
+              "implementation_address": "0x40fc46c"
+            },
+            {
+              "selector": "isPaused",
+              "implementation_address": "0x40fc4fc"
+            },
+            {
+              "selector": "pause",
+              "implementation_address": "0x40fc51c"
+            },
+            {
+              "selector": "cancel:",
+              "implementation_address": "0x40fc574"
+            },
+            {
+              "selector": "resume",
+              "implementation_address": "0x40fc5d4"
+            },
+            {
+              "selector": "remove",
+              "implementation_address": "0x40fc62c"
+            },
+            {
+              "selector": "isDone",
+              "implementation_address": "0x40fc684"
+            },
+            {
+              "selector": "canResume",
+              "implementation_address": "0x40fc6e0"
+            },
+            {
+              "selector": "download_item",
+              "implementation_address": "0x40d8538"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40d8700"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40d87ac"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserContextPreferences",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3e780",
+            "file_offset": 489695104
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithBrowserContextPreferences:",
+              "implementation_address": "0x4101428"
+            },
+            {
+              "selector": "initWithBrowserContextPreferences:forBrowserContext:",
+              "implementation_address": "0x4101528"
+            },
+            {
+              "selector": "addObserver:",
+              "implementation_address": "0x4101654"
+            },
+            {
+              "selector": "removeObserver:",
+              "implementation_address": "0x41019b0"
+            },
+            {
+              "selector": "clearAutoOpenFiles",
+              "implementation_address": "0x4101bdc"
+            },
+            {
+              "selector": "promptForDownloadPath",
+              "implementation_address": "0x4101c04"
+            },
+            {
+              "selector": "setPromptForDownloadPath:",
+              "implementation_address": "0x4101c58"
+            },
+            {
+              "selector": "searchSuggestEnabled",
+              "implementation_address": "0x4101cc8"
+            },
+            {
+              "selector": "setSearchSuggestEnabled:",
+              "implementation_address": "0x4101d0c"
+            },
+            {
+              "selector": "canEnablePasswordSaving",
+              "implementation_address": "0x4101d7c"
+            },
+            {
+              "selector": "passwordSavingEnabled",
+              "implementation_address": "0x4101dc0"
+            },
+            {
+              "selector": "setPasswordSavingEnabled:",
+              "implementation_address": "0x4101e04"
+            },
+            {
+              "selector": "notificationPermissionRequestsEnabled",
+              "implementation_address": "0x4101e74"
+            },
+            {
+              "selector": "setNotificationPermissionRequestsEnabled:",
+              "implementation_address": "0x4101eb4"
+            },
+            {
+              "selector": "canEnableCreditCardsSaving",
+              "implementation_address": "0x4101f04"
+            },
+            {
+              "selector": "creditCardsSavingEnabled",
+              "implementation_address": "0x4101f48"
+            },
+            {
+              "selector": "setCreditCardsSavingEnabled:",
+              "implementation_address": "0x4101f8c"
+            },
+            {
+              "selector": "autoOpenFileExtensions",
+              "implementation_address": "0x4101ffc"
+            },
+            {
+              "selector": "keywordSearchSpaceTriggeringEnabled",
+              "implementation_address": "0x41021ec"
+            },
+            {
+              "selector": "setKeywordSearchSpaceTriggeringEnabled:",
+              "implementation_address": "0x4102230"
+            },
+            {
+              "selector": "browser_context_preferences",
+              "implementation_address": "0x40d8538"
+            },
+            {
+              "selector": "owner",
+              "implementation_address": "0x40cc940"
+            },
+            {
+              "selector": "setOwner:",
+              "implementation_address": "0x40cc958"
+            },
+            {
+              "selector": "browser_context_preferences_observer_bridges",
+              "implementation_address": "0x40e56b8"
+            },
+            {
+              "selector": "setBrowser_context_preferences_observer_bridges:",
+              "implementation_address": "0x40e5764"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40e5bcc"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40e5d50"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserContextPageContentExtraction",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3e7d0",
+            "file_offset": 489695184
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithBrowserContextPageContentExtraction:",
+              "implementation_address": "0x41022a0"
+            },
+            {
+              "selector": "initWithBrowserContextPageContentExtraction:forBrowserContext:",
+              "implementation_address": "0x41023a0"
+            },
+            {
+              "selector": "browser_context_page_content_extraction",
+              "implementation_address": "0x40d8538"
+            },
+            {
+              "selector": "owner",
+              "implementation_address": "0x40cc940"
+            },
+            {
+              "selector": "setOwner:",
+              "implementation_address": "0x40cc958"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x41024cc"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40d87ac"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserContextHistory",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3e820",
+            "file_offset": 489695264
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithBrowserContextHistory:",
+              "implementation_address": "0x4102574"
+            },
+            {
+              "selector": "initWithBrowserContextHistory:forBrowserContext:",
+              "implementation_address": "0x4102674"
+            },
+            {
+              "selector": "browser_context_history",
+              "implementation_address": "0x40b0598"
+            },
+            {
+              "selector": "owner",
+              "implementation_address": "0x40cc940"
+            },
+            {
+              "selector": "setOwner:",
+              "implementation_address": "0x40cc958"
+            },
+            {
+              "selector": "historyDelegate",
+              "implementation_address": "0x40cc964"
+            },
+            {
+              "selector": "setHistoryDelegate:",
+              "implementation_address": "0x40cc984"
+            },
+            {
+              "selector": "visitObserverBridge",
+              "implementation_address": "0x40baed0"
+            },
+            {
+              "selector": "setVisitObserverBridge:",
+              "implementation_address": "0x40baef0"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x41027a0"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x4102938"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserContextEffects",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3e870",
+            "file_offset": 489695344
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithBrowserContextEffects:",
+              "implementation_address": "0x410294c"
+            },
+            {
+              "selector": "initWithBrowserContextEffects:forBrowserContext:",
+              "implementation_address": "0x4102a4c"
+            },
+            {
+              "selector": "registerStylesheet:withIdentifier:forHostPattern:",
+              "implementation_address": "0x4102b78"
+            },
+            {
+              "selector": "unregisterStylesheet:",
+              "implementation_address": "0x4102d14"
+            },
+            {
+              "selector": "registerScript:withIdentifier:forHostPattern:",
+              "implementation_address": "0x4102dcc"
+            },
+            {
+              "selector": "unregisterScript:",
+              "implementation_address": "0x4102f68"
+            },
+            {
+              "selector": "registerColorFilter:forHostPattern:",
+              "implementation_address": "0x4103020"
+            },
+            {
+              "selector": "unregisterColorFilter:",
+              "implementation_address": "0x41031a0"
+            },
+            {
+              "selector": "registerColorScheme:forHostPattern:",
+              "implementation_address": "0x4103234"
+            },
+            {
+              "selector": "unregisterColorScheme:",
+              "implementation_address": "0x41032d8"
+            },
+            {
+              "selector": "registerZoomFactor:forHostPattern:",
+              "implementation_address": "0x410336c"
+            },
+            {
+              "selector": "unregisterZoomFactor:",
+              "implementation_address": "0x4103468"
+            },
+            {
+              "selector": "browser_context_effects",
+              "implementation_address": "0x40d8538"
+            },
+            {
+              "selector": "owner",
+              "implementation_address": "0x40cc940"
+            },
+            {
+              "selector": "setOwner:",
+              "implementation_address": "0x40cc958"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x41024cc"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40d87ac"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserContextDownloads",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3e8c0",
+            "file_offset": 489695424
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithBrowserContextDownloads:",
+              "implementation_address": "0x4103550"
+            },
+            {
+              "selector": "initWithBrowserContextDownloads:forBrowserContext:",
+              "implementation_address": "0x4103650"
+            },
+            {
+              "selector": "browser_context_downloads",
+              "implementation_address": "0x40cc8fc"
+            },
+            {
+              "selector": "owner",
+              "implementation_address": "0x40cc940"
+            },
+            {
+              "selector": "setOwner:",
+              "implementation_address": "0x40cc958"
+            },
+            {
+              "selector": "downloadsDelegate",
+              "implementation_address": "0x40cc964"
+            },
+            {
+              "selector": "setDownloadsDelegate:",
+              "implementation_address": "0x40cc984"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40ccab8"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40ccbd8"
+            }
+          ]
+        },
+        {
+          "name": "ArcBrowserContextDevTools",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0xde3e910",
+            "file_offset": 489695504
+          },
+          "decode": {
+            "reason": "max_records_reached",
+            "status": "partial"
+          },
+          "methods": [
+            {
+              "selector": "initWithBrowserContextDevTools:",
+              "implementation_address": "0x410377c"
+            },
+            {
+              "selector": "close",
+              "implementation_address": "0x410387c"
+            },
+            {
+              "selector": "webContents",
+              "implementation_address": "0x41038a0"
+            },
+            {
+              "selector": "browser_context_dev_tools",
+              "implementation_address": "0x40b0004"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x40b01cc"
+            },
+            {
+              "selector": ".cxx_construct",
+              "implementation_address": "0x40b026c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "evidence_id": "ev_cac15428fdbac81d121b44073de700837125ad31cdaac42e61667fec8735d037",
+      "subject": {
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "8e435466264211767801f9977545fd1f07ff5fc713be345890864ea0e23d596e"
+        },
+        "format": "mach-o-universal",
+        "local_path": "/Applications/Arc.app/Contents/MacOS/Arc",
+        "name": "Arc"
+      },
+      "parameters": {
+        "max_input_bytes": 170000000,
+        "max_records": 20000
+      },
+      "counts": {
+        "coverage": 8,
+        "objc_categories": 0,
+        "objc_classes": 845,
+        "objc_dispatch_implementations": 2905,
+        "objc_ivars": 2098,
+        "objc_protocol_records": 383,
+        "objc_protocols": 383,
+        "relative_pointers": 5810,
+        "swift_conformances": 0,
+        "swift_decls": 0,
+        "swift_dispatch_slots": 0,
+        "swift_symbols": 0
+      },
+      "coverage": [
+        {
+          "decoded": 844,
+          "examined": 845,
+          "facet": "objc_class_method_ivar_metadata",
+          "status": "partial"
+        },
+        {
+          "decoded": 5810,
+          "examined": 5810,
+          "facet": "binary_relative_pointers",
+          "status": "partial"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "objc_properties_categories",
+          "status": "partial"
+        },
+        {
+          "decoded": 2,
+          "examined": 2,
+          "facet": "pointer_fixups",
+          "status": "complete"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "swift_generic_resilient_witnesses_overrides_async_coroutines",
+          "status": "unsupported"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "swift_conformances_static_witness_slots",
+          "status": "partial"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "swift_declarations",
+          "status": "partial"
+        },
+        {
+          "decoded": 0,
+          "examined": 0,
+          "facet": "swift_class_vtable_descriptors",
+          "status": "partial"
+        }
+      ],
+      "limitations": [
+        "Derived by an REA composed workflow.",
+        "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: Protocol 0x10452ea20: Objective-C protocol NSSecureCoding properties: protocol class properties are not decoded; Protocol 0x1043f9c98: Objective-C protocol NSItemProviderWriting properties: protocol class properties are not decoded; Protocol 0x1043f9ed0: Objective-C protocol NSItemProviderReading properties: protocol class properties are not decoded; Unresolved ivar offset pointer 0x1045f82d0; Unresolved ivar offset pointer 0x1045f82d8; Unresolved ivar offset pointer 0x1045f82e0; Unresolved ivar offset pointer 0x1045f82e8; Unresolved ivar offset pointer 0x1045f8330; Unresolved ivar offset pointer 0x1045f8358; Unresolved ivar offset pointer 0x1045f8360; Unresolved ivar offset pointer 0x1045f83a8; Unresolved ivar offset pointer 0x1045f8400; Unresolved ivar offset pointer 0x1045f8408; Unresolved ivar offset pointer 0x1045f8410; Unresolved ivar offset pointer 0x1045f8858; Unresolved ivar offset pointer 0x1045f8860; Unresolved ivar offset pointer 0x1045f8868; Unresolved ivar offset pointer 0x1045f8870; Unresolved ivar offset pointer 0x1045f8878; Unresolved ivar offset pointer 0x1045f8880; Unresolved ivar offset pointer 0x1045f8888; Unresolved ivar offset pointer 0x1045f8890; Unresolved ivar offset pointer 0x1045f8898; Unresolved ivar offset pointer 0x1045f88a0; Unresolved ivar offset pointer 0x1045f88a8; Unresolved ivar offset pointer 0x1045f88b0; Unresolved ivar offset pointer 0x1045f88b8; Unresolved ivar offset pointer 0x1045f88c0; Unresolved ivar offset pointer 0x1045f8950; Unresolved ivar offset pointer 0x1045f8958; Unresolved ivar offset pointer 0x1045f8960; Unresolved ivar offset pointer 0x1045f89a8; Unresolved ivar offset pointer 0x1045f89b0; Unresolved ivar offset pointer 0x1045f89b8; Unresolved ivar offset pointer 0x1045f89c0; Unresolved ivar offset pointer 0x1045f8a08; Unresolved ivar offset pointer 0x1045f8ab8; Unresolved ivar offset pointer 0x1045f8ac0; Unresolved ivar offset pointer 0x1045f8ac8; Unresolved ivar offset pointer 0x1045f8b08; Unresolved ivar offset pointer 0x1045f8b50; Unresolved ivar offset pointer 0x1045f8c00; Unresolved ivar offset pointer 0x1045f8c60; Unresolved ivar offset pointer 0x1045f8cc0; Unresolved ivar offset pointer 0x1045f8cc8; Unresolved ivar offset pointer 0x1045f8cd0; Unresolved ivar offset pointer 0x1045f8cd8; Unresolved ivar offset pointer 0x1045f8de0; Unresolved ivar offset pointer 0x1045f8df0; Unresolved ivar offset pointer 0x1045f8df8; Unresolved ivar offset pointer 0x1045f8e18; Unresolved ivar offset pointer 0x1045f8e00; Unresolved ivar offset pointer 0x1045f8e08; Unresolved ivar offset pointer 0x1045f8e10; Unresolved ivar offset pointer 0x1045f8f10; Unresolved ivar offset pointer 0x1045f8f18; Unresolved ivar offset pointer 0x1045f8f50; Unresolved ivar offset pointer 0x1045f8f58; Unresolved ivar offset pointer 0x1045f8f60; Unresolved ivar offset pointer 0x1045f8f68; Unresolved ivar offset pointer 0x1045f8f70; Unresolved ivar offset pointer 0x1045f8f78; Unresolved ivar offset pointer 0x1045f8f80; Unresolved ivar offset pointer 0x1045f8f88; Unresolved ivar offset pointer 0x1045f8f90; Unresolved ivar offset pointer 0x1045f8f98; Unresolved ivar offset pointer 0x1045f8fa0; Unresolved ivar offset pointer 0x1045f8fa8; Unresolved ivar offset pointer 0x1045f8fb0; Unresolved ivar offset pointer 0x1045f8fb8; Unresolved ivar offset pointer 0x1045f8fc0; Unresolved ivar offset pointer 0x1045f8fc8; Unresolved ivar offset pointer 0x1045f8fd0; Unresolved ivar offset pointer 0x1045f8fd8; Unresolved ivar offset pointer 0x1045f8fe0; Unresolved ivar offset pointer 0x1045f8fe8; Unresolved ivar offset pointer 0x1045f8ff0; Unresolved ivar offset pointer 0x1045f8ff8; Unresolved ivar offset pointer 0x1045f9000; Unresolved ivar offset pointer 0x1045f9008; Unresolved ivar offset pointer 0x1045f9010; Unresolved ivar offset pointer 0x1045f9018; Unresolved ivar offset pointer 0x1045f9020; Unresolved ivar offset pointer 0x1045f9028; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x1045f9320; Unresolved ivar offset pointer 0x1045f9328; Unresolved ivar offset pointer 0x1045f9340; Unresolved ivar offset pointer 0x1045f9318; Unresolved ivar offset pointer 0x1045f9310; Unresolved ivar offset pointer 0x1045f9330; Unresolved ivar offset pointer 0x1045f9338; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x1045f9388; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x1045f93e0; Unresolved ivar offset pointer 0x1045f9400; Unresolved ivar offset pointer 0x1045f9408; Unresolved ivar offset pointer 0x1045f9410; Unresolved ivar offset pointer 0x1045f9418; Unresolved ivar offset pointer 0x1045f9420; Unresolved ivar offset pointer 0x1045f9428; Unresolved ivar offset pointer 0x1045f9430; Unresolved ivar offset pointer 0x1045f9438; Unresolved ivar offset pointer 0x1045f9458; Unresolved ivar offset pointer 0x1045f9440; Unresolved ivar offset pointer 0x1045f9448; Unresolved ivar offset pointer 0x1045f9450; Unresolved ivar offset pointer 0x1045f9460; Unresolved ivar offset pointer 0x1045f9468; Unresolved ivar offset pointer 0x1045f9470; Unresolved ivar offset pointer 0x1045f9478; Unresolved ivar offset pointer 0x1045f9480; Unresolved ivar offset pointer 0x1045f9488; Unresolved ivar offset pointer 0x1045f94e8; Unresolved ivar offset pointer 0x1045f94f0; Unresolved ivar offset pointer 0x1045fa070; Unresolved ivar offset pointer 0x1045fa0a0; Unresolved ivar offset pointer 0x1045fa0f8; Unresolved ivar offset pointer 0x1045fa100; class SDWebImageOptionsResult: max_records_reached; protocol NSSecureCoding: protocol class properties are not decoded; protocol NSItemProviderWriting: protocol class properties are not decoded; protocol NSItemProviderReading: protocol class properties are not decoded; ivar _TtC3Arc11PreviewView.data: ivar_offset_pointer_unresolved; ivar _TtC3Arc22TabGroupHeaderCellView.viewStore: ivar_offset_pointer_unresolved; ivar _TtC3Arc22TabGroupHeaderCellView.store: ivar_offset_pointer_unresolved; ivar _TtC3Arc22PasteboardItemWithFile.fileURL: ivar_offset_pointer_unresolved; ivar _TtC3Arc26SplitViewDraggerHandleView.draggableRegion: ivar_offset_pointer_unresolved; ivar _TtC3Arc23SidebarResizeRegionView.color: ivar_offset_pointer_unresolved; ivar _TtC3Arc23SidebarResizeRegionView.isResizing: ivar_offset_pointer_unresolved; ivar _TtC3Arc20InstantLinksCellView.store: ivar_offset_pointer_unresolved; ivar _TtC3Arc33CommandBarPlaceholderStatusButton.store: ivar_offset_pointer_unresolved; ivar _TtC3Arc33CommandBarPlaceholderStatusButton.viewStore: ivar_offset_pointer_unresolved; ivar _TtC3Arc33CommandBarPlaceholderStatusButton.subscriptions: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.colorPalette: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.tintColor: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.contentInset: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.profileIndicatorState: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.accessories: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.icon: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.pinnedSectionExpansionState: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.isEditingSpaceIcon: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.context: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.isDragTarget: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.highlightStyle: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.canShowHeaderButtonsIfPossible: ivar_offset_pointer_unresolved; ivar _TtC3Arc24SidebarSectionHeaderView.collapsePinnedSectionEnabled: ivar_offset_pointer_unresolved; ivar _TtC3Arc25SpaceManagementDrggerView.cursor: ivar_offset_pointer_unresolved; ivar _TtC3Arc36SidebarPagingContainerViewController.delegate: ivar_offset_pointer_unresolved; ivar _TtC3Arc36SidebarPagingContainerViewController.scrollOffset: ivar_offset_pointer_unresolved; ivar _TtC3Arc36SidebarPagingContainerViewController.isTrackingOrAnimatingScrollPosition: ivar_offset_pointer_unresolved; ivar _TtC3Arc18CommandBarIconView.iconStyle: ivar_offset_pointer_unresolved; ivar _TtC3Arc18CommandBarIconView.displayStyle: ivar_offset_pointer_unresolved; ivar _TtC3Arc8IconView.url: ivar_offset_pointer_unresolved; ivar _TtC3Arc8IconView.browserContextID: ivar_offset_pointer_unresolved; ivar _TtC3Arc17SquiggleViewModel.startTime: ivar_offset_pointer_unresolved; ivar _TtC3Arc18SidebarClearButton.imageView: ivar_offset_pointer_unresolved; ivar _TtC3Arc17SidebarTidyButton.isEnabled: ivar_offset_pointer_unresolved; ivar _TtC3Arc17SidebarTidyButton.imageView: ivar_offset_pointer_unresolved; ivar _TtC3Arc11SidebarView.userInteractionEnabled: ivar_offset_pointer_unresolved; ivar _TtC3Arc35SpaceManagementCollectionViewLayout.dropGapFrame: ivar_offset_pointer_unresolved; ivar _TtC3Arc27SpaceManagementAddSpaceView.store: ivar_offset_pointer_unresolved; ivar _TtC3Arc25CommandBarPlaceholderView.isCompactSidebar: ivar_offset_pointer_unresolved; ivar _TtC3Arc18ListHeaderCellView.subscriptions: ivar_offset_pointer_unresolved; ivar _TtC3Arc18ListHeaderCellView.store: ivar_offset_pointer_unresolved; ivar _TtC3Arc18ListHeaderCellView.sparksView: ivar_offset_pointer_unresolved; ivar _TtC3Arc18ListHeaderCellView.titleTransitionView: ivar_offset_pointer_unresolved; ivar AppleScriptTabWrapper.tab: ivar_offset_pointer_unresolved; ivar _TtC3Arc24TopBarPanelContainerView.barHoverRegionID: ivar_offset_pointer_unresolved; ivar _TtC3Arc20TopBarPanelViewModel.lastCopyConfirmationToken: ivar_offset_pointer_unresolved; ivar _TtC3Arc20TopBarPanelViewModel.permissionsRequiredBeforeSharing: ivar_offset_pointer_unresolved; ivar _TtC3Arc20TopBarPanelViewModel.subscriptions: ivar_offset_pointer_unresolved; ivar _TtC3Arc20TopBarPanelViewModel.framesSubject: ivar_offset_pointer_unresolved; ivar _TtC3Arc20TopBarPanelViewModel.visibilities: ivar_offset_pointer_unresolved; ivar _TtC3ADK15ChromiumBrowser.engine: ivar_offset_pointer_unresolved; ivar _TtC3ADK18WebContentChromium.uuid: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.uuid: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.navigationDelegate: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.uiDelegate: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.pdfDelegate: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.devTools: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.boostIDE: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.pipController: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.features: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._hasUnloadEvents: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._executeJavaScript: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._executeJavaScriptViaDevTools: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.scriptExecutionRecorder: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.testBehavior: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._hasPDFContent: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._pdfContent: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._consumeExternalProtocolLaunchPermission: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.pictureInPictureState: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.mediaSession: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.errorStatus: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.isBlockingJavascriptPopups: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.allowsHumanInteraction: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.disallowDownloads: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._load: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._navigateToURLViaDevToolsAndWaitForPageLoadEvent: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent.lastPreloadScript: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._addPreloadScriptViaDevTools: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._networkRequestsWillBeSent: ivar_offset_pointer_unresolved; ivar _TtC3ADK14StubWebContent._networkRequest: ivar_offset_pointer_unresolved; ivar _TtC17ARCFoundationBase9FileCache.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC17ARCFoundationBase9AsyncLock.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC17ARCFoundationBase13WaitableEvent.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC13ZIPFoundation7Archive.url: ivar_offset_pointer_unresolved; ivar _TtC13ZIPFoundation7Archive.accessMode: ivar_offset_pointer_unresolved; ivar _TtC13ZIPFoundation7Archive.archiveFile: ivar_offset_pointer_unresolved; ivar _TtC13ZIPFoundation7Archive.endOfCentralDirectoryRecord: ivar_offset_pointer_unresolved; ivar _TtC13ZIPFoundation7Archive.zip64EndOfCentralDirectory: ivar_offset_pointer_unresolved; ivar _TtC13ZIPFoundation7Archive.pathEncoding: ivar_offset_pointer_unresolved; ivar _TtC13ZIPFoundation7Archive.memoryFile: ivar_offset_pointer_unresolved; ivar _TtC16AIInfraProtocols8MLXActor.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI22ArcDraggingSessionImpl.delegate: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI25CoreUIImageWorkSerializer.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI18CountdownTextField.date: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI15HoverableButton.forceHoveredAppearance: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI15HoverableButton.backgroundColor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI15HoverableButton.borderColor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI15HoverableButton.borderWidth: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI15HoverableButton.cornerRadius: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI15HoverableButton.cornerCurve: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI15HoverableButton.hoveredBackgroundColor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI35HoverableButtonAdjustingContentTint.imageVerticalOffset: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI35HoverableButtonAdjustingContentTint.isShowingAlternateIcon: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI35HoverableButtonAdjustingContentTint.shouldShowPointingHandCursorOnHover: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI35HoverableButtonAdjustingContentTint.restTintColor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI35HoverableButtonAdjustingContentTint.hoverTintColor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI16HoverableControl.isHovered: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI16HoverableControl.isPressed: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI20HoverablePopUpButton.forceHoveredAppearance: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI20HoverablePopUpButton.backgroundColor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI20HoverablePopUpButton.cornerRadius: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI20HoverablePopUpButton.hoveredBackgroundColor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI19SparklesOverlayView.sparkleColor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI19SparklesOverlayView.isAnimating: ivar_offset_pointer_unresolved; ivar _TtCC5ARCUI25ScrimLoadingIndicatorView9ViewModel.restingPhase: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI21WindowStandardButtons.shouldDimControlsWhenNotHovered: ivar_offset_pointer_unresolved; ivar _TtC17SwiftUIIntrospect35IntrospectionPlatformViewController.id: ivar_offset_pointer_unresolved; ivar _TtC17SwiftUIIntrospect35IntrospectionPlatformViewController.handler: ivar_offset_pointer_unresolved; max_records_reached",
+        "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: This reader admits Swift nominal type declarations, simple conformance/static witness records and non-generic, non-resilient class vtables; generic/resilient tables and other Swift metadata families are not decoded",
+        "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: chained fixups: DYLD_CHAINED_PTR_64_OFFSET",
+        "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: max_records_reached",
+        "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: record_budget_exhausted at 0x103f070b4: max_records_reached; max_records_reached"
+      ],
+      "selected_classes": [
+        {
+          "name": "_TtCC3Arc24WebContentViewControllerP33_F5BFD6E66C132C405A616B55E13C9C9221WebContentHostingView",
+          "superclass": "NSView",
+          "location": {
+            "address": "0x10445cd98",
+            "file_offset": 157093272
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithCoder:",
+              "implementation_address": "0x100137730"
+            },
+            {
+              "selector": "initWithFrame:",
+              "implementation_address": "0x100137bc0"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x100137bf8"
+            }
+          ]
+        },
+        {
+          "name": "_TtCCC3Arc24WebContentViewControllerP33_F5BFD6E66C132C405A616B55E13C9C9221WebContentHostingView13ConstraintSet",
+          "superclass": "_TtCs12_SwiftObject",
+          "location": {
+            "address": "0x10449fab8",
+            "file_offset": 157366968
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": []
+        },
+        {
+          "name": "_TtC3Arc11AppDelegate",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0x104460610",
+            "file_offset": 157107728
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "application:delegateHandlesKey:",
+              "implementation_address": "0x100456a1c"
+            },
+            {
+              "selector": "newScriptingObjectOfClass:forValueForKey:withContentsValue:properties:",
+              "implementation_address": "0x1004570dc"
+            },
+            {
+              "selector": "appleScriptTabs",
+              "implementation_address": "0x1004570e8"
+            },
+            {
+              "selector": "setAppleScriptTabs:",
+              "implementation_address": "0x100457110"
+            },
+            {
+              "selector": "appleScriptWindows",
+              "implementation_address": "0x100457114"
+            },
+            {
+              "selector": "setAppleScriptWindows:",
+              "implementation_address": "0x100457578"
+            },
+            {
+              "selector": "validateMenuItem:",
+              "implementation_address": "0x100236ca0"
+            },
+            {
+              "selector": "newWindow:",
+              "implementation_address": "0x100236de8"
+            },
+            {
+              "selector": "newIncognitoWindow:",
+              "implementation_address": "0x100236f9c"
+            },
+            {
+              "selector": "newLittleBrowserWindow:",
+              "implementation_address": "0x1002370d0"
+            },
+            {
+              "selector": "blankWindow:",
+              "implementation_address": "0x1002371c4"
+            },
+            {
+              "selector": "setAsDefaultBrowser:",
+              "implementation_address": "0x1002371d0"
+            },
+            {
+              "selector": "checkForUpdates:",
+              "implementation_address": "0x1002371d8"
+            },
+            {
+              "selector": "showPreferences:",
+              "implementation_address": "0x10023730c"
+            },
+            {
+              "selector": "setAutomaticAppearance:",
+              "implementation_address": "0x100237428"
+            },
+            {
+              "selector": "setLightAppearance:",
+              "implementation_address": "0x100237440"
+            },
+            {
+              "selector": "setDarkAppearance:",
+              "implementation_address": "0x100237540"
+            },
+            {
+              "selector": "recordTrace:",
+              "implementation_address": "0x100237718"
+            },
+            {
+              "selector": "cancelTrace:",
+              "implementation_address": "0x100237880"
+            },
+            {
+              "selector": "alertShowHelp:",
+              "implementation_address": "0x100235efc"
+            },
+            {
+              "selector": "mainMenuOutlets",
+              "implementation_address": "0x100225c4c"
+            },
+            {
+              "selector": "setMainMenuOutlets:",
+              "implementation_address": "0x100225c5c"
+            },
+            {
+              "selector": "applicationWillFinishLaunching:",
+              "implementation_address": "0x10022fc78"
+            },
+            {
+              "selector": "applicationDidFinishLaunching:",
+              "implementation_address": "0x100230254"
+            },
+            {
+              "selector": "application:continueUserActivity:restorationHandler:",
+              "implementation_address": "0x100230260"
+            },
+            {
+              "selector": "applicationDidBecomeActive:",
+              "implementation_address": "0x1002307f0"
+            },
+            {
+              "selector": "applicationDidResignActive:",
+              "implementation_address": "0x10023080c"
+            },
+            {
+              "selector": "applicationShouldHandleReopen:hasVisibleWindows:",
+              "implementation_address": "0x1002308b8"
+            },
+            {
+              "selector": "applicationWillTerminate:",
+              "implementation_address": "0x100230bac"
+            },
+            {
+              "selector": "application:openFiles:",
+              "implementation_address": "0x100230c5c"
+            },
+            {
+              "selector": "applicationDockMenu:",
+              "implementation_address": "0x100230ccc"
+            },
+            {
+              "selector": "createNewWindow",
+              "implementation_address": "0x100230ed8"
+            },
+            {
+              "selector": "createNewIncognitoWindow",
+              "implementation_address": "0x1002310ac"
+            },
+            {
+              "selector": "showAllLittleArcWindows",
+              "implementation_address": "0x1002310d4"
+            },
+            {
+              "selector": "closeAllLittleArcWindows",
+              "implementation_address": "0x1002311f0"
+            },
+            {
+              "selector": "signOut:",
+              "implementation_address": "0x100231320"
+            },
+            {
+              "selector": "contactTheTeam:",
+              "implementation_address": "0x100231390"
+            },
+            {
+              "selector": "visitHelpCenter:",
+              "implementation_address": "0x10023161c"
+            },
+            {
+              "selector": "openBoostGallery:",
+              "implementation_address": "0x100231700"
+            },
+            {
+              "selector": "userQuitApp:",
+              "implementation_address": "0x100232304"
+            },
+            {
+              "selector": "copyAction:",
+              "implementation_address": "0x10023236c"
+            },
+            {
+              "selector": "applicationShouldTerminate:",
+              "implementation_address": "0x100232c08"
+            },
+            {
+              "selector": "newWindowForTab:",
+              "implementation_address": "0x1002339d8"
+            },
+            {
+              "selector": "application:didReceiveRemoteNotification:",
+              "implementation_address": "0x100233a5c"
+            },
+            {
+              "selector": "handleScreenParametersDidChange",
+              "implementation_address": "0x100233ae4"
+            },
+            {
+              "selector": "computerWillSleep",
+              "implementation_address": "0x100233d78"
+            },
+            {
+              "selector": "computerDidWake",
+              "implementation_address": "0x100234030"
+            },
+            {
+              "selector": "screenDidSleep",
+              "implementation_address": "0x1002342e8"
+            },
+            {
+              "selector": "screenDidWake",
+              "implementation_address": "0x1002345ac"
+            },
+            {
+              "selector": "screensaverDidStart",
+              "implementation_address": "0x100234860"
+            },
+            {
+              "selector": "screensaverDidStop",
+              "implementation_address": "0x100234b18"
+            },
+            {
+              "selector": "screenDidLock",
+              "implementation_address": "0x100234ddc"
+            },
+            {
+              "selector": "screenDidUnlock",
+              "implementation_address": "0x100235094"
+            },
+            {
+              "selector": "init",
+              "implementation_address": "0x100235360"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x100235380"
+            }
+          ]
+        },
+        {
+          "name": "AppleScriptWindowWrapper",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0x104463e80",
+            "file_offset": 157122176
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "id",
+              "implementation_address": "0x100457894"
+            },
+            {
+              "selector": "title",
+              "implementation_address": "0x100457940"
+            },
+            {
+              "selector": "orderedIndex",
+              "implementation_address": "0x1004579d8"
+            },
+            {
+              "selector": "hasCloseBox",
+              "implementation_address": "0x1004579f8"
+            },
+            {
+              "selector": "isMiniaturizable",
+              "implementation_address": "0x100457a04"
+            },
+            {
+              "selector": "isMiniaturized",
+              "implementation_address": "0x100457a10"
+            },
+            {
+              "selector": "isResizable",
+              "implementation_address": "0x100457a1c"
+            },
+            {
+              "selector": "isVisible",
+              "implementation_address": "0x10045e254"
+            },
+            {
+              "selector": "isZoomable",
+              "implementation_address": "0x10045e258"
+            },
+            {
+              "selector": "isZoomed",
+              "implementation_address": "0x100457a34"
+            },
+            {
+              "selector": "isIncognito",
+              "implementation_address": "0x100457a5c"
+            },
+            {
+              "selector": "mode",
+              "implementation_address": "0x100457bf0"
+            },
+            {
+              "selector": "setMode:",
+              "implementation_address": "0x100457bfc"
+            },
+            {
+              "selector": "appleScriptTabs",
+              "implementation_address": "0x100457c38"
+            },
+            {
+              "selector": "setAppleScriptTabs:",
+              "implementation_address": "0x1004581e4"
+            },
+            {
+              "selector": "activeTab",
+              "implementation_address": "0x1004581e8"
+            },
+            {
+              "selector": "appleScriptSpaces",
+              "implementation_address": "0x1004584a8"
+            },
+            {
+              "selector": "activeSpace",
+              "implementation_address": "0x10045879c"
+            },
+            {
+              "selector": "close:",
+              "implementation_address": "0x100458a18"
+            },
+            {
+              "selector": "init",
+              "implementation_address": "0x100458ab4"
+            },
+            {
+              "selector": "newScriptingObjectOfClass:forValueForKey:withContentsValue:properties:",
+              "implementation_address": "0x100458e54"
+            },
+            {
+              "selector": "objectSpecifier",
+              "implementation_address": "0x100459750"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x100459914"
+            }
+          ]
+        },
+        {
+          "name": "AppleScriptTabWrapper",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0x104464018",
+            "file_offset": 157122584
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "id",
+              "implementation_address": "0x100459b24"
+            },
+            {
+              "selector": "title",
+              "implementation_address": "0x100459b30"
+            },
+            {
+              "selector": "URL",
+              "implementation_address": "0x100459b98"
+            },
+            {
+              "selector": "setURL:",
+              "implementation_address": "0x100459f74"
+            },
+            {
+              "selector": "loading",
+              "implementation_address": "0x10045a260"
+            },
+            {
+              "selector": "location",
+              "implementation_address": "0x10045a598"
+            },
+            {
+              "selector": "objectSpecifier",
+              "implementation_address": "0x10045a814"
+            },
+            {
+              "selector": "select:",
+              "implementation_address": "0x10045ab60"
+            },
+            {
+              "selector": "goBack:",
+              "implementation_address": "0x10045abb8"
+            },
+            {
+              "selector": "goForward:",
+              "implementation_address": "0x10045ac10"
+            },
+            {
+              "selector": "reload:",
+              "implementation_address": "0x10045ac68"
+            },
+            {
+              "selector": "stopLoading:",
+              "implementation_address": "0x10045adcc"
+            },
+            {
+              "selector": "executeJavascript:",
+              "implementation_address": "0x10045b078"
+            },
+            {
+              "selector": "close:",
+              "implementation_address": "0x10045b0c8"
+            },
+            {
+              "selector": "init",
+              "implementation_address": "0x10045b118"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x10045b154"
+            }
+          ]
+        },
+        {
+          "name": "AppleScriptSpaceWrapper",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0x104464160",
+            "file_offset": 157122912
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "id",
+              "implementation_address": "0x10045b250"
+            },
+            {
+              "selector": "title",
+              "implementation_address": "0x10045b2a4"
+            },
+            {
+              "selector": "appleScriptTabs",
+              "implementation_address": "0x10045b304"
+            },
+            {
+              "selector": "setAppleScriptTabs:",
+              "implementation_address": "0x10045b620"
+            },
+            {
+              "selector": "newScriptingObjectOfClass:forValueForKey:withContentsValue:properties:",
+              "implementation_address": "0x10045ba80"
+            },
+            {
+              "selector": "objectSpecifier",
+              "implementation_address": "0x10045bc30"
+            },
+            {
+              "selector": "focus:",
+              "implementation_address": "0x10045bf70"
+            },
+            {
+              "selector": "init",
+              "implementation_address": "0x10045bfc0"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x10045bff8"
+            }
+          ]
+        },
+        {
+          "name": "_TtC3ADK28BrowserContextDelegateBridge",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0x104464d08",
+            "file_offset": 157125896
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "browserContextPreferencesDidUpdate:",
+              "implementation_address": "0x1004ed824"
+            },
+            {
+              "selector": "browserContextPreferencesDidUpdateSearchEngines:",
+              "implementation_address": "0x1004ed820"
+            },
+            {
+              "selector": "browserContextPreferences:didAddSearchEngine:by:",
+              "implementation_address": "0x1004eafd4"
+            },
+            {
+              "selector": "didSkipRestoringSession:",
+              "implementation_address": "0x1004e71a8"
+            },
+            {
+              "selector": "didStartRestoringSession:",
+              "implementation_address": "0x1004e7200"
+            },
+            {
+              "selector": "didFinishRestoringSession:",
+              "implementation_address": "0x1004e7258"
+            },
+            {
+              "selector": "browserContext:showDevTools:for:",
+              "implementation_address": "0x1004e75d0"
+            },
+            {
+              "selector": "browserContext:didCloseDevTools:",
+              "implementation_address": "0x1004e79a8"
+            },
+            {
+              "selector": "browserContext:devToolsNeedsConfirmation:withMessage:completion:",
+              "implementation_address": "0x1004e7a40"
+            },
+            {
+              "selector": "browserContext:extensionPermissionPrompt:extensionInfo:withMessages:completion:",
+              "implementation_address": "0x1004e7c70"
+            },
+            {
+              "selector": "browserContext:shouldAllowArtifactNavigationToURL:forSessionID:folderName:",
+              "implementation_address": "0x1004e7f68"
+            },
+            {
+              "selector": "browserContext:allowedArtifactImageSourcesForSessionID:folderName:",
+              "implementation_address": "0x1004e828c"
+            },
+            {
+              "selector": "browserContext:chatDataStreamOpenRequestedForChatId:update:completion:",
+              "implementation_address": "0x1004e8698"
+            },
+            {
+              "selector": "browserContext:chatDataStreamCloseRequestedForChatId:completion:",
+              "implementation_address": "0x1004e8d54"
+            },
+            {
+              "selector": "browserContext:sendChatDataToChatId:data:completion:",
+              "implementation_address": "0x1004e93d8"
+            },
+            {
+              "selector": "browserContext:productConnectionOpenRequestedForID:target:update:completion:",
+              "implementation_address": "0x1004e97b8"
+            },
+            {
+              "selector": "browserContext:productConnectionCloseRequestedForID:completion:",
+              "implementation_address": "0x1004e9bb0"
+            },
+            {
+              "selector": "browserContext:productConnectionReceivedMessageForID:payload:completion:",
+              "implementation_address": "0x1004e9ed8"
+            },
+            {
+              "selector": "browserContext:featureFlagsSubscribe:",
+              "implementation_address": "0x1004ea420"
+            },
+            {
+              "selector": "browserContext:diaResourceRequestedForType:resourceID:completion:",
+              "implementation_address": "0x1004ea818"
+            },
+            {
+              "selector": "didDestroy:",
+              "implementation_address": "0x1004ead7c"
+            },
+            {
+              "selector": "init",
+              "implementation_address": "0x1004e70a0"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x1004e712c"
+            }
+          ]
+        },
+        {
+          "name": "_TtC3ADK30BrowserContextDevToolsChromium",
+          "superclass": "_TtCs12_SwiftObject",
+          "location": {
+            "address": "0x1044b1fc0",
+            "file_offset": 157441984
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": []
+        },
+        {
+          "name": "_TtC3ADK36BrowserContextDownloadDelegateBridge",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0x104464de0",
+            "file_offset": 157126112
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "browserContext:downloadManagerInitializedWithItems:",
+              "implementation_address": "0x1004ee1e4"
+            },
+            {
+              "selector": "browserContext:onDownloadCreated:",
+              "implementation_address": "0x1004ee4b0"
+            },
+            {
+              "selector": "browserContext:onDownloadUpdated:",
+              "implementation_address": "0x1004ee76c"
+            },
+            {
+              "selector": "browserContext:onDownloadRemoved:",
+              "implementation_address": "0x1004eea28"
+            },
+            {
+              "selector": "browserContext:onDeterminingFilename:defaultFilename:completionTimeout:completion:",
+              "implementation_address": "0x1004eed2c"
+            },
+            {
+              "selector": "init",
+              "implementation_address": "0x1004eee4c"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x1004eeea4"
+            }
+          ]
+        },
+        {
+          "name": "_TtC3ADK35BrowserContextHistoryDelegateBridge",
+          "superclass": "NSObject",
+          "location": {
+            "address": "0x104464e98",
+            "file_offset": 157126296
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "browserContext:didDeleteHistory:",
+              "implementation_address": "0x1004efe3c"
+            },
+            {
+              "selector": "init",
+              "implementation_address": "0x1004ef644"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x1004ef69c"
+            }
+          ]
+        },
+        {
+          "name": "_TtC5ARCUI19SplitViewController",
+          "superclass": "NSViewController",
+          "location": {
+            "address": "0x10446c0c8",
+            "file_offset": 157155528
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "gestureRecognizerShouldBegin:",
+              "implementation_address": "0x100a493d4"
+            },
+            {
+              "selector": "draggingSession:sourceOperationMaskForDraggingContext:",
+              "implementation_address": "0x100a484a8"
+            },
+            {
+              "selector": "draggingSession:willBeginAtPoint:",
+              "implementation_address": "0x100a48838"
+            },
+            {
+              "selector": "draggingSession:endedAtPoint:operation:",
+              "implementation_address": "0x100a4888c"
+            },
+            {
+              "selector": "draggingEntered:",
+              "implementation_address": "0x100a4606c"
+            },
+            {
+              "selector": "draggingUpdated:",
+              "implementation_address": "0x100a46154"
+            },
+            {
+              "selector": "draggingExited:",
+              "implementation_address": "0x100a4644c"
+            },
+            {
+              "selector": "draggingEnded:",
+              "implementation_address": "0x100a46574"
+            },
+            {
+              "selector": "prepareForDragOperation:",
+              "implementation_address": "0x100a466d0"
+            },
+            {
+              "selector": "performDragOperation:",
+              "implementation_address": "0x100a47434"
+            },
+            {
+              "selector": "wantsPeriodicDraggingUpdates",
+              "implementation_address": "0x100a474a0"
+            },
+            {
+              "selector": "concludeDragOperation:",
+              "implementation_address": "0x100a47d20"
+            },
+            {
+              "selector": "updateDraggingItemsForDrag:",
+              "implementation_address": "0x100a47d80"
+            },
+            {
+              "selector": "handleDraggerPanGesture:",
+              "implementation_address": "0x100a42d0c"
+            },
+            {
+              "selector": "handleDraggerDoubleClickGesture:",
+              "implementation_address": "0x100a431c4"
+            },
+            {
+              "selector": "loadView",
+              "implementation_address": "0x100a3b100"
+            },
+            {
+              "selector": "viewDidLoad",
+              "implementation_address": "0x100a3c43c"
+            },
+            {
+              "selector": "viewWillLayout",
+              "implementation_address": "0x100a3c4b8"
+            },
+            {
+              "selector": "viewDidLayout",
+              "implementation_address": "0x100a3c568"
+            },
+            {
+              "selector": "initWithNibName:bundle:",
+              "implementation_address": "0x100a41ae0"
+            },
+            {
+              "selector": "initWithCoder:",
+              "implementation_address": "0x100a41d08"
+            },
+            {
+              "selector": ".cxx_destruct",
+              "implementation_address": "0x100a41d60"
+            }
+          ]
+        },
+        {
+          "name": "_TtC5ARCUI43SplitViewControllerDefaultDraggerHandleView",
+          "superclass": "NSView",
+          "location": {
+            "address": "0x10446f398",
+            "file_offset": 157168536
+          },
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "methods": [
+            {
+              "selector": "initWithFrame:",
+              "implementation_address": "0x100b06fd8"
+            },
+            {
+              "selector": "initWithCoder:",
+              "implementation_address": "0x100b07058"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

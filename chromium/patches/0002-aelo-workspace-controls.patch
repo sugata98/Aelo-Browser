@@ -1,5 +1,5 @@
 diff --git a/chrome/browser/prefs/session_startup_pref.cc b/chrome/browser/prefs/session_startup_pref.cc
-index 0159cee9db..efeb787f6b 100644
+index 0159cee9db..f492fb7625 100644
 --- a/chrome/browser/prefs/session_startup_pref.cc
 +++ b/chrome/browser/prefs/session_startup_pref.cc
 @@ -63,7 +63,9 @@ void SessionStartupPref::RegisterProfilePrefs(
@@ -13,6 +13,17 @@ index 0159cee9db..efeb787f6b 100644
    return SessionStartupPref::LAST;
  #else
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC)
+@@ -87,8 +89,9 @@ void SessionStartupPref::SetStartupPref(PrefService* prefs,
+                                         const SessionStartupPref& pref) {
+   DCHECK(prefs);
+ 
+-  if (!SessionStartupPref::TypeIsManaged(prefs))
++  if (!SessionStartupPref::TypeIsManaged(prefs)) {
+     prefs->SetInteger(prefs::kRestoreOnStartup, TypeToPrefValue(pref.type));
++  }
+ 
+   if (!SessionStartupPref::URLsAreManaged(prefs)) {
+     // Always save the URLs, that way the UI can remain consistent even if the
 diff --git a/chrome/browser/ui/tabs/tab_strip_prefs.cc b/chrome/browser/ui/tabs/tab_strip_prefs.cc
 index ca0afc6fd0..ce4370390a 100644
 --- a/chrome/browser/ui/tabs/tab_strip_prefs.cc
@@ -40,10 +51,26 @@ index b46ad7ecdf..86aea7b9e7 100644
  // Per-window state for the vertical tab strip.
  struct VerticalTabStripState {
 diff --git a/chrome/browser/ui/ui_features.cc b/chrome/browser/ui/ui_features.cc
-index 562d852958..0e1084706b 100644
+index 562d852958..e304fe5f4e 100644
 --- a/chrome/browser/ui/ui_features.cc
 +++ b/chrome/browser/ui/ui_features.cc
-@@ -551,7 +551,7 @@ BASE_FEATURE_PARAM(bool,
+@@ -199,7 +199,6 @@ BASE_FEATURE_PARAM(int,
+                    0);
+ #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC)
+ 
+-
+ // Preloads a WebContents with a Top Chrome WebUI on BrowserView initialization,
+ // so that it can be shown instantly at a later time when necessary.
+ BASE_FEATURE(kPreloadTopChromeWebUI, base::FEATURE_ENABLED_BY_DEFAULT);
+@@ -332,7 +331,6 @@ BASE_FEATURE(kManagedProfileRequiredInterstitial,
+ BASE_FEATURE(kMigrateManagementPageToWebUIOnMobile,
+              base::FEATURE_ENABLED_BY_DEFAULT);
+ 
+-
+ #if BUILDFLAG(IS_MAC)
+ BASE_FEATURE(kViewsJSAppModalDialog, base::FEATURE_DISABLED_BY_DEFAULT);
+ #endif
+@@ -551,7 +549,7 @@ BASE_FEATURE_PARAM(bool,
  BASE_FEATURE(kAiOverlayDisableNavigationContext,
               base::FEATURE_DISABLED_BY_DEFAULT);
  
@@ -95,7 +122,7 @@ index cb471907a5..70fdb6b47b 100644
      "vertical_tab_strip_bottom_container.cc",
      "vertical_tab_strip_expand_on_hover_lock.cc",
 diff --git a/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc b/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc
-index bc3b0459ed..9cff7a84b1 100644
+index bc3b0459ed..e5ead02394 100644
 --- a/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc
 +++ b/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc
 @@ -4,7 +4,11 @@
@@ -118,10 +145,15 @@ index bc3b0459ed..9cff7a84b1 100644
  #include "ui/views/view_class_properties.h"
  
  VerticalTabStripBottomContainer::VerticalTabStripBottomContainer(
-@@ -42,6 +47,24 @@ VerticalTabStripBottomContainer::VerticalTabStripBottomContainer(
+@@ -42,6 +47,30 @@ VerticalTabStripBottomContainer::VerticalTabStripBottomContainer(
  
    new_tab_button_ = AddChildView(std::move(new_tab_button));
  
++  workspace_spacer_ = AddChildView(std::make_unique<views::View>());
++  workspace_spacer_->SetProperty(
++      views::kFlexBehaviorKey,
++      views::FlexSpecification(views::MinimumFlexSizeRule::kScaleToZero,
++                               views::MaximumFlexSizeRule::kUnbounded));
 +  workspace_footer_ = AddChildView(std::make_unique<views::FlexLayoutView>());
 +  workspace_footer_->SetDefault(views::kMarginsKey, gfx::Insets::VH(0, 2));
 +  for (const auto& action : {std::pair{u"Split", IDC_NEW_SPLIT_TAB},
@@ -137,13 +169,14 @@ index bc3b0459ed..9cff7a84b1 100644
 +                },
 +                browser_, action.second),
 +            action.first));
++    button->SetTextSubpixelRenderingEnabled(false);
 +    button->SetCustomPadding(gfx::Insets::VH(6, 8));
 +  }
 +
    OnCollapseStateChanged(state_controller->GetCollapseState());
    collapsed_state_change_subscription_ =
        state_controller->RegisterOnCollapseChanged(base::BindRepeating(
-@@ -51,7 +74,6 @@ VerticalTabStripBottomContainer::VerticalTabStripBottomContainer(
+@@ -51,7 +80,6 @@ VerticalTabStripBottomContainer::VerticalTabStripBottomContainer(
  
  VerticalTabStripBottomContainer::~VerticalTabStripBottomContainer() = default;
  
@@ -151,7 +184,7 @@ index bc3b0459ed..9cff7a84b1 100644
  bool VerticalTabStripBottomContainer::IsPositionInWindowCaption(
      const gfx::Point& point) {
    for (views::View* child : children()) {
-@@ -87,8 +109,8 @@ void VerticalTabStripBottomContainer::OnNewTabButtonContextMenuClosed() {
+@@ -87,21 +115,20 @@ void VerticalTabStripBottomContainer::OnNewTabButtonContextMenuClosed() {
  }
  
  void VerticalTabStripBottomContainer::UpdateButtonStyles(bool collapsed) {
@@ -159,27 +192,47 @@ index bc3b0459ed..9cff7a84b1 100644
 -                               : views::LayoutOrientation::kHorizontal;
 +  auto orientation = views::LayoutOrientation::kVertical;
 +  workspace_footer_->SetVisible(!collapsed);
++  workspace_spacer_->SetVisible(!collapsed);
  
    // Setting button's layout based on collapsed state
    SetOrientation(orientation);
+-  SetCrossAxisAlignment(collapsed ? views::LayoutAlignment::kStretch
+-                                  : views::LayoutAlignment::kStart);
++  SetCrossAxisAlignment(views::LayoutAlignment::kStretch);
+ 
+   new_tab_button_->SetProperty(
+       views::kFlexBehaviorKey,
+-      views::FlexSpecification(
+-          orientation, views::MinimumFlexSizeRule::kScaleToMinimum,
+-          collapsed ? views::MaximumFlexSizeRule::kPreferred
+-                    : views::MaximumFlexSizeRule::kUnbounded,
+-          false, views::MinimumFlexSizeRule::kPreferred));
++      views::FlexSpecification(orientation,
++                               views::MinimumFlexSizeRule::kScaleToMinimum,
++                               views::MaximumFlexSizeRule::kPreferred, false,
++                               views::MinimumFlexSizeRule::kPreferred));
+ 
+   new_tab_button_->SetInsets(GetLayoutInsets(
+       collapsed ? LayoutInset::VERTICAL_TAB_STRIP_BOTTOM_BUTTON_COLLAPSED
 diff --git a/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.h b/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.h
-index b3583ec76a..f4ea981b7e 100644
+index b3583ec76a..f47060262e 100644
 --- a/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.h
 +++ b/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.h
-@@ -47,6 +47,7 @@ class VerticalTabStripBottomContainer : public views::FlexLayoutView {
+@@ -47,6 +47,8 @@ class VerticalTabStripBottomContainer : public views::FlexLayoutView {
    raw_ptr<BrowserWindowInterface> browser_ = nullptr;
    raw_ptr<actions::ActionItem> root_action_item_ = nullptr;
    raw_ptr<TabStripFlatEdgeButton> new_tab_button_ = nullptr;
++  raw_ptr<views::View> workspace_spacer_ = nullptr;
 +  raw_ptr<views::FlexLayoutView> workspace_footer_ = nullptr;
    base::CallbackListSubscription collapsed_state_change_subscription_;
    base::CallbackListSubscription new_tab_button_pressed_subscription_;
  
 diff --git a/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.cc b/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.cc
 new file mode 100644
-index 0000000000..57c4c3e6ec
+index 0000000000..1d170fc74e
 --- /dev/null
 +++ b/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.cc
-@@ -0,0 +1,231 @@
+@@ -0,0 +1,238 @@
 +// Copyright 2026 Aelo contributors. BSD-style license.
 +#include "chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.h"
 +
@@ -216,10 +269,14 @@ index 0000000000..57c4c3e6ec
 +  SetDefault(views::kMarginsKey, gfx::Insets::VH(4, 0));
 +
 +  auto* brand = AddChildView(std::make_unique<views::Label>(u"◉  Aelo"));
++  // The vertical tab strip paints into a transparent composited layer. Use
++  // grayscale text, which does not sample nonexistent opaque RGB pixels.
++  brand->SetSubpixelRenderingEnabled(false);
 +  brand->SetHorizontalAlignment(gfx::ALIGN_LEFT);
 +  brand->SetFontList(brand->font_list().Derive(8, gfx::Font::NORMAL,
 +                                               gfx::Font::Weight::SEMIBOLD));
 +  auto* label = AddChildView(std::make_unique<views::Label>(u"SPACES"));
++  label->SetSubpixelRenderingEnabled(false);
 +  label->SetHorizontalAlignment(gfx::ALIGN_LEFT);
 +  label->SetFontList(label->font_list().DeriveWithSizeDelta(-2));
 +
@@ -235,11 +292,13 @@ index 0000000000..57c4c3e6ec
 +      base::BindRepeating(&AeloWorkspaceHeader::CreateSpace,
 +                          base::Unretained(this)),
 +      u"+ Space"));
++  create->SetTextSubpixelRenderingEnabled(false);
 +  create->SetTooltipText(u"Create a Space in the current profile");
 +  rename_button_ = actions->AddChildView(std::make_unique<views::MdTextButton>(
 +      base::BindRepeating(&AeloWorkspaceHeader::RenameSpace,
 +                          base::Unretained(this)),
 +      u"Edit"));
++  rename_button_->SetTextSubpixelRenderingEnabled(false);
 +  rename_button_->SetTooltipText(
 +      u"Rename the selected Space or change its color");
 +  const bool focus_enabled =
@@ -259,6 +318,7 @@ index 0000000000..57c4c3e6ec
 +            base::BindRepeating(&AeloWorkspaceHeader::OpenShortcut,
 +                                base::Unretained(this), shortcut.second),
 +            shortcut.first));
++    button->SetTextSubpixelRenderingEnabled(false);
 +    button->SetCustomPadding(gfx::Insets::VH(6, 8));
 +    button->SetCornerRadius(12);
 +    button->SetTooltipText(base::UTF8ToUTF16(shortcut.second));

@@ -165,3 +165,9 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   registration (permission denied). Launch Services also reports a missing
   executable despite its verified presence. No security flags were changed.
   A normal user launch is needed before interaction/rendering qualification.
+
+- 4 November: REA ordinary-user process launch reached the new UI and
+  reproduced SIGABRT in Label::PaintText on a transparent layer. New sidebar
+  labels now request grayscale rendering; no checks were disabled. Incremental
+  rebuild and live regression verification are pending. The earlier request
+  for user Terminal launch is superseded by the working REA launch route.

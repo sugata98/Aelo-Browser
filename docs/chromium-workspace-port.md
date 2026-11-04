@@ -70,7 +70,7 @@ previous CEF watchdog regression remain separate unfinished work.
   kLSNoExecutableErr despite the verified executable; direct execution reaches
   Crashpad and fails Mach bootstrap registration with permission denied. The
   disposable debug endpoint was not created. No browser protection was disabled.
-  Normal user Terminal launch is required for live qualification.
+  A launch outside the agent shell context is needed for live qualification.
 - A possible build-scope optimization (putting the 248-point default in profile
   prefs) was identified but not applied. The broad rebuild has now completed;
   do not change the shared width header solely to repeat that completed work.
@@ -80,3 +80,25 @@ new-tab membership while focused; All tabs escape; pin/unpin behavior; split
 creation and navigation; close/reopen; sidebar collapse; quit/relaunch session
 restoration; separate-profile isolation; renderer sandbox. Use disposable
 --user-data-dir only and retain evidence in docs after actual verification.
+
+## Launch regression found on 4 November 2026
+
+REA process capture ran the exact Aelo executable under ordinary user
+permissions, with a disposable profile. It reached DevTools and the native
+window paint loop, then exited with SIGABRT after about one second:
+
+`FATAL:ui/views/controls/label.cc:955 DCHECK failed: view->layer()->fills_bounds_opaquely()`
+
+Evidence: `ev_943872bb7c5f34a0b661ef322a82fbdf795b251a1d78a31eb9aaf828838c45c8`.
+The complete bounded capture is retained in ignored build storage at
+`.build/chromium/rea-workspace-label-crash.json`. Capture output was truncated
+at its configured budget; the fatal condition, paint stack and SIGABRT were
+observed. This is a new UI regression, separate from the shell's Mach-port
+restriction. A normal user launch of the same build would also hit this check.
+
+The sidebar's new labels used subpixel text on the vertical strip's transparent
+composited layer. They now use grayscale text rendering, including the new
+button labels. The opacity invariant remains enabled. The footer also keeps
+New Tab at its preferred height and uses a dedicated spacer to position the
+profile/split controls at the bottom. These changes are rebuilding; a live
+launch must establish the fix before this regression is marked resolved.

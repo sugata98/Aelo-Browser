@@ -231,3 +231,8 @@ docs/chromium-folder-sidebar.md for controls, persistence and remaining gates.
   kClassic-state DCHECK fatal at location_bar_view.cc1986. Cause not proved;
   browser stability is not qualified. Earlier normal restart result is bounded.
 - See docs/chromium-folder-sidebar.md and the new Arc implementation evidence.
+
+- Opt-in, URL-free omnibox lifecycle logging has been added for a bounded
+  reproduction of the popup-state fatal. Patch reverse and whitespace checks
+  passed; an 18-job diagnostic rebuild is in progress. No popup behavior,
+  validator or security protection has changed. This is not a crash fix.

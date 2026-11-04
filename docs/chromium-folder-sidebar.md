@@ -95,11 +95,13 @@ CTest suites passed, including the existing workspace suite and ten build-tool
 tests. Chromium header dependency checks and changed-object compilation passed.
 The patch reverse-application check passed; 0001 and 0003 are unchanged.
 
-Pending live gates: native folder creation/rename; nested expansion; page creation
-inside a folder; drag nest/reorder and rejected descendant move; keyboard move;
-per-folder pins; empty-container persistence; native Reopen identity; clean
-quit/relaunch tree persistence and session binding; same-profile sharing and
-separate-profile isolation; renderer sandbox. Use fresh disposable data only.
+The bounded live passes and later failure are recorded below. Remaining gates:
+drag nest/reorder and rejected descendant move; non-default keyboard Move
+selection; deliberately collapsed-state restart; native Reopen identity and
+restored-tab binding; same-profile Space cookie sharing in this tree build;
+and stability through profile/window/new-tab transitions. Separate-profile
+isolation and the observed renderer sandbox passed in the disposable run.
+Use fresh disposable data only.
 
 No Arc import, model bridge, undo/redo, Today auto-archive, full cross-window drag,
 full extension compatibility or complete Arc parity is claimed. The CEF shutdown
@@ -148,3 +150,23 @@ The native-control recovery opened an incidental blank default window after
 that test process exited; the blank window was closed normally, and no personal
 content was used for testing. Do not call getApp unless the disposable endpoint
 is confirmed live. The browser is not left open as a qualified stable build.
+
+
+## Omnibox lifecycle diagnostic build
+
+The next build adds opt-in VLOG(1) events for popup appearance decisions,
+Show return values, presenter Show/Hide/Close, state-manager transitions and
+native widget visibility. The events correlate object pointers and booleans;
+they do not log URLs, queries, titles or page content. They neither change popup
+behavior nor suppress the existing validator. Enable only in a bounded
+disposable-profile reproduction with:
+
+```text
+--enable-logging --vmodule=omnibox_popup_view_webui=1,omnibox_popup_presenter_base=1,omnibox_popup_state_manager=1,widget=1
+```
+
+Compare the same manager/presenter/widget through show-return, visibility and
+state transitions before choosing a fix. A failed immediate Show and an external
+hide after a successful Show remain separate hypotheses. Patch reverse-application
+and whitespace checks passed. Compilation and reproduction are pending; this
+is diagnostic instrumentation, not a causal fix or a stability pass.

@@ -87,6 +87,28 @@ index 6aca93a450..c1260c1641 100644
    glic::RestoreGlicStateFromExtraData(web_contents.get(), extra_data);
    send_tab_to_self::SendTabToSelfActivationTracker::RestoreFromExtraData(
        web_contents.get(), extra_data);
+diff --git a/chrome/browser/ui/omnibox/omnibox_popup_state_manager.cc b/chrome/browser/ui/omnibox/omnibox_popup_state_manager.cc
+index da47fc5553..f48a0de0e8 100644
+--- a/chrome/browser/ui/omnibox/omnibox_popup_state_manager.cc
++++ b/chrome/browser/ui/omnibox/omnibox_popup_state_manager.cc
+@@ -7,6 +7,7 @@
+ #include <utility>
+ 
+ #include "base/callback_list.h"
++#include "base/logging.h"
+ 
+ OmniboxPopupStateManager::OmniboxPopupStateManager() = default;
+ 
+@@ -17,6 +18,9 @@ void OmniboxPopupStateManager::SetPopupState(OmniboxPopupState new_state) {
+     return;
+   }
+ 
++  VLOG(1) << "AeloPopup state manager=" << this
++          << " old=" << static_cast<int>(popup_state_)
++          << " new=" << static_cast<int>(new_state);
+   OmniboxPopupState old_state = popup_state_;
+   popup_state_ = new_state;
+ 
 diff --git a/chrome/browser/ui/tabs/BUILD.gn b/chrome/browser/ui/tabs/BUILD.gn
 index fa77a93937..4e383ff18e 100644
 --- a/chrome/browser/ui/tabs/BUILD.gn
@@ -211,6 +233,95 @@ index fdfdd93f07..4856ada588 100644
    }
  
    if ((state == tabs::VerticalTabStripCollapseState::kCollapsing) ||
+diff --git a/chrome/browser/ui/views/omnibox/omnibox_popup_presenter_base.cc b/chrome/browser/ui/views/omnibox/omnibox_popup_presenter_base.cc
+index 60a3274b86..71902e10ec 100644
+--- a/chrome/browser/ui/views/omnibox/omnibox_popup_presenter_base.cc
++++ b/chrome/browser/ui/views/omnibox/omnibox_popup_presenter_base.cc
+@@ -10,6 +10,7 @@
+ #include "base/check_op.h"
+ #include "base/feature_list.h"
+ #include "base/functional/bind.h"
++#include "base/logging.h"
+ #include "base/metrics/histogram_functions.h"
+ #include "base/strings/strcat.h"
+ #include "base/task/sequenced_task_runner.h"
+@@ -66,6 +67,10 @@ OmniboxPopupPresenterBase::~OmniboxPopupPresenterBase() {
+ }
+ 
+ void OmniboxPopupPresenterBase::Show() {
++  VLOG(1) << "AeloPopup show presenter=" << this
++          << " widget=" << widget_.get()
++          << " manager=" << controller()->popup_state_manager()
++          << " shown=" << IsShown() << " deferred=" << is_deferred_;
+   if (IsShown()) {
+     // If a re-entrant `Show()` occurs while the widget is still visible but
+     // WebContents was set to hidden by a preceding `Hide()`, ensure it is woken
+@@ -194,6 +199,8 @@ void OmniboxPopupPresenterBase::OnVisualStateReady(
+ }
+ 
+ void OmniboxPopupPresenterBase::ShowWidget(base::TimeTicks show_request_time) {
++  VLOG(1) << "AeloPopup show-widget presenter=" << this
++          << " widget=" << widget_.get() << " deferred=" << is_deferred_;
+   if (ShouldPreserveRequestedFocus() &&
+       (widget_->IsActive() || focus_requested_)) {
+     widget_->Show();
+@@ -274,6 +281,10 @@ void OmniboxPopupPresenterBase::OnWidgetPresented(
+ }
+ 
+ void OmniboxPopupPresenterBase::Hide() {
++  VLOG(1) << "AeloPopup hide presenter=" << this
++          << " widget=" << widget_.get()
++          << " manager=" << controller()->popup_state_manager()
++          << " shown=" << IsShown() << " deferred=" << is_deferred_;
+   TRACE_EVENT("omnibox", "OmniboxPopupPresenterBase::Hide");
+   permission_observation_.Reset();
+   is_prompt_showing_ = false;
+@@ -503,6 +514,11 @@ bool OmniboxPopupPresenterBase::IsDeactivating() const {
+ 
+ void OmniboxPopupPresenterBase::OnWidgetClosed(
+     views::Widget::ClosedReason closed_reason) {
++  VLOG(1) << "AeloPopup closed presenter=" << this
++          << " widget=" << widget_.get()
++          << " manager=" << controller()->popup_state_manager()
++          << " reason=" << static_cast<int>(closed_reason)
++          << " deliberate=" << is_destroying_widget_;
+   is_deferred_ = false;
+   // Drop stale visual state callbacks when the widget is closed.
+   visual_state_weak_factory_.InvalidateWeakPtrs();
+diff --git a/chrome/browser/ui/views/omnibox/omnibox_popup_view_webui.cc b/chrome/browser/ui/views/omnibox/omnibox_popup_view_webui.cc
+index 38f701cf11..64419d5c88 100644
+--- a/chrome/browser/ui/views/omnibox/omnibox_popup_view_webui.cc
++++ b/chrome/browser/ui/views/omnibox/omnibox_popup_view_webui.cc
+@@ -7,6 +7,7 @@
+ #include <memory>
+ 
+ #include "base/feature_list.h"
++#include "base/logging.h"
+ #include "base/metrics/histogram_functions.h"
+ #include "base/strings/strcat.h"
+ #include "build/build_config.h"
+@@ -93,6 +94,10 @@ void OmniboxPopupViewWebUI::UpdatePopupAppearance() {
+         controller()->edit_model()->has_focus())) &&
+       !omnibox_view_->IsImeShowingPopup();
+ 
++  VLOG(1) << "AeloPopup appearance view=" << this
++          << " manager=" << controller()->popup_state_manager()
++          << " want=" << should_be_visible << " open=" << IsOpen()
++          << " focus=" << controller()->edit_model()->has_focus();
+   if (!should_be_visible) {
+     presenter_->Hide();
+     // Update the popup state manager that the classic popup is closing.
+@@ -110,6 +115,10 @@ void OmniboxPopupViewWebUI::UpdatePopupAppearance() {
+     const bool was_visible = IsOpen();
+ 
+     presenter_->Show();
++    VLOG(1) << "AeloPopup show-return view=" << this
++            << " manager=" << controller()->popup_state_manager()
++            << " open=" << IsOpen()
++            << " focus=" << controller()->edit_model()->has_focus();
+     if (!was_visible) {
+       // Set the request time to now when the popup is first shown. This ensures
+       // that latency is measured from the user interaction to show, even if the
 diff --git a/chrome/browser/ui/views/tabs/vertical/BUILD.gn b/chrome/browser/ui/views/tabs/vertical/BUILD.gn
 index cb471907a5..0defdbb3e1 100644
 --- a/chrome/browser/ui/views/tabs/vertical/BUILD.gn
@@ -361,6 +472,27 @@ index b3583ec76a..f47060262e 100644
    base::CallbackListSubscription collapsed_state_change_subscription_;
    base::CallbackListSubscription new_tab_button_pressed_subscription_;
  
+diff --git a/ui/views/widget/widget.cc b/ui/views/widget/widget.cc
+index 35d5b656d9..181bc46776 100644
+--- a/ui/views/widget/widget.cc
++++ b/ui/views/widget/widget.cc
+@@ -15,6 +15,7 @@
+ #include "base/feature_list.h"
+ #include "base/functional/bind.h"
+ #include "base/i18n/rtl.h"
++#include "base/logging.h"
+ #include "base/notreached.h"
+ #include "base/observer_list.h"
+ #include "base/strings/utf_string_conversions.h"
+@@ -2123,6 +2124,8 @@ void Widget::OnNativeBlur() {
+ }
+ 
+ void Widget::OnNativeWidgetVisibilityChanged(bool visible) {
++  VLOG(1) << "AeloPopup native-visibility widget=" << this
++          << " visible=" << visible;
+   View* root = GetRootView();
+   if (root) {
+     root->PropagateVisibilityNotifications(nullptr, visible);
 diff --git a/chrome/browser/ui/tabs/aelo_tab_identity.h b/chrome/browser/ui/tabs/aelo_tab_identity.h
 new file mode 100644
 index 0000000000..81d8cc8298

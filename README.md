@@ -48,7 +48,10 @@ renderer sandbox checks passed. The workspace UI port also builds successfully;
 its basic live Spaces, split browsing, profile isolation, sandbox and session
 restoration checks passed. Distribution signing and broad compatibility remain open.
 See the [migration status and build instructions](docs/chromium-migration.md)
-and [workspace port](docs/chromium-workspace-port.md).
+and [workspace port](docs/chromium-workspace-port.md). An independent
+[custom sidebar with nested folders](docs/chromium-folder-sidebar.md) is now
+implemented and passes model/compile checks; its full rebuild and live folder
+qualification are still pending. It replaces the group-backed organization.
 
 The command below builds the released **CEF preview**.
 

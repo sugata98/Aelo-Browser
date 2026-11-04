@@ -24,16 +24,93 @@ index 0159cee9db..f492fb7625 100644
  
    if (!SessionStartupPref::URLsAreManaged(prefs)) {
      // Always save the URLs, that way the UI can remain consistent even if the
+diff --git a/chrome/browser/sessions/session_service_base.cc b/chrome/browser/sessions/session_service_base.cc
+index 2e2a9d24d7..06201eaa90 100644
+--- a/chrome/browser/sessions/session_service_base.cc
++++ b/chrome/browser/sessions/session_service_base.cc
+@@ -32,6 +32,7 @@
+ #include "chrome/browser/ui/browser_window/public/browser_window_interface_iterator.h"
+ #include "chrome/browser/ui/browser_window/public/profile_browser_collection.h"
+ #include "chrome/browser/ui/startup/startup_browser_creator.h"
++#include "chrome/browser/ui/tabs/aelo_tab_identity.h"
+ #include "chrome/browser/ui/tabs/features.h"
+ #include "chrome/browser/ui/tabs/saved_tab_groups/saved_tab_group_utils.h"
+ #include "chrome/browser/ui/tabs/tab_group_model.h"
+@@ -613,6 +614,9 @@ void SessionServiceBase::BuildCommandsForTab(
+   sessions::SessionTabHelper* session_tab_helper =
+       sessions::SessionTabHelper::FromWebContents(tab);
+   const SessionID session_id(session_tab_helper->session_id());
++  command_storage_manager()->AppendRebuildCommand(
++      sessions::CreateAddTabExtraDataCommand(session_id, aelo::kPageIdentityKey,
++                                             aelo::TabIdentity::Get(tab)));
+   command_storage_manager()->AppendRebuildCommand(
+       sessions::CreateSetTabWindowCommand(window_id, session_id));
+ 
+diff --git a/chrome/browser/ui/browser_live_tab_context.cc b/chrome/browser/ui/browser_live_tab_context.cc
+index d48ee3c659..1ac3486398 100644
+--- a/chrome/browser/ui/browser_live_tab_context.cc
++++ b/chrome/browser/ui/browser_live_tab_context.cc
+@@ -33,6 +33,7 @@
+ #include "chrome/browser/ui/browser_window/public/create_browser_window.h"
+ #include "chrome/browser/ui/browser_window/public/global_browser_collection.h"
+ #include "chrome/browser/ui/browser_window/public/profile_browser_collection.h"
++#include "chrome/browser/ui/tabs/aelo_tab_identity.h"
+ #include "chrome/browser/ui/tabs/saved_tab_groups/saved_tab_group_utils.h"
+ #include "chrome/browser/ui/tabs/tab_group_model.h"
+ #include "chrome/browser/ui/tabs/tab_strip_model.h"
+@@ -197,6 +198,8 @@ sessions::LiveTab* BrowserLiveTabContext::GetActiveLiveTab() const {
+ std::map<std::string, std::string> BrowserLiveTabContext::GetExtraDataForTab(
+     int index) const {
+   std::map<std::string, std::string> extra_data;
++  extra_data[aelo::kPageIdentityKey] =
++      aelo::TabIdentity::Get(tab_strip_model_->GetWebContentsAt(index));
+ 
+   glic::PopulateGlicExtraData(tab_strip_model_->GetTabAtIndex(index),
+                               &extra_data);
+diff --git a/chrome/browser/ui/browser_tabrestore.cc b/chrome/browser/ui/browser_tabrestore.cc
+index 6aca93a450..c1260c1641 100644
+--- a/chrome/browser/ui/browser_tabrestore.cc
++++ b/chrome/browser/ui/browser_tabrestore.cc
+@@ -20,6 +20,7 @@
+ #include "chrome/browser/ui/browser_window/public/browser_window_interface.h"
+ #include "chrome/browser/ui/send_tab_to_self/send_tab_to_self_activation_tracker.h"
+ #include "chrome/browser/ui/tab_ui_helper.h"
++#include "chrome/browser/ui/tabs/aelo_tab_identity.h"
+ #include "chrome/browser/ui/tabs/public/tab_features.h"
+ #include "chrome/browser/ui/tabs/tab_enums.h"
+ #include "chrome/browser/ui/tabs/tab_group_model.h"
+@@ -82,6 +83,7 @@ std::unique_ptr<WebContents> CreateRestoredTab(
+   apps::SetAppIdForWebContents(browser->GetProfile(), web_contents.get(),
+                                extension_app_id);
+ 
++  aelo::TabIdentity::Restore(web_contents.get(), extra_data);
+   glic::RestoreGlicStateFromExtraData(web_contents.get(), extra_data);
+   send_tab_to_self::SendTabToSelfActivationTracker::RestoreFromExtraData(
+       web_contents.get(), extra_data);
+diff --git a/chrome/browser/ui/tabs/BUILD.gn b/chrome/browser/ui/tabs/BUILD.gn
+index fa77a93937..4e383ff18e 100644
+--- a/chrome/browser/ui/tabs/BUILD.gn
++++ b/chrome/browser/ui/tabs/BUILD.gn
+@@ -342,6 +342,7 @@ if (!is_android) {
+ 
+   source_set("tab_strip") {
+     sources = [
++      "aelo_tab_identity.h",
+       "tab_close_types_data.h",
+       "tab_strip_model.h",
+       "tab_strip_model_delegate.h",
 diff --git a/chrome/browser/ui/tabs/tab_strip_prefs.cc b/chrome/browser/ui/tabs/tab_strip_prefs.cc
-index ca0afc6fd0..ce4370390a 100644
+index ca0afc6fd0..f08ec3ab3a 100644
 --- a/chrome/browser/ui/tabs/tab_strip_prefs.cc
 +++ b/chrome/browser/ui/tabs/tab_strip_prefs.cc
-@@ -24,7 +24,7 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
+@@ -24,7 +24,9 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(prefs::kOrganizerPanelPinnedToTabstrip, true);
    registry->RegisterBooleanPref(prefs::kEverythingMenuPinnedToTabstrip, true);
    registry->RegisterBooleanPref(prefs::kTabScrollButtonsPinnedToTabstrip, true);
 -  registry->RegisterBooleanPref(prefs::kVerticalTabsEnabled, false);
 +  registry->RegisterBooleanPref(prefs::kVerticalTabsEnabled, true);
++  registry->RegisterDictionaryPref("aelo.workspace_tree");
++  registry->RegisterDictionaryPref("aelo.workspace_tree_backup");
    registry->RegisterBooleanPref(
        prefs::kVerticalTabsExpandOnHoverEnabled,
        tabs::kVerticalTabsExpandOnHoverDefaultEnabled.Get());
@@ -80,7 +157,7 @@ index 562d852958..e304fe5f4e 100644
  BASE_FEATURE_PARAM(bool, kTabGroupsFocusFreezing, &kTabGroupsFocusing, true);
  
 diff --git a/chrome/browser/ui/views/frame/vertical_tab_strip_region_view.cc b/chrome/browser/ui/views/frame/vertical_tab_strip_region_view.cc
-index fdfdd93f07..1889b0154c 100644
+index fdfdd93f07..4856ada588 100644
 --- a/chrome/browser/ui/views/frame/vertical_tab_strip_region_view.cc
 +++ b/chrome/browser/ui/views/frame/vertical_tab_strip_region_view.cc
 @@ -52,6 +52,7 @@
@@ -91,36 +168,91 @@ index fdfdd93f07..1889b0154c 100644
  #include "chrome/browser/ui/views/tabs/vertical/top_container_button.h"
  #include "chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.h"
  #include "chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_focus_swipe_controller.h"
-@@ -144,6 +145,9 @@ VerticalTabStripRegionView::VerticalTabStripRegionView(
+@@ -144,6 +145,14 @@ VerticalTabStripRegionView::VerticalTabStripRegionView(
    const int region_horizontal_padding =
        GetLayoutConstant(LayoutConstant::kVerticalTabStripHorizontalPadding);
  
-+  content_area_view_->AddChildView(std::make_unique<AeloWorkspaceHeader>(
-+      browser_view->browser(), state_controller_));
++  auto* workspace =
++      content_area_view_->AddChildView(std::make_unique<AeloWorkspaceHeader>(
++          browser_view->browser(), state_controller_));
++  workspace->SetProperty(
++      views::kFlexBehaviorKey,
++      views::FlexSpecification(views::MinimumFlexSizeRule::kScaleToZero,
++                               views::MaximumFlexSizeRule::kUnbounded));
 +
    auto* const top_button_separator =
        content_area_view_->AddChildView(std::make_unique<FrameSeparator>());
    // The TopContainer handles the padding distance to the separator so that we
+@@ -163,7 +172,7 @@ VerticalTabStripRegionView::VerticalTabStripRegionView(
+   bottom_button_container_->SetProperty(
+       views::kFlexBehaviorKey,
+       views::FlexSpecification(views::MinimumFlexSizeRule::kPreferred,
+-                               views::MaximumFlexSizeRule::kUnbounded));
++                               views::MaximumFlexSizeRule::kPreferred));
+   bottom_button_container_->SetProperty(
+       views::kMarginsKey,
+       gfx::Insets::TLBR(
+@@ -855,6 +864,10 @@ void VerticalTabStripRegionView::AddTabStripView(
+   std::optional<size_t> separator_index =
+       content_parent->GetIndexOf(top_button_separator_);
+   CHECK(separator_index.has_value());
++  // Aelo owns the expanded sidebar. Keep Chromium's native strip alive for
++  // its controllers and collapsed fallback, without showing a second tab list.
++  view->SetVisible(state_controller_->GetCollapseState() !=
++                   tabs::VerticalTabStripCollapseState::kExpanded);
+   content_parent->AddChildViewAt(std::move(view), separator_index.value() + 1);
+ 
+   // Pre-set the animation values to the appropriate state.
+@@ -903,6 +916,7 @@ void VerticalTabStripRegionView::OnCollapseStateChanged(
+ 
+   if (tab_strip_view()) {
+     tab_strip_view()->SetCollapsedState(collapsed);
++    tab_strip_view()->SetVisible(collapsed);
+   }
+ 
+   if ((state == tabs::VerticalTabStripCollapseState::kCollapsing) ||
 diff --git a/chrome/browser/ui/views/tabs/vertical/BUILD.gn b/chrome/browser/ui/views/tabs/vertical/BUILD.gn
-index cb471907a5..70fdb6b47b 100644
+index cb471907a5..0defdbb3e1 100644
 --- a/chrome/browser/ui/views/tabs/vertical/BUILD.gn
 +++ b/chrome/browser/ui/views/tabs/vertical/BUILD.gn
-@@ -7,6 +7,7 @@ import("//chrome/common/features.gni")
+@@ -7,6 +7,8 @@ import("//chrome/common/features.gni")
  
  source_set("vertical") {
    sources = [
 +    "aelo_workspace_header.h",
++    "aelo_workspace_model.h",
      "top_container_button.h",
      "vertical_tab_strip_bottom_container.h",
      "vertical_tab_strip_expand_on_hover_lock.h",
-@@ -36,6 +37,7 @@ source_set("vertical") {
+@@ -15,7 +17,7 @@ source_set("vertical") {
+     "vertical_tab_strip_top_container.h",
+   ]
+ 
+-  public_deps = [ "//chrome/browser/ui/views/tabs/common" ]
++  public_deps = [ "//chrome/browser/ui/views/tabs/common", "//components/prefs" ]
+ 
+   deps = [
+     "//base",
+@@ -36,6 +38,8 @@ source_set("vertical") {
  
  source_set("impl") {
    sources = [
 +    "aelo_workspace_header.cc",
++    "aelo_workspace_model.cc",
      "top_container_button.cc",
      "vertical_tab_strip_bottom_container.cc",
      "vertical_tab_strip_expand_on_hover_lock.cc",
+@@ -50,6 +54,10 @@ source_set("impl") {
+     "//chrome/browser/glic/browser_ui:glow",
+     "//chrome/browser/glic/browser_ui:glow_controller",
+     "//chrome/browser/themes",
++    "//chrome/browser/sessions",
++    "//components/prefs",
++    "//components/sessions",
++
+     "//chrome/browser/ui:browser_commands",
+     "//chrome/browser/ui:browser_element_identifiers",
+     "//chrome/browser/ui:layout_constants",
 diff --git a/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc b/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc
 index bc3b0459ed..e5ead02394 100644
 --- a/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc
@@ -227,102 +359,287 @@ index b3583ec76a..f47060262e 100644
    base::CallbackListSubscription collapsed_state_change_subscription_;
    base::CallbackListSubscription new_tab_button_pressed_subscription_;
  
+diff --git a/chrome/browser/ui/tabs/aelo_tab_identity.h b/chrome/browser/ui/tabs/aelo_tab_identity.h
+new file mode 100644
+index 0000000000..81d8cc8298
+--- /dev/null
++++ b/chrome/browser/ui/tabs/aelo_tab_identity.h
+@@ -0,0 +1,43 @@
++// Copyright 2026 Aelo contributors. BSD-style license.
++#ifndef CHROME_BROWSER_UI_TABS_AELO_TAB_IDENTITY_H_
++#define CHROME_BROWSER_UI_TABS_AELO_TAB_IDENTITY_H_
++#include <map>
++#include <string>
++
++#include "base/supports_user_data.h"
++#include "base/uuid.h"
++#include "content/public/browser/web_contents.h"
++namespace aelo {
++// UUIDs bridge the workspace to native session/reopen records. Never match a
++// page by URL, tab index or a session id that Chromium can reuse next launch.
++inline constexpr char kPageIdentityKey[] = "aelo.workspace_page_id";
++class TabIdentity : public base::SupportsUserData::Data {
++ public:
++  explicit TabIdentity(std::string id) : id_(std::move(id)) {}
++  static std::string Get(content::WebContents* contents) {
++    auto* data = static_cast<TabIdentity*>(contents->GetUserData(&key_));
++    if (!data) {
++      Set(contents, base::Uuid::GenerateRandomV4().AsLowercaseString());
++      data = static_cast<TabIdentity*>(contents->GetUserData(&key_));
++    }
++    return data->id_;
++  }
++  static void Set(content::WebContents* contents, const std::string& id) {
++    if (base::Uuid::ParseLowercase(id).is_valid()) {
++      contents->SetUserData(&key_, std::make_unique<TabIdentity>(id));
++    }
++  }
++  static void Restore(content::WebContents* contents,
++                      const std::map<std::string, std::string>& extra) {
++    auto it = extra.find(kPageIdentityKey);
++    if (it != extra.end()) {
++      Set(contents, it->second);
++    }
++  }
++
++ private:
++  inline static const char key_ = 0;
++  std::string id_;
++};
++}  // namespace aelo
++#endif
 diff --git a/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.cc b/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.cc
 new file mode 100644
-index 0000000000..1d170fc74e
+index 0000000000..b3ea15471d
 --- /dev/null
 +++ b/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.cc
-@@ -0,0 +1,238 @@
+@@ -0,0 +1,769 @@
 +// Copyright 2026 Aelo contributors. BSD-style license.
 +#include "chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.h"
 +
++#include <algorithm>
++#include <set>
 +#include <utility>
 +
-+#include "base/feature_list.h"
 +#include "base/functional/bind.h"
-+#include "base/strings/string_number_conversions.h"
 +#include "base/strings/utf_string_conversions.h"
 +#include "base/task/single_thread_task_runner.h"
 +#include "base/time/time.h"
++#include "base/uuid.h"
++#include "base/values.h"
++#include "chrome/browser/profiles/profile.h"
++#include "chrome/browser/sessions/session_service.h"
++#include "chrome/browser/sessions/session_service_factory.h"
 +#include "chrome/browser/ui/browser_tabstrip.h"
 +#include "chrome/browser/ui/browser_window/public/browser_window_interface.h"
++#include "chrome/browser/ui/browser_window/public/global_browser_collection.h"
++#include "chrome/browser/ui/tabs/aelo_tab_identity.h"
 +#include "chrome/browser/ui/tabs/tab_group_model.h"
++#include "chrome/browser/ui/tabs/tab_strip_model.h"
 +#include "chrome/browser/ui/tabs/vertical_tab_strip_state_controller.h"
-+#include "chrome/browser/ui/ui_features.h"
-+#include "components/tab_groups/tab_group_visual_data.h"
++#include "components/prefs/pref_service.h"
++#include "components/sessions/content/session_tab_helper.h"
 +#include "components/tabs/public/tab_group.h"
++#include "content/public/browser/web_contents.h"
++#include "ui/base/base_window.h"
++#include "ui/base/dragdrop/drag_drop_types.h"
++#include "ui/base/dragdrop/drop_target_event.h"
++#include "ui/base/dragdrop/mojom/drag_drop_types.mojom.h"
++#include "ui/base/dragdrop/os_exchange_data.h"
 +#include "ui/base/metadata/metadata_impl_macros.h"
 +#include "ui/base/models/simple_combobox_model.h"
++#include "ui/compositor/layer_tree_owner.h"
 +#include "ui/views/controls/button/md_text_button.h"
 +#include "ui/views/controls/combobox/combobox.h"
 +#include "ui/views/controls/label.h"
++#include "ui/views/controls/scroll_view.h"
++#include "ui/views/controls/textfield/textfield.h"
++#include "ui/views/drag_controller.h"
 +#include "ui/views/view_class_properties.h"
 +#include "url/gurl.h"
++namespace {
++constexpr char kTreePref[] = "aelo.workspace_tree";
++constexpr char kBackupPref[] = "aelo.workspace_tree_backup";
++std::string NewId() {
++  return base::Uuid::GenerateRandomV4().AsLowercaseString();
++}
++views::MdTextButton* Button(views::View* parent,
++                            const std::u16string& text,
++                            base::RepeatingClosure action) {
++  auto* b = parent->AddChildView(
++      std::make_unique<views::MdTextButton>(std::move(action), text));
++  b->SetTextSubpixelRenderingEnabled(false);
++  b->SetMinSize(gfx::Size(0, 28));
++  b->SetCustomPadding(gfx::Insets::VH(5, 6));
++  return b;
++}
++// Each row is a native keyboard-focusable button and a native drag source and
++// target. Middle drops nest; the top/bottom quarters reorder siblings. The
++// payload is scoped to this sidebar instance; external strings cannot move
++// data.
++class WorkspaceRow : public views::MdTextButton, public views::DragController {
++  METADATA_HEADER(WorkspaceRow, views::MdTextButton)
++ public:
++  WorkspaceRow(base::WeakPtr<AeloWorkspaceHeader> owner,
++               std::string id,
++               const std::u16string& text,
++               base::RepeatingClosure action)
++      : views::MdTextButton(std::move(action), text),
++        owner_(owner),
++        id_(std::move(id)) {
++    SetTextSubpixelRenderingEnabled(false);
++    SetMinSize(gfx::Size(0, 30));
++    SetHorizontalAlignment(gfx::ALIGN_LEFT);
++    SetCustomPadding(gfx::Insets::VH(7, 4));
++    set_drag_controller(this);
++  }
++  void WriteDragDataForView(views::View*,
++                            const gfx::Point&,
++                            ui::OSExchangeData* data) override {
++    if (owner_) {
++      owner_->SetDragging(true);
++      data->SetString(owner_->DragPayload(id_));
++    }
++  }
++  void OnDragDone() override {
++    if (owner_) {
++      owner_->SetDragging(false);
++    }
++  }
++  int GetDragOperationsForView(views::View*, const gfx::Point&) override {
++    return ui::DragDropTypes::DRAG_MOVE;
++  }
++  bool CanStartDragForView(views::View*,
++                           const gfx::Point&,
++                           const gfx::Point&) override {
++    return true;
++  }
++  bool GetDropFormats(int* formats,
++                      std::set<ui::ClipboardFormatType>*) override {
++    *formats = ui::OSExchangeData::STRING;
++    return true;
++  }
++  bool CanDrop(const ui::OSExchangeData& data) override {
++    auto text = data.GetString();
++    return owner_ && text &&
++           (owner_->CanDropPage(*text, id_, 0) ||
++            owner_->CanDropPage(*text, id_, -1));
++  }
++  int OnDragUpdated(const ui::DropTargetEvent& event) override {
++    auto text = event.data().GetString();
++    return owner_ && text && owner_->CanDropPage(*text, id_, Zone(event))
++               ? ui::DragDropTypes::DRAG_MOVE
++               : ui::DragDropTypes::DRAG_NONE;
++  }
++  DropCallback GetDropCallback(const ui::DropTargetEvent& event) override {
++    auto text = event.data().GetString();
++    if (!owner_ || !text) {
++      return base::NullCallback();
++    }
++    return base::BindOnce(
++        [](base::WeakPtr<AeloWorkspaceHeader> owner, std::u16string payload,
++           std::string id, int zone, const ui::DropTargetEvent&,
++           ui::mojom::DragOperation& operation,
++           std::unique_ptr<ui::LayerTreeOwner>) {
++          operation = owner && owner->DropPage(payload, id, zone)
++                          ? ui::mojom::DragOperation::kMove
++                          : ui::mojom::DragOperation::kNone;
++        },
++        owner_, *text, id_, Zone(event));
++  }
++
++ private:
++  int Zone(const ui::DropTargetEvent& e) const {
++    if (e.y() < height() / 4) {
++      return -1;
++    }
++    return e.y() > height() * 3 / 4 ? 1 : 0;
++  }
++  base::WeakPtr<AeloWorkspaceHeader> owner_;
++  std::string id_;
++};
++BEGIN_METADATA(WorkspaceRow)
++END_METADATA
++}  // namespace
 +
 +AeloWorkspaceHeader::AeloWorkspaceHeader(
 +    BrowserWindowInterface* browser,
 +    tabs::VerticalTabStripStateController* state_controller)
-+    : browser_(browser) {
++    : browser_(browser), nonce_(NewId()) {
 +  SetOrientation(views::LayoutOrientation::kVertical);
 +  SetCrossAxisAlignment(views::LayoutAlignment::kStretch);
-+  SetInteriorMargin(gfx::Insets::VH(12, 12));
-+  SetDefault(views::kMarginsKey, gfx::Insets::VH(4, 0));
-+
++  SetInteriorMargin(gfx::Insets::VH(8, 8));
++  SetDefault(views::kMarginsKey, gfx::Insets::VH(3, 0));
 +  auto* brand = AddChildView(std::make_unique<views::Label>(u"◉  Aelo"));
-+  // The vertical tab strip paints into a transparent composited layer. Use
-+  // grayscale text, which does not sample nonexistent opaque RGB pixels.
 +  brand->SetSubpixelRenderingEnabled(false);
 +  brand->SetHorizontalAlignment(gfx::ALIGN_LEFT);
-+  brand->SetFontList(brand->font_list().Derive(8, gfx::Font::NORMAL,
++  brand->SetFontList(brand->font_list().Derive(7, gfx::Font::NORMAL,
 +                                               gfx::Font::Weight::SEMIBOLD));
-+  auto* label = AddChildView(std::make_unique<views::Label>(u"SPACES"));
-+  label->SetSubpixelRenderingEnabled(false);
-+  label->SetHorizontalAlignment(gfx::ALIGN_LEFT);
-+  label->SetFontList(label->font_list().DeriveWithSizeDelta(-2));
-+
 +  picker_ = AddChildView(std::make_unique<views::Combobox>());
-+  picker_->SetTooltipTextAndAccessibleName(
-+      u"Aelo Space — tabs share this profile");
++  picker_->SetTooltipTextAndAccessibleName(u"Space");
 +  picker_->SetSizeToLargestLabel(false);
 +  picker_->SetCallback(base::BindRepeating(&AeloWorkspaceHeader::SelectSpace,
 +                                           base::Unretained(this)));
 +  auto* actions = AddChildView(std::make_unique<views::FlexLayoutView>());
-+  actions->SetDefault(views::kMarginsKey, gfx::Insets::VH(0, 2));
-+  auto* create = actions->AddChildView(std::make_unique<views::MdTextButton>(
-+      base::BindRepeating(&AeloWorkspaceHeader::CreateSpace,
-+                          base::Unretained(this)),
-+      u"+ Space"));
-+  create->SetTextSubpixelRenderingEnabled(false);
-+  create->SetTooltipText(u"Create a Space in the current profile");
-+  rename_button_ = actions->AddChildView(std::make_unique<views::MdTextButton>(
-+      base::BindRepeating(&AeloWorkspaceHeader::RenameSpace,
-+                          base::Unretained(this)),
-+      u"Edit"));
-+  rename_button_->SetTextSubpixelRenderingEnabled(false);
-+  rename_button_->SetTooltipText(
-+      u"Rename the selected Space or change its color");
-+  const bool focus_enabled =
-+      base::FeatureList::IsEnabled(features::kTabGroupsFocusing);
-+  create->SetEnabled(focus_enabled &&
-+                     browser_->GetTabStripModel()->SupportsTabGroups());
-+  picker_->SetEnabled(create->GetEnabled());
-+
-+  auto* shortcuts = AddChildView(std::make_unique<views::FlexLayoutView>());
-+  shortcuts->SetDefault(views::kMarginsKey, gfx::Insets::VH(0, 2));
-+  for (const auto& shortcut :
-+       {std::pair{u"Search", "https://www.google.com/"},
-+        std::pair{u"Code", "https://github.com/"},
-+        std::pair{u"Read", "https://en.wikipedia.org/"}}) {
-+    auto* button =
-+        shortcuts->AddChildView(std::make_unique<views::MdTextButton>(
-+            base::BindRepeating(&AeloWorkspaceHeader::OpenShortcut,
-+                                base::Unretained(this), shortcut.second),
-+            shortcut.first));
-+    button->SetTextSubpixelRenderingEnabled(false);
-+    button->SetCustomPadding(gfx::Insets::VH(6, 8));
-+    button->SetCornerRadius(12);
-+    button->SetTooltipText(base::UTF8ToUTF16(shortcut.second));
-+  }
++  Button(actions, u"+ Space",
++         base::BindRepeating(&AeloWorkspaceHeader::Create,
++                             base::Unretained(this), aelo::Kind::kSpace));
++  Button(actions, u"+ Folder",
++         base::BindRepeating(&AeloWorkspaceHeader::Create,
++                             base::Unretained(this), aelo::Kind::kFolder));
++  Button(actions, u"+ Tab",
++         base::BindRepeating(&AeloWorkspaceHeader::NewPage,
++                             base::Unretained(this)));
++  name_ = AddChildView(std::make_unique<views::Textfield>());
++  name_->SetAccessibleName(u"Selected item name");
++  name_->SetPlaceholderText(u"Select a folder or page");
++  auto* edits = AddChildView(std::make_unique<views::FlexLayoutView>());
++  Button(edits, u"Rename",
++         base::BindRepeating(&AeloWorkspaceHeader::Rename,
++                             base::Unretained(this)));
++  pin_ = Button(edits, u"Pin",
++                base::BindRepeating(&AeloWorkspaceHeader::TogglePin,
++                                    base::Unretained(this)));
++  Button(edits, u"Remove",
++         base::BindRepeating(&AeloWorkspaceHeader::RemoveEmpty,
++                             base::Unretained(this)))
++      ->SetTooltipText(
++          u"Remove an empty folder, empty Space, or saved page after closing "
++          u"its live tab");
++  auto* move = AddChildView(std::make_unique<views::FlexLayoutView>());
++  move_picker_ = move->AddChildView(std::make_unique<views::Combobox>());
++  move_picker_->SetTooltipTextAndAccessibleName(
++      u"Move selected item to folder or Space");
++  move_picker_->SetSizeToLargestLabel(false);
++  move_picker_->SetProperty(
++      views::kFlexBehaviorKey,
++      views::FlexSpecification(views::MinimumFlexSizeRule::kScaleToZero,
++                               views::MaximumFlexSizeRule::kUnbounded));
++  Button(move, u"Move",
++         base::BindRepeating(&AeloWorkspaceHeader::MoveSelected,
++                             base::Unretained(this)));
++  Button(move, u"↑",
++         base::BindRepeating(&AeloWorkspaceHeader::Reorder,
++                             base::Unretained(this), -1))
++      ->SetTooltipText(u"Move item up");
++  Button(move, u"↓",
++         base::BindRepeating(&AeloWorkspaceHeader::Reorder,
++                             base::Unretained(this), 1))
++      ->SetTooltipText(u"Move item down");
++  auto* scroll = AddChildView(std::make_unique<views::ScrollView>());
++  scroll->SetBackgroundColor(std::nullopt);
++  scroll->SetProperty(
++      views::kFlexBehaviorKey,
++      views::FlexSpecification(views::MinimumFlexSizeRule::kScaleToZero,
++                               views::MaximumFlexSizeRule::kUnbounded));
++  auto rows = std::make_unique<views::FlexLayoutView>();
++  rows->SetOrientation(views::LayoutOrientation::kVertical);
++  rows->SetCrossAxisAlignment(views::LayoutAlignment::kStretch);
++  rows_ = scroll->SetContents(std::move(rows));
++  pref_changes_.Init(browser_->GetProfile()->GetPrefs());
++  pref_changes_.Add(kTreePref,
++                    base::BindRepeating(&AeloWorkspaceHeader::ScheduleRefresh,
++                                        base::Unretained(this)));
 +  browser_->GetTabStripModel()->AddObserver(this);
 +  SetVisible(state_controller->GetCollapseState() ==
 +             tabs::VerticalTabStripCollapseState::kExpanded);
@@ -336,30 +653,156 @@ index 0000000000..1d170fc74e
 +          base::Unretained(this)));
 +  Refresh();
 +}
-+
 +AeloWorkspaceHeader::~AeloWorkspaceHeader() = default;
 +
++bool AeloWorkspaceHeader::Load() {
++  if (!browser_) {
++    return false;
++  }
++  const auto& dict = browser_->GetProfile()->GetPrefs()->GetDict(kTreePref);
++  if (dict.empty()) {
++    tree_ = aelo::WorkspaceTree();
++    tree_.Add({NewId(), "", "Personal", aelo::Kind::kSpace});
++    tree_.Add({NewId(), "", "Focus", aelo::Kind::kSpace});
++    space_ = tree_.Children("").front();
++    return valid_ = true;
++  }
++  auto* nodes = dict.FindList("nodes");
++  if (dict.FindInt("version") != 1 || !nodes || nodes->size() > 10000) {
++    return valid_ = false;
++  }
++  std::vector<aelo::Node> parsed;
++  for (const auto& value : *nodes) {
++    if (!value.is_dict()) {
++      return valid_ = false;
++    }
++    const auto& n = value.GetDict();
++    auto* id = n.FindString("id");
++    auto* parent = n.FindString("parent");
++    auto* title = n.FindString("title");
++    auto* url = n.FindString("url");
++    auto kind = n.FindInt("kind");
++    if (!id || !parent || !title || !url || !kind || *kind < 0 || *kind > 2) {
++      return valid_ = false;
++    }
++    parsed.push_back({*id, *parent, *title, static_cast<aelo::Kind>(*kind),
++                      *url, n.FindBool("pinned").value_or(false),
++                      n.FindBool("expanded").value_or(true),
++                      n.FindBool("custom_title").value_or(false)});
++  }
++  if (!tree_.Load(std::move(parsed)) || tree_.Children("").empty()) {
++    return valid_ = false;
++  }
++  if (auto* active = dict.FindString("active_space")) {
++    space_ = *active;
++  }
++  if (!tree_.Find(space_) || tree_.Find(space_)->kind != aelo::Kind::kSpace) {
++    space_ = tree_.Children("").front();
++  }
++  return valid_ = true;
++}
++void AeloWorkspaceHeader::Save() {
++  if (!browser_ || !valid_ || !tree_.Validate()) {
++    return;
++  }
++  base::DictValue dict;
++  dict.Set("version", 1);
++  dict.Set("active_space", space_);
++  base::ListValue nodes;
++  for (const auto& n : tree_.nodes()) {
++    base::DictValue value;
++    value.Set("id", n.id);
++    value.Set("parent", n.parent);
++    value.Set("title", n.title);
++    value.Set("kind", static_cast<int>(n.kind));
++    value.Set("url", n.url);
++    value.Set("pinned", n.pinned);
++    value.Set("expanded", n.expanded);
++    value.Set("custom_title", n.custom_title);
++    nodes.Append(std::move(value));
++  }
++  dict.Set("nodes", std::move(nodes));
++  auto* prefs = browser_->GetProfile()->GetPrefs();
++  if (prefs->GetDict(kTreePref) == dict) {
++    return;
++  }
++  if (!prefs->GetDict(kTreePref).empty()) {
++    prefs->SetDict(kBackupPref, prefs->GetDict(kTreePref).Clone());
++  }
++  prefs->SetDict(kTreePref, std::move(dict));
++}
 +void AeloWorkspaceHeader::ScheduleRefresh() {
 +  if (refresh_pending_ || !browser_) {
 +    return;
 +  }
 +  refresh_pending_ = true;
-+  // Group notifications can occur inside a TabStripModel mutation. Rebuild the
-+  // picker afterwards, never mutate the model or destroy a menu in a
-+  // notification.
 +  base::SingleThreadTaskRunner::GetCurrentDefault()->PostTask(
 +      FROM_HERE, base::BindOnce(&AeloWorkspaceHeader::Refresh,
 +                                weak_factory_.GetWeakPtr()));
 +}
-+
++void AeloWorkspaceHeader::SyncTabs() {
++  auto* model = browser_->GetTabStripModel();
++  std::set<std::string> seen;
++  for (int i = 0; i < model->count(); ++i) {
++    auto* contents = model->GetWebContentsAt(i);
++    std::string id = aelo::TabIdentity::Get(contents);
++    // Duplicate-tab restore can copy extra data; the duplicate gets a new id.
++    if (!seen.insert(id).second) {
++      id = NewId();
++      aelo::TabIdentity::Set(contents, id);
++      seen.insert(id);
++    }
++    auto* node = tree_.Find(id);
++    if (!node) {
++      std::string parent = Destination();
++      // Adopt pre-existing groups once as independent Spaces. Never change or
++      // delete the native group itself; future tree edits do not depend on it.
++      if (auto group = model->GetTabGroupForTab(i)) {
++        parent = "adopted-" + group->ToString();
++        if (!tree_.Find(parent)) {
++          auto title = base::UTF16ToUTF8(model->group_model()
++                                             ->GetTabGroup(*group)
++                                             ->visual_data()
++                                             ->title());
++          tree_.Add({parent, "", title.empty() ? "Imported Space" : title,
++                     aelo::Kind::kSpace});
++        }
++      }
++      auto url = contents->GetVisibleURL().spec();
++      if (url.empty()) {
++        url = "chrome://newtab/";
++      }
++      tree_.Add({id, parent, "New Tab", aelo::Kind::kPage, url,
++                 model->IsTabPinned(i)});
++      node = tree_.Find(id);
++    }
++    if (!node || node->kind != aelo::Kind::kPage) {
++      continue;
++    }
++    auto url = contents->GetVisibleURL().spec();
++    if (!url.empty()) {
++      node->url = url;
++    }
++    auto title = base::UTF16ToUTF8(contents->GetTitle());
++    if (!title.empty() && !node->custom_title) {
++      node->title = title;
++    }
++    if (auto* session =
++            SessionServiceFactory::GetForProfile(browser_->GetProfile())) {
++      auto* helper = sessions::SessionTabHelper::FromWebContents(contents);
++      if (helper) {
++        session->AddTabExtraData(helper->window_id(), helper->session_id(),
++                                 aelo::kPageIdentityKey, id);
++      }
++    }
++  }
++}
 +void AeloWorkspaceHeader::Refresh() {
 +  refresh_pending_ = false;
 +  if (!browser_) {
 +    return;
 +  }
-+  // Combobox's menu model references its owned model. Never replace it while
-+  // a dropdown is open (a background tab/group event can also trigger refresh).
-+  if (picker_->IsMenuRunning()) {
++  if (dragging_ || picker_->IsMenuRunning() || move_picker_->IsMenuRunning()) {
 +    refresh_pending_ = true;
 +    base::SingleThreadTaskRunner::GetCurrentDefault()->PostDelayedTask(
 +        FROM_HERE,
@@ -368,101 +811,370 @@ index 0000000000..1d170fc74e
 +        base::Milliseconds(200));
 +    return;
 +  }
-+  auto* model = browser_->GetTabStripModel();
-+  auto* group_model = model->group_model();
-+  groups_ = group_model ? group_model->ListTabGroups()
-+                        : std::vector<tab_groups::TabGroupId>();
-+  std::vector<ui::SimpleComboboxModel::Item> items;
-+  items.emplace_back(u"All tabs");
-+  size_t selected = 0;
-+  for (size_t i = 0; i < groups_.size(); ++i) {
-+    auto name = group_model->GetTabGroup(groups_[i])->visual_data()->title();
-+    items.emplace_back(name.empty() ? u"Untitled Space" : name);
-+    if (model->GetFocusedGroup() == groups_[i]) {
-+      selected = i + 1;
++  rows_->RemoveAllChildViews();
++  if (!Load()) {
++    auto* error = rows_->AddChildView(std::make_unique<views::Label>(
++        u"Workspace needs recovery. Saved data has been preserved."));
++    error->SetSubpixelRenderingEnabled(false);
++    error->SetMultiLine(true);
++    return;
++  }
++  SyncTabs();
++  Save();
++  spaces_ = tree_.Children("");
++  std::vector<ui::SimpleComboboxModel::Item> spaces;
++  size_t selected_space = 0;
++  for (size_t i = 0; i < spaces_.size(); ++i) {
++    spaces.emplace_back(base::UTF8ToUTF16(tree_.Find(spaces_[i])->title));
++    if (spaces_[i] == space_) {
++      selected_space = i;
 +    }
 +  }
 +  picker_->SetOwnedModel(
-+      std::make_unique<ui::SimpleComboboxModel>(std::move(items)));
-+  picker_->SetSelectedIndex(selected);
-+  rename_button_->SetEnabled(selected != 0);
++      std::make_unique<ui::SimpleComboboxModel>(std::move(spaces)));
++  picker_->SetSelectedIndex(selected_space);
++  const auto* selection = tree_.Find(selected_);
++  if (!selection) {
++    selected_ = space_;
++    selection = tree_.Find(selected_);
++  }
++  if (!name_->HasFocus()) {
++    name_->SetText(base::UTF8ToUTF16(selection->title));
++  }
++  pin_->SetEnabled(selection->kind == aelo::Kind::kPage);
++  pin_->SetText(selection->pinned ? u"Unpin" : u"Pin");
++  destinations_.clear();
++  std::vector<ui::SimpleComboboxModel::Item> destinations;
++  for (const auto& n : tree_.nodes()) {
++    if (n.kind == aelo::Kind::kPage || !tree_.CanMove(selected_, n.id)) {
++      continue;
++    }
++    destinations_.push_back(n.id);
++    std::string path = n.title;
++    for (auto p = n.parent; !p.empty();) {
++      const auto* parent = tree_.Find(p);
++      path = parent->title + " / " + path;
++      p = parent->parent;
++    }
++    destinations.emplace_back(base::UTF8ToUTF16(path));
++  }
++  if (destinations.empty()) {
++    destinations.emplace_back(u"No destination");
++  }
++  move_picker_->SetOwnedModel(
++      std::make_unique<ui::SimpleComboboxModel>(std::move(destinations)));
++  move_picker_->SetSelectedIndex(0);
++  move_picker_->SetEnabled(!destinations_.empty());
++  auto* root = rows_->AddChildView(std::make_unique<WorkspaceRow>(
++      weak_factory_.GetWeakPtr(), space_,
++      base::UTF8ToUTF16(tree_.Find(space_)->title),
++      base::BindRepeating(&AeloWorkspaceHeader::Select,
++                          weak_factory_.GetWeakPtr(), space_)));
++  root->SetTooltipText(u"Space root — drop here to move out of folders");
++  RenderChildren(space_, 0);
 +}
-+
++void AeloWorkspaceHeader::RenderChildren(const std::string& parent, int depth) {
++  for (const auto& id : tree_.Children(parent)) {
++    const auto* n = tree_.Find(id);
++    std::u16string title = n->kind == aelo::Kind::kFolder
++                               ? (n->expanded ? u"▾  " : u"▸  ")
++                               : (n->pinned ? u"★  " : u"•  ");
++    if (id == selected_) {
++      title += u"› ";
++    }
++    title += base::UTF8ToUTF16(n->title);
++    auto* row = rows_->AddChildView(std::make_unique<WorkspaceRow>(
++        weak_factory_.GetWeakPtr(), id, title,
++        base::BindRepeating(&AeloWorkspaceHeader::Select,
++                            weak_factory_.GetWeakPtr(), id)));
++    row->SetProperty(views::kMarginsKey,
++                     gfx::Insets::TLBR(0, std::min(depth * 14, 98), 0, 0));
++    row->SetTooltipText(base::UTF8ToUTF16(
++        n->kind == aelo::Kind::kPage ? n->url
++                                     : "Select to expand or collapse; + Folder "
++                                       "creates a nested folder"));
++    if (n->kind == aelo::Kind::kFolder && n->expanded) {
++      RenderChildren(id, depth + 1);
++    }
++  }
++}
++std::string AeloWorkspaceHeader::Destination() const {
++  const auto* n = tree_.Find(selected_);
++  if (!n || tree_.SpaceOf(selected_) != space_) {
++    return space_;
++  }
++  return n->kind == aelo::Kind::kPage ? n->parent : n->id;
++}
++void AeloWorkspaceHeader::Select(const std::string& id) {
++  if (!Load()) {
++    return;
++  }
++  const auto* n = tree_.Find(id);
++  if (!n) {
++    return;
++  }
++  selected_ = id;
++  space_ = tree_.SpaceOf(id);
++  browser_->GetTabStripModel()->ExitFocusMode();
++  name_->SetText(base::UTF8ToUTF16(n->title));
++  if (n->kind == aelo::Kind::kFolder) {
++    tree_.Find(id)->expanded = !n->expanded;
++  }
++  if (n->kind == aelo::Kind::kPage) {
++    const auto url = n->url;
++    bool found = false;
++    GlobalBrowserCollection::GetInstance()->ForEach(
++        [&](BrowserWindowInterface* candidate) {
++          if (candidate->GetProfile() != browser_->GetProfile()) {
++            return true;
++          }
++          auto* tabs = candidate->GetTabStripModel();
++          for (int i = 0; i < tabs->count(); ++i) {
++            if (aelo::TabIdentity::Get(tabs->GetWebContentsAt(i)) == id) {
++              tabs->ExitFocusMode();
++              tabs->ActivateTabAt(i);
++              candidate->GetWindow()->Activate();
++              found = true;
++              return false;
++            }
++          }
++          return true;
++        });
++    if (!found) {
++      const GURL target(url);
++      // Restored metadata is not a license to launch local/executable schemes.
++      if (!target.SchemeIsHTTPOrHTTPS() && url != "chrome://newtab/" &&
++          url != "chrome://new-tab-page/" && url != "about:blank") {
++        return;
++      }
++      auto* contents = chrome::AddAndReturnTabAt(browser_, target, -1, true);
++      aelo::TabIdentity::Set(contents, id);
++    }
++  }
++  Save();
++  ScheduleRefresh();
++}
 +void AeloWorkspaceHeader::SelectSpace() {
-+  if (!browser_) {
++  auto index = picker_->GetSelectedIndex().value_or(0);
++  if (index >= spaces_.size() || !Load()) {
 +    return;
 +  }
-+  auto* model = browser_->GetTabStripModel();
-+  const size_t index = picker_->GetSelectedIndex().value_or(0);
-+  if (!index) {
-+    model->ExitFocusMode();
-+  } else if (index <= groups_.size() && model->group_model() &&
-+             model->group_model()->ContainsTabGroup(groups_[index - 1])) {
-+    model->EnterFocusMode(groups_[index - 1]);
-+  }
++  space_ = spaces_[index];
++  selected_ = space_;
++  browser_->GetTabStripModel()->ExitFocusMode();
++  name_->SetText(base::UTF8ToUTF16(tree_.Find(space_)->title));
++  Save();
 +  ScheduleRefresh();
 +}
-+
-+void AeloWorkspaceHeader::CreateSpace() {
-+  if (!browser_) {
++void AeloWorkspaceHeader::Create(aelo::Kind kind) {
++  if (!Load()) {
 +    return;
 +  }
-+  auto* model = browser_->GetTabStripModel();
-+  if (!model->SupportsTabGroups()) {
++  const auto parent = kind == aelo::Kind::kSpace ? "" : Destination();
++  const auto id = NewId();
++  if (!tree_.Add({id, parent,
++                  kind == aelo::Kind::kSpace ? "New Space" : "New Folder",
++                  kind})) {
 +    return;
 +  }
-+  const size_t count = model->group_model()->ListTabGroups().size();
-+  // Only a new blank tab is grouped. Existing tabs, groups, pins and profiles
-+  // are never reorganized implicitly by installing the Aelo UI.
-+  auto* contents = chrome::AddAndReturnTabAt(browser_, GURL(), -1, true);
-+  const int index = model->GetIndexOfWebContents(contents);
-+  if (!model->ContainsIndex(index)) {
-+    return;
++  if (auto* p = tree_.Find(parent)) {
++    p->expanded = true;
 +  }
-+  const auto group = model->AddToNewGroup({index});
-+  const std::u16string name =
-+      count == 0   ? u"Personal"
-+      : count == 1 ? u"Focus"
-+                   : u"Space " + base::NumberToString16(count + 1);
-+  model->ChangeTabGroupVisuals(group,
-+                               tab_groups::TabGroupVisualData(
-+                                   name, tab_groups::TabGroupColorId::kPurple),
-+                               true);
-+  model->EnterFocusMode(group);
++  selected_ = id;
++  space_ = tree_.SpaceOf(id);
++  browser_->GetTabStripModel()->ExitFocusMode();
++  name_->SetText(base::UTF8ToUTF16(tree_.Find(id)->title));
++  name_->SelectAll(false);
++  name_->RequestFocus();
++  Save();
 +  ScheduleRefresh();
 +}
-+
-+void AeloWorkspaceHeader::RenameSpace() {
-+  if (!browser_) {
++void AeloWorkspaceHeader::Rename() {
++  const auto text = base::UTF16ToUTF8(name_->GetText());
++  if (!Load() || text.find_first_not_of(" \t\r\n") == std::string::npos) {
 +    return;
 +  }
-+  auto* model = browser_->GetTabStripModel();
-+  if (auto group = model->GetFocusedGroup()) {
-+    model->OpenTabGroupEditor(*group);
++  if (tree_.Rename(selected_, text)) {
++    Save();
++    ScheduleRefresh();
 +  }
 +}
-+
-+void AeloWorkspaceHeader::OpenShortcut(const char* url) {
-+  if (!browser_) {
++void AeloWorkspaceHeader::TogglePin() {
++  if (!Load()) {
 +    return;
 +  }
-+  auto* model = browser_->GetTabStripModel();
-+  chrome::AddAndReturnTabAt(browser_, GURL(url), -1, true,
-+                            model->GetFocusedGroup());
++  auto* n = tree_.Find(selected_);
++  if (!n || n->kind != aelo::Kind::kPage) {
++    return;
++  }
++  n->pinned = !n->pinned;
++  Save();
++  ScheduleRefresh();
 +}
-+
++void AeloWorkspaceHeader::RemoveEmpty() {
++  if (!Load()) {
++    return;
++  }
++  const auto* n = tree_.Find(selected_);
++  if (!n || (n->kind == aelo::Kind::kSpace && tree_.Children("").size() == 1)) {
++    return;
++  }
++  if (n->kind == aelo::Kind::kPage) {
++    bool live = false;
++    GlobalBrowserCollection::GetInstance()->ForEach(
++        [&](BrowserWindowInterface* candidate) {
++          if (candidate->GetProfile() != browser_->GetProfile()) {
++            return true;
++          }
++          auto* tabs = candidate->GetTabStripModel();
++          for (int i = 0; i < tabs->count(); ++i) {
++            if (aelo::TabIdentity::Get(tabs->GetWebContentsAt(i)) ==
++                selected_) {
++              live = true;
++            }
++          }
++          return !live;
++        });
++    // Never bypass beforeunload by deleting a live browser-owned tab.
++    if (live) {
++      return;
++    }
++  }
++  const auto parent = n->parent;
++  if (!tree_.RemoveEmpty(selected_)) {
++    return;
++  }
++  if (space_ == selected_) {
++    space_ = tree_.Children("").front();
++  }
++  selected_ = parent.empty() ? space_ : parent;
++  Save();
++  ScheduleRefresh();
++}
++void AeloWorkspaceHeader::MoveSelected() {
++  const auto index = move_picker_->GetSelectedIndex().value_or(0);
++  if (index >= destinations_.size() || !Load()) {
++    return;
++  }
++  const auto parent = destinations_[index];
++  if (!tree_.Move(selected_, parent, tree_.Children(parent).size())) {
++    return;
++  }
++  tree_.Find(parent)->expanded = true;
++  space_ = tree_.SpaceOf(selected_);
++  Save();
++  ScheduleRefresh();
++}
++void AeloWorkspaceHeader::Reorder(int delta) {
++  if (!Load()) {
++    return;
++  }
++  const auto* n = tree_.Find(selected_);
++  if (!n) {
++    return;
++  }
++  auto siblings = tree_.Children(n->parent);
++  auto i = std::find(siblings.begin(), siblings.end(), selected_);
++  int position = static_cast<int>(i - siblings.begin()) + delta;
++  if (position < 0 || position >= static_cast<int>(siblings.size())) {
++    return;
++  }
++  if (tree_.Move(selected_, n->parent, position)) {
++    Save();
++    ScheduleRefresh();
++  }
++}
++void AeloWorkspaceHeader::NewPage() {
++  if (!Load()) {
++    return;
++  }
++  browser_->GetTabStripModel()->ExitFocusMode();
++  auto* contents =
++      chrome::AddAndReturnTabAt(browser_, GURL("chrome://newtab/"), -1, true);
++  const auto id = aelo::TabIdentity::Get(contents);
++  tree_.Add(
++      {id, Destination(), "New Tab", aelo::Kind::kPage, "chrome://newtab/"});
++  selected_ = id;
++  Save();
++  ScheduleRefresh();
++}
++void AeloWorkspaceHeader::SetDragging(bool dragging) {
++  dragging_ = dragging;
++  if (!dragging) {
++    ScheduleRefresh();
++  }
++}
++std::u16string AeloWorkspaceHeader::DragPayload(const std::string& id) const {
++  return base::UTF8ToUTF16(nonce_ + ":" + id);
++}
++std::string AeloWorkspaceHeader::PayloadId(
++    const std::u16string& payload) const {
++  auto text = base::UTF16ToUTF8(payload);
++  auto prefix = nonce_ + ":";
++  return text.starts_with(prefix) ? text.substr(prefix.size()) : "";
++}
++std::pair<std::string, size_t> AeloWorkspaceHeader::DropDestination(
++    const std::string& target,
++    int zone) const {
++  const auto* n = tree_.Find(target);
++  if (!n) {
++    return {"", 0};
++  }
++  if (zone == 0 && n->kind != aelo::Kind::kPage) {
++    return {target, tree_.Children(target).size()};
++  }
++  auto siblings = tree_.Children(n->parent);
++  auto i = std::find(siblings.begin(), siblings.end(), target);
++  return {n->parent,
++          static_cast<size_t>(i - siblings.begin()) + (zone > 0 ? 1 : 0)};
++}
++bool AeloWorkspaceHeader::CanDropPage(const std::u16string& payload,
++                                      const std::string& target,
++                                      int zone) const {
++  auto id = PayloadId(payload);
++  if (!valid_ || id.empty() || id == target || !tree_.Find(target)) {
++    return false;
++  }
++  return tree_.CanMove(id, DropDestination(target, zone).first);
++}
++bool AeloWorkspaceHeader::DropPage(const std::u16string& payload,
++                                   const std::string& target,
++                                   int zone) {
++  if (!Load() || !CanDropPage(payload, target, zone)) {
++    return false;
++  }
++  const auto id = PayloadId(payload);
++  auto [parent, position] = DropDestination(target, zone);
++  auto siblings = tree_.Children(parent);
++  auto from = std::find(siblings.begin(), siblings.end(), id);
++  if (from != siblings.end() &&
++      static_cast<size_t>(from - siblings.begin()) < position) {
++    --position;
++  }
++  if (!tree_.Move(id, parent, position)) {
++    return false;
++  }
++  if (auto* p = tree_.Find(parent)) {
++    p->expanded = true;
++  }
++  selected_ = id;
++  space_ = tree_.SpaceOf(id);
++  Save();
++  ScheduleRefresh();
++  return true;
++}
 +void AeloWorkspaceHeader::OnTabStripModelChanged(
 +    TabStripModel*,
-+    const TabStripModelChange&,
++    const TabStripModelChange& change,
 +    const TabStripSelectionChange&) {
++  if (change.type() == TabStripModelChange::kReplaced) {
++    aelo::TabIdentity::Set(
++        change.GetReplace()->new_contents,
++        aelo::TabIdentity::Get(change.GetReplace()->old_contents));
++  }
 +  ScheduleRefresh();
 +}
-+void AeloWorkspaceHeader::OnTabGroupChanged(const TabGroupChange&) {
-+  ScheduleRefresh();
-+}
-+void AeloWorkspaceHeader::OnTabGroupFocusChanged(
-+    std::optional<tab_groups::TabGroupId>,
-+    std::optional<tab_groups::TabGroupId>) {
++void AeloWorkspaceHeader::OnTabChangedAt(tabs::TabInterface*, TabChangeType) {
 +  ScheduleRefresh();
 +}
 +void AeloWorkspaceHeader::OnTabStripModelDestroyed(TabStripModel*) {
@@ -473,59 +1185,90 @@ index 0000000000..1d170fc74e
 +END_METADATA
 diff --git a/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.h b/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.h
 new file mode 100644
-index 0000000000..6e6ca432d2
+index 0000000000..50d509afc5
 --- /dev/null
 +++ b/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.h
-@@ -0,0 +1,53 @@
+@@ -0,0 +1,84 @@
 +// Copyright 2026 Aelo contributors. BSD-style license.
 +#ifndef CHROME_BROWSER_UI_VIEWS_TABS_VERTICAL_AELO_WORKSPACE_HEADER_H_
 +#define CHROME_BROWSER_UI_VIEWS_TABS_VERTICAL_AELO_WORKSPACE_HEADER_H_
++#include <string>
++#include <vector>
 +
 +#include "base/memory/raw_ptr.h"
 +#include "base/memory/weak_ptr.h"
-+#include "chrome/browser/ui/tabs/tab_strip_model.h"
 +#include "chrome/browser/ui/tabs/tab_strip_model_observer.h"
++#include "chrome/browser/ui/views/tabs/vertical/aelo_workspace_model.h"
++#include "components/prefs/pref_change_registrar.h"
 +#include "ui/views/layout/flex_layout_view.h"
-+
 +class BrowserWindowInterface;
 +namespace views {
 +class Combobox;
++class Textfield;
 +class MdTextButton;
 +}  // namespace views
 +namespace tabs {
 +class VerticalTabStripStateController;
 +}
-+
-+// Aelo workspace controls. Chromium groups own the live tabs and session state;
-+// no WebContents or profile storage is moved into a parallel UI-only model.
++// Owns organization only. Chromium owns navigation, WebContents, split views,
++// session history, permission prompts and isolated Profile storage.
 +class AeloWorkspaceHeader : public views::FlexLayoutView,
 +                            public TabStripModelObserver {
 +  METADATA_HEADER(AeloWorkspaceHeader, views::FlexLayoutView)
 + public:
-+  AeloWorkspaceHeader(BrowserWindowInterface* browser,
-+                      tabs::VerticalTabStripStateController* state_controller);
++  AeloWorkspaceHeader(BrowserWindowInterface*,
++                      tabs::VerticalTabStripStateController*);
 +  ~AeloWorkspaceHeader() override;
++  void SetDragging(bool dragging);
++  std::u16string DragPayload(const std::string& id) const;
++  bool CanDropPage(const std::u16string& payload,
++                   const std::string& target,
++                   int zone) const;
++  bool DropPage(const std::u16string& payload,
++                const std::string& target,
++                int zone);
 +
 + private:
++  bool Load();
++  void Save();
 +  void ScheduleRefresh();
 +  void Refresh();
++  void SyncTabs();
++  void RenderChildren(const std::string& parent, int depth);
++  void Select(const std::string& id);
 +  void SelectSpace();
-+  void CreateSpace();
-+  void RenameSpace();
-+  void OpenShortcut(const char* url);
++  void Create(aelo::Kind kind);
++  void Rename();
++  void TogglePin();
++  void RemoveEmpty();
++  void MoveSelected();
++  void Reorder(int delta);
++  void NewPage();
++  std::string Destination() const;
++  std::pair<std::string, size_t> DropDestination(const std::string& target,
++                                                 int zone) const;
++  std::string PayloadId(const std::u16string& payload) const;
 +  void OnTabStripModelChanged(TabStripModel*,
 +                              const TabStripModelChange&,
 +                              const TabStripSelectionChange&) override;
-+  void OnTabGroupChanged(const TabGroupChange&) override;
-+  void OnTabGroupFocusChanged(std::optional<tab_groups::TabGroupId>,
-+                              std::optional<tab_groups::TabGroupId>) override;
++  void OnTabChangedAt(tabs::TabInterface*, TabChangeType) override;
 +  void OnTabStripModelDestroyed(TabStripModel*) override;
-+
 +  raw_ptr<BrowserWindowInterface> browser_;
 +  raw_ptr<views::Combobox> picker_ = nullptr;
-+  raw_ptr<views::MdTextButton> rename_button_ = nullptr;
-+  std::vector<tab_groups::TabGroupId> groups_;
++  raw_ptr<views::Combobox> move_picker_ = nullptr;
++  raw_ptr<views::Textfield> name_ = nullptr;
++  raw_ptr<views::FlexLayoutView> rows_ = nullptr;
++  raw_ptr<views::MdTextButton> pin_ = nullptr;
++  aelo::WorkspaceTree tree_;
++  std::string space_;
++  std::string selected_;
++  std::string nonce_;
++  std::vector<std::string> spaces_;
++  std::vector<std::string> destinations_;
++  bool dragging_ = false;
++  bool valid_ = false;
 +  bool refresh_pending_ = false;
++  PrefChangeRegistrar pref_changes_;
 +  base::CallbackListSubscription collapse_subscription_;
 +  base::WeakPtrFactory<AeloWorkspaceHeader> weak_factory_{this};
 +};

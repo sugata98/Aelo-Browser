@@ -1,0 +1,96 @@
+# Independent folder sidebar
+
+## Status — 4 November 2026
+
+The custom sidebar implementation and standalone model tests are in source.
+The changed Chromium translation units compiled. A full 18-job browser rebuild
+is running; live folder interaction and on-disk restart qualification are
+pending. Earlier group-sidebar evidence does not qualify this replacement.
+
+## Organization and browser ownership
+
+`chromium/workspace/aelo_workspace_model.h` defines an engine-independent ordered
+forest of Spaces, folders and pages. Spaces are roots. Folders can contain other
+folders and pages, to a maximum validated depth of 128. Page UUIDs are independent
+of URLs, Chromium groups, tab indexes and transient session IDs. Duplicate URLs
+remain distinct pages. Empty folders and Spaces are represented explicitly.
+
+The native Views sidebar renders this tree instead of the expanded Chromium tab
+list. Chromium's native strip remains available when collapsed and its controller
+continues to own live tabs. The tree never creates a second browser engine or
+replaces WebContents, permission prompts, session history, split ownership or
+Profile isolation. A page row selects an existing tab in the same Profile, or
+opens its saved URL when it has no live tab. Saved-page reopening permits HTTP,
+HTTPS, the built-in new tab and about:blank; it does not execute arbitrary saved
+schemes. Existing live internal pages can still be selected normally.
+
+A page is a saved sidebar item: closing its live tab leaves the item available to
+open again. Remove can forget a closed page or an empty container. It cannot
+silently delete a populated subtree or close a live page and bypass beforeunload.
+This is not yet Arc's separate Today/auto-archive/closed-pin behavior.
+
+## Controls
+
+- Select a Space, then use + Folder to create a folder at its root. Select a
+  folder and use + Folder again to nest another folder inside it.
+- Select a folder or page, edit its name, then press Rename.
+- Click a folder to expand/collapse it. New folders and moves expand the parent.
+- + Tab creates a native tab in the selected folder (or beside the selected
+  page). Cmd+T tabs are adopted into the current tree location on observation.
+- Pin changes the saved page's own pin flag; it does not move the page out of
+  its folder or depend on Chromium's global pin constraint.
+- Drag into a container's middle to nest. Drag to a row's top/bottom quarter to
+  reorder siblings. The visible Space-root row allows moving back to the root.
+  Drag payloads are scoped to the originating sidebar, not external strings.
+- Move and its destination picker provide a keyboard-accessible alternative to
+  nesting. Up/down buttons reorder the selected item among its siblings.
+- Split, Reopen, profile switching and the collapsed tab strip continue using
+  Chromium's own browser commands.
+
+## Persistence and preservation
+
+The profile-local `aelo.workspace_tree` dictionary stores version 1, active Space
+and ordered node records (parent UUID, kind, title, URL, pin, expansion and custom
+name flag). Chromium PrefService writes the profile preferences; the prior valid
+snapshot is also retained in `aelo.workspace_tree_backup`. Invalid versions,
+duplicate IDs, dangling parents, cycles, page parents, nested Spaces and excessive
+depth are rejected. An invalid primary tree is preserved and shown as requiring
+recovery; this implementation does not automatically overwrite it with defaults.
+
+Native session rebuild, tab restore and Reopen records carry the page UUID as
+`aelo.workspace_page_id`. WebContents replacement retains that identity. Native
+session restore retains navigation/session behavior; the workspace retains
+organization even when a page is not currently open. Unrecognized native groups
+are adopted as independent named Spaces when their pages are first encountered;
+the native group records are preserved, and later tree changes do not edit them.
+
+Each Chromium Profile has its own tree and cookie store. Spaces within one
+Profile share browsing data. No cross-profile move destination is exposed.
+Incognito uses its off-the-record preference overlay rather than writing this
+tree to the original Profile. Private-mode persistence behavior still needs live
+qualification.
+
+The legacy CEF `src/Workspace.mm`, workspace.json and profile directories are
+unchanged. No personal Arc or browser profiles are read or imported. The original
+CEF data model and this portable C++ tree are not yet bridged.
+
+## Verification
+
+Passed: standalone model tests for nested folders (100 levels), order changes,
+subtree moves between Spaces, duplicate URLs, Unicode titles, pins, expansion,
+empty containers, snapshot round-trip, rejected cycles/dangling IDs/invalid kinds/
+excessive depth and preservation of the last valid in-memory model. All three
+CTest suites passed, including the existing workspace suite and ten build-tool
+tests. Chromium header dependency checks and changed-object compilation passed.
+The patch reverse-application check passed; 0001 and 0003 are unchanged.
+
+Pending live gates: native folder creation/rename; nested expansion; page creation
+inside a folder; drag nest/reorder and rejected descendant move; keyboard move;
+per-folder pins; empty-container persistence; native Reopen identity; clean
+quit/relaunch tree persistence and session binding; same-profile sharing and
+separate-profile isolation; renderer sandbox. Use fresh disposable data only.
+
+No Arc import, model bridge, undo/redo, Today auto-archive, full cross-window drag,
+full extension compatibility or complete Arc parity is claimed. The CEF shutdown
+watchdog, distribution resource seal and embedded source-revision provenance
+remain separate work.

@@ -193,3 +193,17 @@ disappeared for an unknown reason, so these checks do not establish long-term
 stability. The independent CEF watchdog, empty-Space/per-Space-pin parity, import,
 nested folders, broad extensions and distribution signing remain unfinished.
 See docs/chromium-workspace-launch-evidence.json and docs/chromium-workspace-port.md.
+
+
+### Independent folder sidebar — implementation checks, 4 November 2026
+
+The new portable C++ tree and native sidebar replace group-backed organization
+in source. All three CTest suites passed (legacy workspace, new workspace_tree,
+and build_tools with ten cases). Model checks include 100-level nesting,
+subtree moves, ordering, pins, empty containers, Unicode/duplicate URLs, rejected
+invalid snapshots and preservation of the prior in-memory state. These model
+snapshot tests do not establish on-disk UI restoration. Changed native
+translation units and GN header dependency checks passed; a full 18-job browser
+link is running. Live nested-folder and restart checks are pending; prior
+group-sidebar evidence does not qualify this implementation. See
+docs/chromium-folder-sidebar.md for controls, persistence and remaining gates.

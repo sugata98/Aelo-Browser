@@ -294,6 +294,15 @@ class ChromiumBuild:
             self.run("git", "apply", "--check", patch, cwd=self.src)
             self.run("git", "apply", patch, cwd=self.src)
 
+    def sync_workspace_model(self):
+        # One canonical engine-independent model, also compiled by standalone
+        # regression tests. This generated copy is confined to the checkout.
+        for name in ("aelo_workspace_model.h", "aelo_workspace_model.cc"):
+            source = PROJECT / "chromium/workspace" / name
+            destination = self.src / "chrome/browser/ui/views/tabs/vertical" / name
+            if not destination.exists() or destination.read_bytes() != source.read_bytes():
+                shutil.copyfile(source, destination)
+
     def configure(self):
         self.preflight()
         self.verify_revision()
@@ -303,6 +312,7 @@ class ChromiumBuild:
         # unlike update_depot_tools, this does not change their Git revision.
         self.run(self.tools / "ensure_bootstrap")
         self.patch()
+        self.sync_workspace_model()
         self.run(self.tools / "gclient", "runhooks", cwd=self.checkout)
         self.out.mkdir(parents=True, exist_ok=True)
         args_text = self.gn_arguments()

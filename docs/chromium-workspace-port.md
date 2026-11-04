@@ -1,6 +1,13 @@
 # Full Chromium workspace UI port
 
-## Status — 4 November 2026
+## Active development
+
+The group-backed adapter described below is being replaced by an independent
+folder tree. See [custom folder sidebar](chromium-folder-sidebar.md) for the
+current implementation and its separate, pending live qualification. The basic
+live evidence below applies to the earlier adapter only.
+
+## Previously verified adapter — 4 November 2026
 
 The first full Chromium fork build and disposable-profile launch passed before
 this change. The launched browser used upstream Chromium window controls, not

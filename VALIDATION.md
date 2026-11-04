@@ -157,3 +157,11 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   Chromium's native observer lifetime management; incremental retry is active.
 - See docs/chromium-workspace-port.md for implementation boundaries and required
   live gates. CEF workspace/profile files were not changed or imported.
+
+- Workspace UI full chrome target rebuild completed successfully with 18 jobs.
+  The new header and region view compiled, driver state is action_completed,
+  and the executable exists. Live UI checks are still pending.
+- Disposable-profile launch from the agent host failed at Crashpad Mach-port
+  registration (permission denied). Launch Services also reports a missing
+  executable despite its verified presence. No security flags were changed.
+  A normal user launch is needed before interaction/rendering qualification.

@@ -4,8 +4,8 @@
 
 The first full Chromium fork build and disposable-profile launch passed before
 this change. The launched browser used upstream Chromium window controls, not
-the existing AppKit workspace shell. This port is under compilation; the new UI
-has **not yet passed a full build or live interaction checks**.
+the existing AppKit workspace shell. The new workspace UI now passes a full chrome target build. It has **not yet
+passed live interaction checks**.
 
 ## Current implementation
 
@@ -62,8 +62,18 @@ previous CEF watchdog regression remain separate unfinished work.
 - Initial compile stopped on forbidden ScopedObservation<TabStripModel,...>:
   Chromium now manages observer lifetimes in TabStripModelObserver itself.
   The adapter was corrected to AddObserver and native automatic removal.
-- Retry uses python3 scripts/build_chromium.py build --jobs 18 with the verified
-  Metal toolchain. Log: ignored .build/chromium-build-workspace-retry.log.
+- Full retry completed successfully with --jobs 18 and the verified Metal
+  toolchain. Driver state is action_completed/build; both workspace header and
+  region view objects and the real application executable exist. Log: ignored
+  .build/chromium-build-workspace-retry.log.
+- Host launch from the agent sandbox remains blocked: Launch Services reports
+  kLSNoExecutableErr despite the verified executable; direct execution reaches
+  Crashpad and fails Mach bootstrap registration with permission denied. The
+  disposable debug endpoint was not created. No browser protection was disabled.
+  Normal user Terminal launch is required for live qualification.
+- A possible build-scope optimization (putting the 248-point default in profile
+  prefs) was identified but not applied. The broad rebuild has now completed;
+  do not change the shared width header solely to repeat that completed work.
 
 Required live gates: new-tab appearance; create, edit and switch two Spaces;
 new-tab membership while focused; All tabs escape; pin/unpin behavior; split

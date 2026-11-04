@@ -1,0 +1,39 @@
+{
+  "checked_on": "2026-11-03",
+  "reason": "Two snapshot substitutions address unavailable public DEPS revisions. An additional LiteRT transport override retains the exact original commit while using upstream GitHub, which serves its Git LFS objects; the Chromium mirror returned HTTP 405 for LFS.",
+  "overrides": [
+    {
+      "path": "src/third_party/litert/src",
+      "original_revision": "4dac1538b76bc20bb7f2ba314bcc89dc57c0ee2b",
+      "replacement_revision": "4dac1538b76bc20bb7f2ba314bcc89dc57c0ee2b",
+      "repository": "https://github.com/google-ai-edge/LiteRT.git",
+      "original_repository": "https://chromium.googlesource.com/external/github.com/google-ai-edge/LiteRT.git",
+      "transport_only": true,
+      "scope": "Use the official upstream LFS endpoint without changing the pinned commit or disabling object verification."
+    },
+    {
+      "path": "src/third_party/webpagereplay/third_party/clang-format/script",
+      "original_revision": "9f796802e5d633c96dbe97e0b6683d5e62594f9f",
+      "replacement_revision": "47dce8466cd71943f64df3860e608957d6e20007",
+      "repository": "https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git",
+      "committed_on": "2026-09-23",
+      "scope": "Nested Web Page Replay formatting helpers; same snapshot as the top-level formatter checkout."
+    },
+    {
+      "path": "src/third_party/clang-format/script",
+      "original_revision": "9f796802e5d633c96dbe97e0b6683d5e62594f9f",
+      "replacement_revision": "47dce8466cd71943f64df3860e608957d6e20007",
+      "repository": "https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git",
+      "committed_on": "2026-09-23",
+      "scope": "Formatting helper sources; compile toolchain remains governed by Chromium DEPS and hooks."
+    },
+    {
+      "path": "src/third_party/search_engines_data/resources",
+      "original_revision": "5dc9f1afd38a8ac2b26b1972eb4fc1bbd5754e8c",
+      "replacement_revision": "effde84e73491653b245b68ac65835ad2fc4e1de",
+      "repository": "https://chromium.googlesource.com/external/search_engines_data.git",
+      "committed_on": "2026-09-16",
+      "scope": "Public prepopulated search-engine definitions; generator and runtime compatibility require validation."
+    }
+  ]
+}

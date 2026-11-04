@@ -1,0 +1,149 @@
+{
+  "date": "2026-11-04",
+  "source_commit": "845f758",
+  "chromium_version": "156.0.8078.80",
+  "chromium_revision": "fb096c0011f9d50f0a264a9376420cdea9c421e3",
+  "qualification": "Aelo fork with two documented public dependency snapshot substitutions",
+  "build": {
+    "status": "action_completed",
+    "action": "build",
+    "ended_at": 1793757793.973619
+  },
+  "remaining_build_steps": 0,
+  "disposable_root": "/private/tmp/aelo-workspace-verified-crx8wy2f",
+  "checked_profiles": [
+    "Default",
+    "Profile 1"
+  ],
+  "ui_checks_passed": [
+    "original home and native sidebar",
+    "create/edit/switch Personal and Focus",
+    "focused Cmd+T membership",
+    "All tabs escape",
+    "pin/unpin native global pins",
+    "close/Reopen",
+    "independent split navigation",
+    "sidebar collapse/expand",
+    "shared cookie across Spaces in Default",
+    "isolated cookie store in Profile 1",
+    "normal quit and no-URL session restoration of Spaces, selection, tabs and split membership"
+  ],
+  "sandbox_observations": [
+    {
+      "type": "browser",
+      "pid": 88412,
+      "sandbox_check": 0,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88705,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88704,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88675,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88663,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88659,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88660,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88639,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88640,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88638,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88637,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88658,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88461,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88470,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 88460,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "GPU",
+      "pid": 88450,
+      "sandbox_check": 1,
+      "errno": 0
+    }
+  ],
+  "home_page": {
+    "url": "chrome://new-tab-page/",
+    "title": "New Tab",
+    "text": "A LITTLE SPACE FOR YOU\nRoom to think.\nSpace to explore.\n\nStart somewhere new, or pick up where you left off.\nPress \u2318 T for a new tab or \u2318 L to go anywhere.\n\nSearch the web \u2197\nGitHub \u2197\nDiscover \u2197\nAELO \u00a0 / \u00a0 YOUR BROWSER. YOUR SPACE.",
+    "ready": "complete"
+  },
+  "screenshot": "chromium-workspace-home.png (page content only, not native window chrome)",
+  "launch": "REA local spawn followed by immediate detach/resume; no instrumentation scripts; UI via computer use; read-only CDP diagnostics",
+  "startup_regression": {
+    "before_fix_evidence": "ev_943872bb7c5f34a0b661ef322a82fbdf795b251a1d78a31eb9aaf828838c45c8",
+    "after_fix_bounded_capture": "ev_043d80161f33e9943913651326bb5602e7b32232014920c999848c19daea6866",
+    "after_fix_capture_termination": "deliberate timeout SIGTERM; persistent UI qualification performed separately"
+  },
+  "limitations": [
+    "Earlier verification process disappeared for an unestablished reason; later normal quit/relaunch passed",
+    "Native group-backed Spaces do not implement persistent empty Spaces or per-Space pins",
+    "CEF workspace/profile data unchanged and not imported",
+    "Arc import, nested folders, broad extension compatibility and separate CEF watchdog remain open",
+    "Distribution resource seal and embedded zero source revision remain unqualified"
+  ]
+}

@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import plistlib
 import shutil
+import struct
 import subprocess
 import sys
 import tarfile
@@ -29,7 +30,7 @@ def tool(name):
     local = WORK / "build-tools"
     binary = local / ("cmake/data/bin/" + name if name in ("cmake", "ctest") else "bin/" + name)
     if not binary.exists():
-        run(sys.executable, "-m", "pip", "install", "--target", local, "cmake==4.4.4", "ninja==1.13.2")
+        run(sys.executable, "-m", "pip", "install", "--cache-dir", WORK / "pip-cache", "--target", local, "cmake==4.4.4", "ninja==1.13.2")
     return str(binary)
 
 def engine():
@@ -61,6 +62,24 @@ def write_plist(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("wb") as stream:
         plistlib.dump(data, stream)
+
+def write_icns(iconset, destination):
+    # Modern ICNS entries contain PNGs. Writing the container directly avoids
+    # iconutil's GUI-service dependency in sandboxed/headless build sessions.
+    entries = (("icp4", "16x16", 16), ("ic11", "16x16@2x", 32),
+               ("icp5", "32x32", 32), ("ic12", "32x32@2x", 64),
+               ("ic07", "128x128", 128), ("ic13", "128x128@2x", 256),
+               ("ic08", "256x256", 256), ("ic14", "256x256@2x", 512),
+               ("ic09", "512x512", 512), ("ic10", "512x512@2x", 1024))
+    chunks = []
+    for kind, name, size in entries:
+        png = (iconset / f"icon_{name}.png").read_bytes()
+        if (len(png) < 33 or png[:8] != b"\x89PNG\r\n\x1a\n" or
+                png[12:16] != b"IHDR" or struct.unpack(">II", png[16:24]) != (size, size)):
+            raise RuntimeError(f"Invalid icon PNG: {name}")
+        chunks.append(kind.encode() + struct.pack(">I", len(png) + 8) + png)
+    content = b"".join(chunks)
+    destination.write_bytes(b"icns" + struct.pack(">I", len(content) + 8) + content)
 
 def package(cef):
     global APP
@@ -103,7 +122,7 @@ def package(cef):
         for scale in (1, 2):
             name = f"icon_{size}x{size}" + ("@2x" if scale == 2 else "") + ".png"
             subprocess.run(["sips", "-z", str(size * scale), str(size * scale), str(WORK / "aelo-icon.png"), "--out", str(iconset / name)], check=True, stdout=subprocess.DEVNULL)
-    run("iconutil", "-c", "icns", iconset, "-o", content / "Resources/Aelo.icns")
+    write_icns(iconset, content / "Resources/Aelo.icns")
     # Finder/File Provider may decorate generated .app folders in Documents.
     # Remove only signing-incompatible metadata on this build's artifacts.
     for attribute in ("com.apple.FinderInfo", "com.apple.ResourceFork"):
@@ -130,9 +149,16 @@ def package(cef):
     print(f"Built {APP}", flush=True)
 
 def main():
+    global APP
     parser = argparse.ArgumentParser()
     parser.add_argument("--package-only", action="store_true")
+    parser.add_argument("--app-destination", type=Path,
+                        help="Build a signed app at this path instead of replacing ~/Applications/Aelo.app")
     args = parser.parse_args()
+    if args.app_destination:
+        APP = args.app_destination.expanduser().resolve()
+        if APP.suffix != ".app":
+            parser.error("--app-destination must end in .app")
     if sys.platform != "darwin" or os.uname().machine != "arm64":
         raise RuntimeError("This first build targets Apple Silicon macOS only")
     WORK.mkdir(exist_ok=True)

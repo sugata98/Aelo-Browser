@@ -1,0 +1,15 @@
+{
+  "version": "156.0.8078.80",
+  "repository": "https://chromium.googlesource.com/chromium/src.git",
+  "revision": "fb096c0011f9d50f0a264a9376420cdea9c421e3",
+  "depot_tools_repository": "https://chromium.googlesource.com/chromium/tools/depot_tools.git",
+  "depot_tools_revision": "816da11f80777dcf8c10bdaa84df18450dcba12a",
+  "custom_deps": {
+    "src/third_party/clang-format/script": "https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git@47dce8466cd71943f64df3860e608957d6e20007",
+    "src/third_party/search_engines_data/resources": "https://chromium.googlesource.com/external/search_engines_data.git@effde84e73491653b245b68ac65835ad2fc4e1de",
+    "src/third_party/webpagereplay/third_party/clang-format/script": "https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git@47dce8466cd71943f64df3860e608957d6e20007",
+    "src/third_party/litert/src": "https://github.com/google-ai-edge/LiteRT.git@4dac1538b76bc20bb7f2ba314bcc89dc57c0ee2b"
+  },
+  "target": "chrome",
+  "app": "Aelo.app"
+}

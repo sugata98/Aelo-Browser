@@ -1,0 +1,179 @@
+{
+  "date": "2026-11-04",
+  "source_commit": "221d813",
+  "status": "partial_live_pass_later_omnibox_failure",
+  "remaining_build_steps": 0,
+  "disposable_root": "/private/tmp/aelo-folders-fixed-xkkkx2r1",
+  "normal_restart_tree": {
+    "active_space": "f7d76606-f32b-45b1-b4ad-bcef37508877",
+    "nodes": [
+      {
+        "custom_title": false,
+        "expanded": true,
+        "id": "13e21467-6d8f-45ad-ac5d-64c1da738a7e",
+        "kind": 0,
+        "parent": "",
+        "pinned": false,
+        "title": "Personal",
+        "url": ""
+      },
+      {
+        "custom_title": false,
+        "expanded": true,
+        "id": "36c6e618-8c2f-4a70-b55c-ad7a65a53253",
+        "kind": 0,
+        "parent": "",
+        "pinned": false,
+        "title": "Focus",
+        "url": ""
+      },
+      {
+        "custom_title": false,
+        "expanded": true,
+        "id": "9c78a2f9-7e78-4b96-9f4a-66db83014177",
+        "kind": 2,
+        "parent": "13e21467-6d8f-45ad-ac5d-64c1da738a7e",
+        "pinned": false,
+        "title": "New Tab",
+        "url": "chrome://newtab/"
+      },
+      {
+        "custom_title": true,
+        "expanded": true,
+        "id": "1b946796-7ef5-4e05-9eac-cc6475df0850",
+        "kind": 1,
+        "parent": "13e21467-6d8f-45ad-ac5d-64c1da738a7e",
+        "pinned": false,
+        "title": "Projects",
+        "url": ""
+      },
+      {
+        "custom_title": true,
+        "expanded": true,
+        "id": "0cd6a42a-5cad-46d3-a388-fe1649873b8a",
+        "kind": 1,
+        "parent": "1b946796-7ef5-4e05-9eac-cc6475df0850",
+        "pinned": false,
+        "title": "Research",
+        "url": ""
+      },
+      {
+        "custom_title": true,
+        "expanded": true,
+        "id": "02e9fee5-177b-40a4-8e30-67aa4ca69888",
+        "kind": 1,
+        "parent": "0cd6a42a-5cad-46d3-a388-fe1649873b8a",
+        "pinned": false,
+        "title": "Sources",
+        "url": ""
+      },
+      {
+        "custom_title": true,
+        "expanded": true,
+        "id": "027d8835-dec3-465e-ba52-acda8a06e022",
+        "kind": 1,
+        "parent": "02e9fee5-177b-40a4-8e30-67aa4ca69888",
+        "pinned": false,
+        "title": "Empty",
+        "url": ""
+      },
+      {
+        "custom_title": true,
+        "expanded": true,
+        "id": "35196cd0-feb8-4bdf-8093-7305b8ab84c0",
+        "kind": 1,
+        "parent": "13e21467-6d8f-45ad-ac5d-64c1da738a7e",
+        "pinned": false,
+        "title": "Inbox",
+        "url": ""
+      },
+      {
+        "custom_title": false,
+        "expanded": true,
+        "id": "d42ea8b1-8f9c-459c-bd57-c1e344b9c845",
+        "kind": 2,
+        "parent": "13e21467-6d8f-45ad-ac5d-64c1da738a7e",
+        "pinned": true,
+        "title": "Aelo browser check",
+        "url": "http://127.0.0.1:53190/set"
+      },
+      {
+        "custom_title": true,
+        "expanded": true,
+        "id": "f7d76606-f32b-45b1-b4ad-bcef37508877",
+        "kind": 0,
+        "parent": "",
+        "pinned": false,
+        "title": "Empty Space",
+        "url": ""
+      }
+    ],
+    "version": 1
+  },
+  "normal_restart_exact_tree_match_observed": true,
+  "normal_quit_exit_type_observed": "Normal",
+  "profile_isolation_observation": {
+    "Default_cookie": "aelo_test=shared-profile",
+    "Profile 1_cookie": "(empty)",
+    "independent_trees": true
+  },
+  "sandbox_observations": [
+    {
+      "type": "browser",
+      "pid": 20140,
+      "sandbox_check": 0,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 20279,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 20278,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 20221,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 20206,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "renderer",
+      "pid": 20204,
+      "sandbox_check": 1,
+      "errno": 0
+    },
+    {
+      "type": "GPU",
+      "pid": 20200,
+      "sandbox_check": 1,
+      "errno": 0
+    }
+  ],
+  "pending": [
+    "native drag nest/reorder/cycle rejection",
+    "non-default Move picker",
+    "deliberately collapsed-state restart",
+    "native Reopen UUID binding",
+    "Space-switch interaction and automatic page focus",
+    "full stability after profile/window transitions"
+  ],
+  "later_failure": {
+    "pid": 21668,
+    "fatal": "LocationBarView::ValidatePopupState: classic_is_expected && !aim_is_shown; kClassic classic=0 aim=0",
+    "log": ".build/chromium-folder-restart.log",
+    "cause": "unestablished",
+    "checks_disabled": false
+  }
+}

@@ -40,6 +40,23 @@ Right-click a tab for pinning, renaming, splitting and archiving. In the command
 
 ## Build
 
+**Full Chromium migration:** run `python3 scripts/build_chromium.py fetch`, then
+`python3 scripts/build_chromium.py build`. This builds upstream's full `chrome`
+target with Aelo's independent browser identity. The full Chromium Aelo fork
+has built and launched with a disposable profile; HTTPS rendering and macOS
+renderer sandbox checks passed. The workspace UI port also builds successfully;
+its basic live Spaces, split browsing, profile isolation, sandbox and session
+restoration checks passed. Distribution signing and broad compatibility remain open.
+See the [migration status and build instructions](docs/chromium-migration.md)
+and [workspace port](docs/chromium-workspace-port.md). An independent
+[custom sidebar with nested folders](docs/chromium-folder-sidebar.md) is now
+implemented and built. Basic nested-folder and restart checks passed, but a
+later omnibox crash leaves stability qualification open. It replaces the
+group-backed organization. The [Arc implementation evidence](docs/arc-sidebar-implementation.md)
+guides the next renderer correction.
+
+The command below builds the released **CEF preview**.
+
 Requires an Apple Silicon Mac, macOS 13 or later, Python 3.10+ and Apple's Command Line Tools. The app has been run on the current machine; macOS 13 itself has not been tested.
 
 ```sh

@@ -1,0 +1,2898 @@
+{
+  "kind": "Aelo analyst summary of shipped-artifact observations",
+  "date": "2026-11-04",
+  "target": {
+    "path": "/Applications/Arc.app",
+    "version": "1.171.0",
+    "build": "89666",
+    "executable_sha256": "e82d2a4245b6239860e41a149cb31c0c030e35b383456544c81f21d45ee03376",
+    "architecture": "arm64"
+  },
+  "rea_evidence_ids": {
+    "native_metadata": "ev_6fd7d6d0da42099558938fd3cfab2a2f0464cf8bcf36b6569584d49e8a950ed3",
+    "interface_builder": "ev_f9fd64fbdf759bb2d0aa09e100e1e261c41745d1ac72cb2f60f24e8227596736",
+    "selected_menu_nodes": "ev_57e7fe78d29d63a9f5b01d96aeb70a8f9d1d9ca51d7e58cb9c47bb72a5f99951",
+    "demangle": "ev_46c6b4280a9cb8e7a34730cf545130b4794f7a4c94f88591ab0b3e1337b0cd3b"
+  },
+  "classes": [
+    {
+      "encoded_name": "_TtC3Arc22TablistOutlineDelegate",
+      "super_class": "NSObject",
+      "protocols": [
+        "NSOutlineViewDelegate"
+      ],
+      "location": {
+        "address": "0x1044f8888",
+        "file_offset": 158943368
+      },
+      "fields": [
+        {
+          "name": "isUpdatingOutlineView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104428438",
+            "file_offset": 158090296
+          }
+        },
+        {
+          "name": "isInDragDrop",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104428458",
+            "file_offset": 158090328
+          }
+        },
+        {
+          "name": "localState",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104428478",
+            "file_offset": 158090360
+          }
+        },
+        {
+          "name": "outlineView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104428498",
+            "file_offset": 158090392
+          }
+        },
+        {
+          "name": "cellStoreSubscriptions",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044284b8",
+            "file_offset": 158090424
+          }
+        },
+        {
+          "name": "previewPresenter",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044284d8",
+            "file_offset": 158090456
+          }
+        },
+        {
+          "name": "storeForScopingOnly",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044284f8",
+            "file_offset": 158090488
+          }
+        },
+        {
+          "name": "viewStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104428518",
+            "file_offset": 158090520
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "outlineViewItemDidExpand:",
+          "implementation_address": "0x10035363c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineViewItemDidCollapse:",
+          "implementation_address": "0x100353a04",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineView:shouldExpandItem:",
+          "implementation_address": "0x10034f790",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineView:heightOfRowByItem:",
+          "implementation_address": "0x10034f81c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineViewSelectionDidChange:",
+          "implementation_address": "0x10034ffb0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineView:selectionIndexesForProposedSelection:",
+          "implementation_address": "0x100350a9c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineView:viewForTableColumn:item:",
+          "implementation_address": "0x100350e60",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineView:rowViewForItem:",
+          "implementation_address": "0x10035302c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineView:didRemoveRowView:forRow:",
+          "implementation_address": "0x1003530bc",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "init",
+          "implementation_address": "0x100353124",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x100353180",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC3Arc21TablistViewController",
+      "super_class": "NSViewController",
+      "protocols": [],
+      "location": {
+        "address": "0x1044f73c0",
+        "file_offset": 158938048
+      },
+      "fields": [
+        {
+          "name": "$__lazy_storage_$_tablistView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426578",
+            "file_offset": 158082424
+          }
+        },
+        {
+          "name": "dropTargetRegion",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426598",
+            "file_offset": 158082456
+          }
+        },
+        {
+          "name": "dataSource",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044265b8",
+            "file_offset": 158082488
+          }
+        },
+        {
+          "name": "transientPeekedItems",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044265d8",
+            "file_offset": 158082520
+          }
+        },
+        {
+          "name": "outlineDelegate",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044265f8",
+            "file_offset": 158082552
+          }
+        },
+        {
+          "name": "subscriptions",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426618",
+            "file_offset": 158082584
+          }
+        },
+        {
+          "name": "store",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426638",
+            "file_offset": 158082616
+          }
+        },
+        {
+          "name": "viewStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426658",
+            "file_offset": 158082648
+          }
+        },
+        {
+          "name": "snapshotViewStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426678",
+            "file_offset": 158082680
+          }
+        },
+        {
+          "name": "delegate",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426698",
+            "file_offset": 158082712
+          }
+        },
+        {
+          "name": "isHeaderViewHovered",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044266b8",
+            "file_offset": 158082744
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "outlineViewFrameChanged",
+          "implementation_address": "0x1002adccc",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "didScroll",
+          "implementation_address": "0x1002adcc8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineViewDefaultAction:",
+          "implementation_address": "0x1002a7c74",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "outlineViewDoubleAction:",
+          "implementation_address": "0x1002a7cd8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithCoder:",
+          "implementation_address": "0x1002a60c4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "loadView",
+          "implementation_address": "0x1002a60ec",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "viewDidLoad",
+          "implementation_address": "0x1002a7678",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithNibName:bundle:",
+          "implementation_address": "0x1002a76a0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x1002a76cc",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC3Arc21SidebarViewController",
+      "super_class": "NSViewController",
+      "protocols": [
+        "NSDraggingDestination",
+        "NSPopoverDelegate"
+      ],
+      "location": {
+        "address": "0x1044f6e28",
+        "file_offset": 158936616
+      },
+      "fields": [
+        {
+          "name": "$__lazy_storage_$_sidebarHeader",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426028",
+            "file_offset": 158081064
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_sidebarHeaderBackgroundView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426048",
+            "file_offset": 158081096
+          }
+        },
+        {
+          "name": "store",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426068",
+            "file_offset": 158081128
+          }
+        },
+        {
+          "name": "viewStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426088",
+            "file_offset": 158081160
+          }
+        },
+        {
+          "name": "menuProvider",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044260a8",
+            "file_offset": 158081192
+          }
+        },
+        {
+          "name": "subscriptions",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044260c8",
+            "file_offset": 158081224
+          }
+        },
+        {
+          "name": "_isDraggingOverHeaderView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044260e8",
+            "file_offset": 158081256
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_sidebarContainer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426108",
+            "file_offset": 158081288
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_pagingController",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426128",
+            "file_offset": 158081320
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_dockController",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426148",
+            "file_offset": 158081352
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_containerView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426168",
+            "file_offset": 158081384
+          }
+        },
+        {
+          "name": "appTrayViewFrameSubject",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426188",
+            "file_offset": 158081416
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_stackView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044261a8",
+            "file_offset": 158081448
+          }
+        },
+        {
+          "name": "mediaControlsContainer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044261c8",
+            "file_offset": 158081480
+          }
+        },
+        {
+          "name": "sidebarBannerContainer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044261e8",
+            "file_offset": 158081512
+          }
+        },
+        {
+          "name": "dimmedHeaderView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426208",
+            "file_offset": 158081544
+          }
+        },
+        {
+          "name": "dimmedBodyView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426228",
+            "file_offset": 158081576
+          }
+        },
+        {
+          "name": "leadingDragRegionWindow",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426248",
+            "file_offset": 158081608
+          }
+        },
+        {
+          "name": "trailingDragRegionWindow",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426268",
+            "file_offset": 158081640
+          }
+        },
+        {
+          "name": "previewPresenter",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426288",
+            "file_offset": 158081672
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_homeButtonView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044262a8",
+            "file_offset": 158081704
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_edgeDragController",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044262c8",
+            "file_offset": 158081736
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_homeButtonBadgingMaskLayer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044262e8",
+            "file_offset": 158081768
+          }
+        },
+        {
+          "name": "iconPickerPopover",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426308",
+            "file_offset": 158081800
+          }
+        },
+        {
+          "name": "liveFolderPopover",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426328",
+            "file_offset": 158081832
+          }
+        },
+        {
+          "name": "liveCalendarPopover",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426348",
+            "file_offset": 158081864
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_headerSpacingConstraint",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104426368",
+            "file_offset": 158081896
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "draggingEntered:",
+          "implementation_address": "0x10029e904",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "draggingUpdated:",
+          "implementation_address": "0x10029e968",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "draggingEnded:",
+          "implementation_address": "0x10029ea3c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "prepareForDragOperation:",
+          "implementation_address": "0x10029ea68",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "performDragOperation:",
+          "implementation_address": "0x10029ea70",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "popoverWillClose:",
+          "implementation_address": "0x10029b4e0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "nextResponder",
+          "implementation_address": "0x100292bf8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "setNextResponder:",
+          "implementation_address": "0x100292c3c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithCoder:",
+          "implementation_address": "0x100294ea4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "loadView",
+          "implementation_address": "0x100294ecc",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "viewDidLoad",
+          "implementation_address": "0x100296c7c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "viewWillDisappear",
+          "implementation_address": "0x100296ca4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithNibName:bundle:",
+          "implementation_address": "0x10029b0f4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x10029b120",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC3Arc11TablistView",
+      "super_class": "_TtC5ARCUI11FlippedView",
+      "protocols": [],
+      "location": {
+        "address": "0x1044f3510",
+        "file_offset": 158922000
+      },
+      "fields": [
+        {
+          "name": "$__lazy_storage_$_outlineView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420850",
+            "file_offset": 158058576
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_scrollView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420870",
+            "file_offset": 158058608
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_column",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420890",
+            "file_offset": 158058640
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_topSeparatorLayer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044208b0",
+            "file_offset": 158058672
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_bottomSeparatorLayer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044208d0",
+            "file_offset": 158058704
+          }
+        },
+        {
+          "name": "overflowIndicator",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044208f0",
+            "file_offset": 158058736
+          }
+        },
+        {
+          "name": "colorPalette",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420910",
+            "file_offset": 158058768
+          }
+        },
+        {
+          "name": "windowAppearanceSubscription",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420930",
+            "file_offset": 158058800
+          }
+        },
+        {
+          "name": "displayTopSeparator",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420950",
+            "file_offset": 158058832
+          }
+        },
+        {
+          "name": "displayBottomSeparator",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420970",
+            "file_offset": 158058864
+          }
+        },
+        {
+          "name": "dropHighlightColor",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420990",
+            "file_offset": 158058896
+          }
+        },
+        {
+          "name": "overflowIndicatorMode",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044209b0",
+            "file_offset": 158058928
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_backgroundView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044209d0",
+            "file_offset": 158058960
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "initWithCoder:",
+          "implementation_address": "0x10017dbe0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "hitTest:",
+          "implementation_address": "0x10017dfc8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "layout",
+          "implementation_address": "0x10017e1f0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "wantsUpdateLayer",
+          "implementation_address": "0x10017e218",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "updateLayer",
+          "implementation_address": "0x10017e3e4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithFrame:",
+          "implementation_address": "0x10017e40c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x10017e500",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC3Arc19SidebarTableRowView",
+      "super_class": "NSTableRowView",
+      "protocols": [],
+      "location": {
+        "address": "0x1044f5930",
+        "file_offset": 158931248
+      },
+      "fields": [
+        {
+          "name": "store",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104423788",
+            "file_offset": 158070664
+          }
+        },
+        {
+          "name": "splitDropTargetDelaySatisfied",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044237a8",
+            "file_offset": 158070696
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "initWithCoder:",
+          "implementation_address": "0x1001dbfe8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "isTargetForDropOperation",
+          "implementation_address": "0x1001dc174",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "setTargetForDropOperation:",
+          "implementation_address": "0x1001dc1b0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "prepareForReuse",
+          "implementation_address": "0x1001dca68",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "drawSelectionInRect:",
+          "implementation_address": "0x1001dcad4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "drawDraggingDestinationFeedbackInRect:",
+          "implementation_address": "0x1001dcad8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "hitTest:",
+          "implementation_address": "0x1001dcb00",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithFrame:",
+          "implementation_address": "0x1001dcb98",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x1001dcbc4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC3Arc36SidebarPagingContainerViewController",
+      "super_class": "NSViewController",
+      "protocols": [
+        "NSCollectionViewDelegate",
+        "NSPopoverDelegate"
+      ],
+      "location": {
+        "address": "0x1044f69b0",
+        "file_offset": 158935472
+      },
+      "fields": [
+        {
+          "name": "$__lazy_storage_$_collectionViewLayout",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044259d0",
+            "file_offset": 158079440
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_collectionView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044259f0",
+            "file_offset": 158079472
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_scrollView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425a10",
+            "file_offset": 158079504
+          }
+        },
+        {
+          "name": "spaceViewControllerCache",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425a30",
+            "file_offset": 158079536
+          }
+        },
+        {
+          "name": "appTrayViewControllerCache",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425a50",
+            "file_offset": 158079568
+          }
+        },
+        {
+          "name": "inUseAppTrayViewControllers",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425a70",
+            "file_offset": 158079600
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_collectionViewDataSource",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425a90",
+            "file_offset": 158079632
+          }
+        },
+        {
+          "name": "store",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425ab0",
+            "file_offset": 158079664
+          }
+        },
+        {
+          "name": "viewStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425ad0",
+            "file_offset": 158079696
+          }
+        },
+        {
+          "name": "subscriptions",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425af0",
+            "file_offset": 158079728
+          }
+        },
+        {
+          "name": "menuProvider",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425b10",
+            "file_offset": 158079760
+          }
+        },
+        {
+          "name": "previewPresenter",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425b30",
+            "file_offset": 158079792
+          }
+        },
+        {
+          "name": "draggingSpaceIDs",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425b50",
+            "file_offset": 158079824
+          }
+        },
+        {
+          "name": "pendingSidebarScrollToItemRequest",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425b70",
+            "file_offset": 158079856
+          }
+        },
+        {
+          "name": "iconPickerPopover",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425b90",
+            "file_offset": 158079888
+          }
+        },
+        {
+          "name": "delegate",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425bb0",
+            "file_offset": 158079920
+          }
+        },
+        {
+          "name": "_isDraggingNearAppTrayRegion",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425bd0",
+            "file_offset": 158079952
+          }
+        },
+        {
+          "name": "scrollOffset",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425bf0",
+            "file_offset": 158079984
+          }
+        },
+        {
+          "name": "isTrackingOrAnimatingScrollPosition",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104425c10",
+            "file_offset": 158080016
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "collectionView:willDisplayItem:forRepresentedObjectAtIndexPath:",
+          "implementation_address": "0x100255e54",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "collectionView:didEndDisplayingItem:forRepresentedObjectAtIndexPath:",
+          "implementation_address": "0x100255e60",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "popoverWillClose:",
+          "implementation_address": "0x100254fe8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithCoder:",
+          "implementation_address": "0x100251868",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "loadView",
+          "implementation_address": "0x100252044",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "viewDidLoad",
+          "implementation_address": "0x100252d80",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "viewWillLayout",
+          "implementation_address": "0x1002531b8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithNibName:bundle:",
+          "implementation_address": "0x100254ce4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x100254d10",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC3Arc22RestoreSidebarDataFlow",
+      "super_class": "_TtCs12_SwiftObject",
+      "protocols": [],
+      "location": {
+        "address": "0x10453da90",
+        "file_offset": 159226512
+      },
+      "fields": [
+        {
+          "name": "_sidebarStorableDataStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104427420",
+            "file_offset": 158086176
+          }
+        },
+        {
+          "name": "_windowsStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104427440",
+            "file_offset": 158086208
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_restorableFiles",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104427460",
+            "file_offset": 158086240
+          }
+        }
+      ],
+      "methods": []
+    },
+    {
+      "encoded_name": "_TtC3Arc17SidebarHeaderView",
+      "super_class": "NSView",
+      "protocols": [],
+      "location": {
+        "address": "0x1044f3358",
+        "file_offset": 158921560
+      },
+      "fields": [
+        {
+          "name": "store",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420678",
+            "file_offset": 158058104
+          }
+        },
+        {
+          "name": "viewStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420698",
+            "file_offset": 158058136
+          }
+        },
+        {
+          "name": "subscriptions",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044206b8",
+            "file_offset": 158058168
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_buttons",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044206d8",
+            "file_offset": 158058200
+          }
+        },
+        {
+          "name": "commandBarPlaceholderView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044206f8",
+            "file_offset": 158058232
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_commandBarContainer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420718",
+            "file_offset": 158058264
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_stackView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420738",
+            "file_offset": 158058296
+          }
+        },
+        {
+          "name": "stackViewTopConstraint",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420758",
+            "file_offset": 158058328
+          }
+        },
+        {
+          "name": "stackViewBottomConstraint",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420778",
+            "file_offset": 158058360
+          }
+        },
+        {
+          "name": "_isDisplayingCommandBarPlaceholder",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104420798",
+            "file_offset": 158058392
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "initWithCoder:",
+          "implementation_address": "0x100156b34",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "layout",
+          "implementation_address": "0x100156d48",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithFrame:",
+          "implementation_address": "0x1001571c4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x1001571f0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC3Arc25TablistEdgeDragController",
+      "super_class": "_TtCs12_SwiftObject",
+      "protocols": [],
+      "location": {
+        "address": "0x10452ee50",
+        "file_offset": 159166032
+      },
+      "fields": [
+        {
+          "name": "containerView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x10441c580",
+            "file_offset": 158041472
+          }
+        },
+        {
+          "name": "timer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x10441c5a0",
+            "file_offset": 158041504
+          }
+        },
+        {
+          "name": "proposedDirection",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x10441c5c0",
+            "file_offset": 158041536
+          }
+        },
+        {
+          "name": "lastDragPosition",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x10441c5e0",
+            "file_offset": 158041568
+          }
+        },
+        {
+          "name": "updateHander",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x10441c600",
+            "file_offset": 158041600
+          }
+        },
+        {
+          "name": "switchThreshold",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x10441c620",
+            "file_offset": 158041632
+          }
+        }
+      ],
+      "methods": []
+    },
+    {
+      "encoded_name": "_TtC3Arc29UnpinnedSectionHeaderCellView",
+      "super_class": "NSView",
+      "protocols": [],
+      "location": {
+        "address": "0x1044f3da0",
+        "file_offset": 158924192
+      },
+      "fields": [
+        {
+          "name": "viewStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421228",
+            "file_offset": 158061096
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_contentView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421248",
+            "file_offset": 158061128
+          }
+        },
+        {
+          "name": "subscriptions",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421268",
+            "file_offset": 158061160
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "initWithCoder:",
+          "implementation_address": "0x100186f3c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithFrame:",
+          "implementation_address": "0x1001873a8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x1001873d4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC3Arc30UnpinnedSectionDividerCellView",
+      "super_class": "NSView",
+      "protocols": [],
+      "location": {
+        "address": "0x1044f4260",
+        "file_offset": 158925408
+      },
+      "fields": [
+        {
+          "name": "$__lazy_storage_$_stackView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421c50",
+            "file_offset": 158063696
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_tidyButton",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421c70",
+            "file_offset": 158063728
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_clearButton",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421c90",
+            "file_offset": 158063760
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_downArrowImage",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421cb0",
+            "file_offset": 158063792
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_borderView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421cd0",
+            "file_offset": 158063824
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_borderViewHeightConstraint",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421cf0",
+            "file_offset": 158063856
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_squiggleView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421d10",
+            "file_offset": 158063888
+          }
+        },
+        {
+          "name": "viewStore",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421d30",
+            "file_offset": 158063920
+          }
+        },
+        {
+          "name": "store",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421d50",
+            "file_offset": 158063952
+          }
+        },
+        {
+          "name": "subscriptions",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104421d70",
+            "file_offset": 158063984
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "viewDidChangeBackingProperties",
+          "implementation_address": "0x1001abeb0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "updateLayer",
+          "implementation_address": "0x1001acbb8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithCoder:",
+          "implementation_address": "0x1001acc3c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithFrame:",
+          "implementation_address": "0x1001acc70",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x1001acc9c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC3Arc24SidebarSectionHeaderView",
+      "super_class": "_TtC5ARCUI13HoverableView",
+      "protocols": [],
+      "location": {
+        "address": "0x1044f48c0",
+        "file_offset": 158927040
+      },
+      "fields": [
+        {
+          "name": "colorPalette",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422810",
+            "file_offset": 158066704
+          }
+        },
+        {
+          "name": "tintColor",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422830",
+            "file_offset": 158066736
+          }
+        },
+        {
+          "name": "contentInset",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422850",
+            "file_offset": 158066768
+          }
+        },
+        {
+          "name": "profileIndicatorState",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422870",
+            "file_offset": 158066800
+          }
+        },
+        {
+          "name": "profileMenuProvider",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422890",
+            "file_offset": 158066832
+          }
+        },
+        {
+          "name": "profileIndicator",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044228b0",
+            "file_offset": 158066864
+          }
+        },
+        {
+          "name": "profileIndicatorSpacer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044228d0",
+            "file_offset": 158066896
+          }
+        },
+        {
+          "name": "accessories",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044228f0",
+            "file_offset": 158066928
+          }
+        },
+        {
+          "name": "icon",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422910",
+            "file_offset": 158066960
+          }
+        },
+        {
+          "name": "pinnedSectionExpansionState",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422930",
+            "file_offset": 158066992
+          }
+        },
+        {
+          "name": "isEditingSpaceIcon",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422950",
+            "file_offset": 158067024
+          }
+        },
+        {
+          "name": "accessoryButtonMap",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422970",
+            "file_offset": 158067056
+          }
+        },
+        {
+          "name": "context",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422990",
+            "file_offset": 158067088
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_stackView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044229b0",
+            "file_offset": 158067120
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_iconView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044229d0",
+            "file_offset": 158067152
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_chevronContainerView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044229f0",
+            "file_offset": 158067184
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_chevronWidthConstraint",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422a10",
+            "file_offset": 158067216
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_chevronView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422a30",
+            "file_offset": 158067248
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_textFieldContainer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422a50",
+            "file_offset": 158067280
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_backgroundLayer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422a70",
+            "file_offset": 158067312
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_trackingArea",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422a90",
+            "file_offset": 158067344
+          }
+        },
+        {
+          "name": "editButtonWidthConstraint",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422ab0",
+            "file_offset": 158067376
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_editButton",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422ad0",
+            "file_offset": 158067408
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_hoverBackgroundView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422af0",
+            "file_offset": 158067440
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_dragTargetBackgroundView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422b10",
+            "file_offset": 158067472
+          }
+        },
+        {
+          "name": "highlightedSubject",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422b30",
+            "file_offset": 158067504
+          }
+        },
+        {
+          "name": "isDragTarget",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422b50",
+            "file_offset": 158067536
+          }
+        },
+        {
+          "name": "highlightStyle",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422b70",
+            "file_offset": 158067568
+          }
+        },
+        {
+          "name": "onDidBeginRename",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422b90",
+            "file_offset": 158067600
+          }
+        },
+        {
+          "name": "onDidFinishRename",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422bb0",
+            "file_offset": 158067632
+          }
+        },
+        {
+          "name": "onClickIcon",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422bd0",
+            "file_offset": 158067664
+          }
+        },
+        {
+          "name": "onClick",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422bf0",
+            "file_offset": 158067696
+          }
+        },
+        {
+          "name": "menuProvider",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422c10",
+            "file_offset": 158067728
+          }
+        },
+        {
+          "name": "dragDelegate",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422c30",
+            "file_offset": 158067760
+          }
+        },
+        {
+          "name": "subscriptions",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422c50",
+            "file_offset": 158067792
+          }
+        },
+        {
+          "name": "$__lazy_storage_$_iconViewCenterYConstraint",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422c70",
+            "file_offset": 158067824
+          }
+        },
+        {
+          "name": "canShowHeaderButtonsIfPossible",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422c90",
+            "file_offset": 158067856
+          }
+        },
+        {
+          "name": "isEditing",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422cb0",
+            "file_offset": 158067888
+          }
+        },
+        {
+          "name": "collapsePinnedSectionEnabled",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422cd0",
+            "file_offset": 158067920
+          }
+        },
+        {
+          "name": "chevronShowingAnimationScheduled",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104422cf0",
+            "file_offset": 158067952
+          }
+        }
+      ],
+      "methods": [
+        {
+          "selector": "handleAccessoryButtonClick:",
+          "implementation_address": "0x1001c7bac",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "mouseUp:",
+          "implementation_address": "0x1001c6a9c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "isFlipped",
+          "implementation_address": "0x1001c6b44",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "layout",
+          "implementation_address": "0x1001c6bc0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "updateLayer",
+          "implementation_address": "0x1001c6cd4",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "menuForEvent:",
+          "implementation_address": "0x1001c6d3c",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "draggingEntered:",
+          "implementation_address": "0x1001c6dc0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "draggingExited:",
+          "implementation_address": "0x1001c6e48",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "prepareForDragOperation:",
+          "implementation_address": "0x1001c6f20",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "performDragOperation:",
+          "implementation_address": "0x1001c6f28",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "didClickEditButton:",
+          "implementation_address": "0x1001c71c8",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": "initWithFrame:",
+          "implementation_address": "0x1001c7394",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        },
+        {
+          "selector": ".cxx_destruct",
+          "implementation_address": "0x1001c75e0",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          }
+        }
+      ]
+    },
+    {
+      "encoded_name": "_TtC5ARCUI21ArcDraggingController",
+      "super_class": "_TtCs12_SwiftObject",
+      "protocols": [],
+      "location": {
+        "address": "0x10456a598",
+        "file_offset": 159409560
+      },
+      "fields": [
+        {
+          "name": "activeSession",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104435168",
+            "file_offset": 158142824
+          }
+        },
+        {
+          "name": "announcer",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104435188",
+            "file_offset": 158142856
+          }
+        }
+      ],
+      "methods": []
+    },
+    {
+      "encoded_name": "_TtC5ARCUI22ArcDraggingSessionImpl",
+      "super_class": "_TtCs12_SwiftObject",
+      "protocols": [],
+      "location": {
+        "address": "0x10456a708",
+        "file_offset": 159409928
+      },
+      "fields": [
+        {
+          "name": "window",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044352a0",
+            "file_offset": 158143136
+          }
+        },
+        {
+          "name": "windowContentView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044352c0",
+            "file_offset": 158143168
+          }
+        },
+        {
+          "name": "sourceView",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044352e0",
+            "file_offset": 158143200
+          }
+        },
+        {
+          "name": "source",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104435300",
+            "file_offset": 158143232
+          }
+        },
+        {
+          "name": "activeUIDriver",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104435320",
+            "file_offset": 158143264
+          }
+        },
+        {
+          "name": "activeDestination",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104435340",
+            "file_offset": 158143296
+          }
+        },
+        {
+          "name": "latestOperationID",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104435360",
+            "file_offset": 158143328
+          }
+        },
+        {
+          "name": "lifecycleState",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x104435380",
+            "file_offset": 158143360
+          }
+        },
+        {
+          "name": "sourceUIDriver",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044353a0",
+            "file_offset": 158143392
+          }
+        },
+        {
+          "name": "delegate",
+          "decode": {
+            "reason": null,
+            "status": "decoded"
+          },
+          "location": {
+            "address": "0x1044353c0",
+            "file_offset": 158143424
+          }
+        }
+      ],
+      "methods": []
+    }
+  ],
+  "compiled_menu_actions": [
+    {
+      "name": "collapseAllFolders:",
+      "id": "ib:\"Contents/Resources/Base.lproj/MainMenu.nib\":action:[\"134:connection:0\"]",
+      "evidence": [
+        {
+          "artifact_path": "Contents/Resources/Base.lproj/MainMenu.nib",
+          "artifact_sha256": "c05560f6665c062b78dd326c4ce56307154010f981a45f4959671fb460ab1963",
+          "description": "action 134:connection:0",
+          "kind": "interface_builder_resource",
+          "location": {
+            "address": null,
+            "file_offset": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "expandAllFolders:",
+      "id": "ib:\"Contents/Resources/Base.lproj/MainMenu.nib\":action:[\"164:connection:0\"]",
+      "evidence": [
+        {
+          "artifact_path": "Contents/Resources/Base.lproj/MainMenu.nib",
+          "artifact_sha256": "c05560f6665c062b78dd326c4ce56307154010f981a45f4959671fb460ab1963",
+          "description": "action 164:connection:0",
+          "kind": "interface_builder_resource",
+          "location": {
+            "address": null,
+            "file_offset": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "expandPinnedSection:",
+      "id": "ib:\"Contents/Resources/Base.lproj/MainMenu.nib\":action:[\"617:connection:0\"]",
+      "evidence": [
+        {
+          "artifact_path": "Contents/Resources/Base.lproj/MainMenu.nib",
+          "artifact_sha256": "c05560f6665c062b78dd326c4ce56307154010f981a45f4959671fb460ab1963",
+          "description": "action 617:connection:0",
+          "kind": "interface_builder_resource",
+          "location": {
+            "address": null,
+            "file_offset": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "focusSidebar:",
+      "id": "ib:\"Contents/Resources/Base.lproj/MainMenu.nib\":action:[\"778:connection:0\"]",
+      "evidence": [
+        {
+          "artifact_path": "Contents/Resources/Base.lproj/MainMenu.nib",
+          "artifact_sha256": "c05560f6665c062b78dd326c4ce56307154010f981a45f4959671fb460ab1963",
+          "description": "action 778:connection:0",
+          "kind": "interface_builder_resource",
+          "location": {
+            "address": null,
+            "file_offset": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "nextSpace:",
+      "id": "ib:\"Contents/Resources/Base.lproj/MainMenu.nib\":action:[\"808:connection:0\"]",
+      "evidence": [
+        {
+          "artifact_path": "Contents/Resources/Base.lproj/MainMenu.nib",
+          "artifact_sha256": "c05560f6665c062b78dd326c4ce56307154010f981a45f4959671fb460ab1963",
+          "description": "action 808:connection:0",
+          "kind": "interface_builder_resource",
+          "location": {
+            "address": null,
+            "file_offset": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "collapsePinnedSection:",
+      "id": "ib:\"Contents/Resources/Base.lproj/MainMenu.nib\":action:[\"840:connection:0\"]",
+      "evidence": [
+        {
+          "artifact_path": "Contents/Resources/Base.lproj/MainMenu.nib",
+          "artifact_sha256": "c05560f6665c062b78dd326c4ce56307154010f981a45f4959671fb460ab1963",
+          "description": "action 840:connection:0",
+          "kind": "interface_builder_resource",
+          "location": {
+            "address": null,
+            "file_offset": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "previousSpace:",
+      "id": "ib:\"Contents/Resources/Base.lproj/MainMenu.nib\":action:[\"1108:connection:0\"]",
+      "evidence": [
+        {
+          "artifact_path": "Contents/Resources/Base.lproj/MainMenu.nib",
+          "artifact_sha256": "c05560f6665c062b78dd326c4ce56307154010f981a45f4959671fb460ab1963",
+          "description": "action 1108:connection:0",
+          "kind": "interface_builder_resource",
+          "location": {
+            "address": null,
+            "file_offset": null
+          }
+        }
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "decoded": 851,
+      "examined": 852,
+      "facet": "objc_class_method_ivar_metadata",
+      "reason": "Protocol 0x1045be3b8: Objective-C protocol NSSecureCoding properties: protocol class properties are not decoded; Protocol 0x10448f8c0: Objective-C protocol NSItemProviderWriting properties: protocol class properties are not decoded; Protocol 0x10448faf8: Objective-C protocol NSItemProviderReading properties: protocol class properties are not decoded; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; class SDWebImageActivityIndicator: max_records_reached; protocol NSSecureCoding: protocol class properties are not decoded; protocol NSItemProviderWriting: protocol class properties are not decoded; protocol NSItemProviderReading: protocol class properties are not decoded; ivar _TtC17ARCFoundationBase9FileCache.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC17ARCFoundationBase9AsyncLock.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC17ARCFoundationBase13WaitableEvent.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC16AIInfraProtocols8MLXActor.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI25CoreUIImageWorkSerializer.$defaultActor: ivar_offset_pointer_unresolved; max_records_reached",
+      "status": "partial"
+    },
+    {
+      "decoded": 5768,
+      "examined": 5768,
+      "facet": "binary_relative_pointers",
+      "reason": "max_records_reached",
+      "status": "partial"
+    },
+    {
+      "decoded": 0,
+      "examined": 0,
+      "facet": "objc_properties_categories",
+      "reason": "max_records_reached",
+      "status": "partial"
+    },
+    {
+      "decoded": 2,
+      "examined": 2,
+      "facet": "pointer_fixups",
+      "reason": "chained fixups: DYLD_CHAINED_PTR_64_OFFSET",
+      "status": "complete"
+    },
+    {
+      "decoded": 0,
+      "examined": 0,
+      "facet": "swift_generic_resilient_witnesses_overrides_async_coroutines",
+      "reason": "This reader admits Swift nominal type declarations, simple conformance/static witness records and non-generic, non-resilient class vtables; generic/resilient tables and other Swift metadata families are not decoded",
+      "status": "unsupported"
+    },
+    {
+      "decoded": 0,
+      "examined": 0,
+      "facet": "swift_conformances_static_witness_slots",
+      "reason": "max_records_reached",
+      "status": "partial"
+    },
+    {
+      "decoded": 0,
+      "examined": 0,
+      "facet": "swift_declarations",
+      "reason": "record_budget_exhausted at 0x103f19fa4: max_records_reached; max_records_reached",
+      "status": "partial"
+    },
+    {
+      "decoded": 0,
+      "examined": 0,
+      "facet": "swift_class_vtable_descriptors",
+      "reason": "max_records_reached",
+      "status": "partial"
+    }
+  ],
+  "limitations": [
+    "Derived by an REA composed workflow.",
+    "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: Protocol 0x1045be3b8: Objective-C protocol NSSecureCoding properties: protocol class properties are not decoded; Protocol 0x10448f8c0: Objective-C protocol NSItemProviderWriting properties: protocol class properties are not decoded; Protocol 0x10448faf8: Objective-C protocol NSItemProviderReading properties: protocol class properties are not decoded; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; Unresolved ivar offset pointer 0x0; class SDWebImageActivityIndicator: max_records_reached; protocol NSSecureCoding: protocol class properties are not decoded; protocol NSItemProviderWriting: protocol class properties are not decoded; protocol NSItemProviderReading: protocol class properties are not decoded; ivar _TtC17ARCFoundationBase9FileCache.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC17ARCFoundationBase9AsyncLock.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC17ARCFoundationBase13WaitableEvent.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC16AIInfraProtocols8MLXActor.$defaultActor: ivar_offset_pointer_unresolved; ivar _TtC5ARCUI25CoreUIImageWorkSerializer.$defaultActor: ivar_offset_pointer_unresolved; max_records_reached",
+    "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: This reader admits Swift nominal type declarations, simple conformance/static witness records and non-generic, non-resilient class vtables; generic/resilient tables and other Swift metadata families are not decoded",
+    "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: chained fixups: DYLD_CHAINED_PTR_64_OFFSET",
+    "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: max_records_reached",
+    "macOS native inspection utilities (native-macos apple-metadata-reader-2) inspect_native_dispatch_metadata: record_budget_exhausted at 0x103f19fa4: max_records_reached; max_records_reached"
+  ],
+  "static_height_analysis": {
+    "method": "Supplemental LLDB static disassembly; target created but never run or attached. Not REA decompiler output.",
+    "ranges": {
+      "height_entry": {
+        "vm_start": "0x10034f81c",
+        "vm_end_exclusive": "0x10034f8b0",
+        "file_offset": 90093596,
+        "bytes": 148,
+        "sha256": "3f91c3981f6b20d99ce6ea2fdcd488fc570e58ada4022efc64046e3eabc9835f"
+      },
+      "height_helper": {
+        "vm_start": "0x100355ae8",
+        "vm_end_exclusive": "0x100355bac",
+        "file_offset": 90118888,
+        "bytes": 196,
+        "sha256": "7e12a0c1da69f964f92f637f19e81238b61409c0cdc1cfca37f4078f0793786a"
+      }
+    },
+    "observed_entry_calls_helper": true,
+    "return_constants": [
+      0,
+      2,
+      16,
+      24,
+      40
+    ],
+    "dynamic_return_branch": true,
+    "unknown": "The enum/state branches have not been mapped to semantic row kinds. These are not universal row or indentation values."
+  },
+  "unknowns": [
+    "Original Swift source and full algorithms not recovered",
+    "No native decompiler configured",
+    "Swift declaration decoding reached the 20000-record REA ceiling after Objective-C facets; zero declarations decoded is missing coverage, not absence",
+    "No clean Arc runtime geometry, drag replay or layout-constraint measurement performed",
+    "No personal Arc profiles or running Arc UI read",
+    "No proprietary assets or fonts copied into Aelo"
+  ]
+}

@@ -247,3 +247,9 @@ docs/chromium-folder-sidebar.md for controls, persistence and remaining gates.
 - Initial CUA target ambiguity was detected and corrected; only actions
   correlated to diagnostic CDP/logs count toward the result. Details and limits
   are in docs/chromium-omnibox-lifecycle-evidence.json.
+
+- The same diagnostic root was relaunched without a startup URL. After selecting
+  Default in the profile picker, restored-session + Tab/input and switching to
+  restored Profile 1 + Tab/input succeeded. Thirty pre-quit lifecycle events
+  contained two open Show returns and no fatal. Both profiles again recorded
+  Normal exit and CDP closed. Original crash cause remains unresolved.

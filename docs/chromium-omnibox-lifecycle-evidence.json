@@ -73,8 +73,32 @@
   "unknowns": [
     "Original fatal location_bar_view.cc:1986 has not been reproduced with lifecycle diagnostics",
     "VLOG overhead and slower UI timing can affect races; this run does not establish a fix",
-    "Restored-session reproduction still pending",
     "Live drag and non-default Move picker, native Reopen UUID and deliberately collapsed restart gates remain pending",
-    "No Arc source recovery, exact geometry, complete parity or broad stability claim"
-  ]
+    "No Arc source recovery, exact geometry, complete parity or broad stability claim",
+    "Bounded restart test also did not reproduce fatal; original cause remains unresolved"
+  ],
+  "restored_session_followup": {
+    "pid": 12816,
+    "no_startup_url": true,
+    "profile_picker_shown": true,
+    "profile_picker_selection": "Your Chromium",
+    "sequence": [
+      "Open restored Default through profile picker",
+      "+ Tab and immediate fixture input/Return",
+      "Switch to restored Diagnostic Two",
+      "+ Tab and immediate fixture input/Return"
+    ],
+    "event_count": 30,
+    "show_returns": 2,
+    "show_return_open_false": [],
+    "fatal_lines": [],
+    "result": "bounded_non_reproduction_not_a_fix",
+    "cleanup": {
+      "endpoint_closed": true,
+      "exit_types": {
+        "Default": "Normal",
+        "Profile 1": "Normal"
+      }
+    }
+  }
 }

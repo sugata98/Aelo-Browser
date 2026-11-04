@@ -198,3 +198,11 @@ incidental instance, then a process inventory confirmed the sole Aelo process
 was the disposable target. Subsequent UI actions matched CDP and the diagnostic
 log. Future runs must verify this correlation after the first native action; a
 live CDP endpoint alone does not prove CUA selected the same process.
+
+A subsequent no-startup-URL relaunch showed the two-profile picker. Selecting
+Default restored its native session. + Tab and immediate fixture URL input
+succeeded, as did switching to restored Profile 1 and repeating + Tab/input.
+This follow-up recorded 30 pre-quit lifecycle events, two Show returns open=true
+and no fatal. Normal Quit again closed CDP and both profiles recorded Normal.
+The original crash remains unexplained; this is another bounded negative
+reproduction, not a stability fix.

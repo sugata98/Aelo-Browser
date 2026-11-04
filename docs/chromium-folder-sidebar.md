@@ -170,3 +170,31 @@ state transitions before choosing a fix. A failed immediate Show and an external
 hide after a successful Show remain separate hypotheses. Patch reverse-application
 and whitespace checks passed. Compilation and reproduction are pending; this
 is diagnostic instrumentation, not a causal fix or a stability pass.
+
+
+## Diagnostic build and bounded non-reproduction
+
+Commit a9fd1c1 built successfully, with zero remaining steps. The four changed
+translation units compiled. The original bundle launched with a fresh disposable
+profile at /private/tmp/aelo-popup-lifecycle-ndgwycka. A finite two-profile,
+multiwindow, new-tab, active-popup profile-switch and window-close sequence did
+not reproduce the original fatal. The pre-quit log contains 150 lifecycle events,
+including 23 Show returns, all open=true, and no fatal lines. This does not prove
+that either suspected path caused the earlier failure. Logging and UI timing may
+affect a race. No popup behavior or validation fix has been applied.
+
+Normal menu Quit closed CDP; both Default and Profile 1 recorded Normal exit.
+All 13 observed renderers and the GPU were sandboxed (1, errno0), broker0.
+The next reproduction should cover restored sessions, not treat this finite
+fresh-session run as a stability pass. See
+[diagnostic evidence](chromium-omnibox-lifecycle-evidence.json).
+
+Target-binding correction: CUA initially selected an older default-instance
+process despite the diagnostic endpoint being live. Its blank tabs received a
+synthetic fixture navigation and one additional blank tab before the mismatch
+was detected. Those actions are excluded from this diagnostic result. No personal
+page contents or profile files were inspected. Normal menu Quit retired that
+incidental instance, then a process inventory confirmed the sole Aelo process
+was the disposable target. Subsequent UI actions matched CDP and the diagnostic
+log. Future runs must verify this correlation after the first native action; a
+live CDP endpoint alone does not prove CUA selected the same process.

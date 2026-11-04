@@ -1,0 +1,80 @@
+{
+  "status": "bounded_non_reproduction_cause_unresolved",
+  "date": "2026-11-04",
+  "build_commit": "a9fd1c1",
+  "build": {
+    "status": "action_completed",
+    "ended_at": 1793801451.4607658,
+    "remaining_steps": 0,
+    "log": ".build/chromium-build-omnibox-lifecycle.log"
+  },
+  "target": {
+    "app": "/Users/sugata/Aelo-Browser/.build/chromium/checkout/src/out/Aelo/Aelo.app",
+    "pid": 10335,
+    "disposable_root": "/private/tmp/aelo-popup-lifecycle-ndgwycka",
+    "log": "/Users/sugata/Aelo-Browser/.build/chromium-popup-lifecycle-run.log"
+  },
+  "sequence": [
+    "Normal address input and Return to the synthetic fixture",
+    "Sidebar + Tab followed by fixture URL input and Return",
+    "Second native window, then fixture URL input",
+    "Create Diagnostic Two (Profile 1), navigate fixture, switch back to Default",
+    "Sidebar + Tab and URL input after profile switch",
+    "Open popup with unsubmitted synthetic URL, switch profiles, create tab and navigate",
+    "Switch back to the interrupted popup window and submit restored address text",
+    "Open another popup, close its native window, then + Tab and URL input in remaining profile",
+    "Normal application menu Quit"
+  ],
+  "observations": {
+    "browser_pid": 10335,
+    "profile": "/private/tmp/aelo-popup-lifecycle-ndgwycka",
+    "build_commit": "a9fd1c1",
+    "build_completed_at": 1793801451.4607658,
+    "event_count": 150,
+    "event_counts": {
+      "hide": 15,
+      "closed": 4,
+      "native-visibility": 26,
+      "appearance": 32,
+      "show": 23,
+      "show-return": 23,
+      "state": 18,
+      "show-widget": 9
+    },
+    "show_return_open_false": [],
+    "fatal_lines": [],
+    "scope": "Bounded two-profile, multiwindow, new-tab, active-popup profile switching and popup-owning window close sequence; no general stability pass."
+  },
+  "cleanup": {
+    "endpoint_closed": true,
+    "profiles": {
+      "Default": {
+        "exit_type": "Normal",
+        "node_count": 6
+      },
+      "Profile 1": {
+        "exit_type": "Normal",
+        "node_count": 5
+      }
+    }
+  },
+  "sandbox": {
+    "renderers_observed": 13,
+    "all_observed_renderers_sandboxed": true,
+    "gpu_sandboxed": true,
+    "broker_sandbox_check": 0
+  },
+  "target_identity_incident": {
+    "observation": "Initial CUA binding selected an already-running default instance (22092), rather than the diagnostic instance (10335). Its initially blank tabs were used for a synthetic fixture navigation and an additional blank tab before mismatch was detected. These actions are excluded from diagnostic evidence. No personal page contents or profile files were inspected.",
+    "evidence_id": "ev_ec0460e25b2b38d2d3d460e53fca0e20cd95aa1a7049d2ca21d2d6c36911f2fb",
+    "resolution": "Normal menu Quit retired 22092; process inventory then showed only owned diagnostic Aelo 10335. Rebinding made native actions correlate with diagnostic CDP and lifecycle events.",
+    "abandoned_alternative": "A uniquely identified disposable bundle copy had unchanged framework bytes but REA spawn initialization timed out. No copy process remained and no qualification uses it."
+  },
+  "unknowns": [
+    "Original fatal location_bar_view.cc:1986 has not been reproduced with lifecycle diagnostics",
+    "VLOG overhead and slower UI timing can affect races; this run does not establish a fix",
+    "Restored-session reproduction still pending",
+    "Live drag and non-default Move picker, native Reopen UUID and deliberately collapsed restart gates remain pending",
+    "No Arc source recovery, exact geometry, complete parity or broad stability claim"
+  ]
+}

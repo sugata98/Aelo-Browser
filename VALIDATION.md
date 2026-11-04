@@ -236,3 +236,14 @@ docs/chromium-folder-sidebar.md for controls, persistence and remaining gates.
   reproduction of the popup-state fatal. Patch reverse and whitespace checks
   passed; an 18-job diagnostic rebuild is in progress. No popup behavior,
   validator or security protection has changed. This is not a crash fix.
+
+- The diagnostic full build a9fd1c1 succeeded. A bounded fresh-session run
+  exercised two profiles, multiple windows, new-tab URL input, switching away
+  from an active popup and closing its window. The original omnibox fatal did
+  not recur; all 23 logged Show returns were open. No causal fix or broad
+  stability pass is established. Normal Quit closed CDP and both disposable
+  profiles recorded Normal exit. Thirteen observed renderers and GPU were
+  sandboxed; broker was not. Restored-session reproduction remains pending.
+- Initial CUA target ambiguity was detected and corrected; only actions
+  correlated to diagnostic CDP/logs count toward the result. Details and limits
+  are in docs/chromium-omnibox-lifecycle-evidence.json.

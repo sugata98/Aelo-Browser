@@ -3,9 +3,11 @@
 ## Status — 4 November 2026
 
 The custom sidebar implementation and standalone model tests are in source.
-The changed Chromium translation units compiled. A full 18-job browser rebuild
-is running; live folder interaction and on-disk restart qualification are
-pending. Earlier group-sidebar evidence does not qualify this replacement.
+The initial full browser build completed successfully. A disposable live run
+reached the custom home and saved a created folder, but exposed a layout
+regression: the Move row stretched vertically and hid the tree. A scoped fix
+constrains that combobox's flex to the horizontal axis and keeps the footer at
+its natural height. Its rebuild and live tree qualification are pending. Earlier group-sidebar evidence does not qualify this replacement.
 
 ## Organization and browser ownership
 
@@ -94,3 +96,14 @@ No Arc import, model bridge, undo/redo, Today auto-archive, full cross-window dr
 full extension compatibility or complete Arc parity is claimed. The CEF shutdown
 watchdog, distribution resource seal and embedded source-revision provenance
 remain separate work.
+
+
+## First live layout regression
+
+The 4 November run used /private/tmp/aelo-folders-46kyhdxr. The home page was
+painted and the + Folder action created a valid parent-linked record in
+Default/Preferences. Native AX and screenshot showed Move controls occupying
+the remaining height with no visible tree rows. Folder interaction is therefore
+not qualified. A normal application Quit closed the test endpoint; no personal
+data or browser protection was changed. The fix also guards against selection
+of a Space removed by another window while its menu is open.

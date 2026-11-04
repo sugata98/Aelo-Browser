@@ -207,3 +207,9 @@ translation units and GN header dependency checks passed; a full 18-job browser
 link is running. Live nested-folder and restart checks are pending; prior
 group-sidebar evidence does not qualify this implementation. See
 docs/chromium-folder-sidebar.md for controls, persistence and remaining gates.
+
+- The first independent-tree full browser build completed. Fresh disposable
+  launch painted the home and + Folder saved a parent-linked record, but the
+  Move row stretched vertically and hid the tree. This is a failed layout
+  gate, not successful folder qualification. A scoped axis/footer layout fix
+  is rebuilding before the remaining live checks.

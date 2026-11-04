@@ -254,7 +254,7 @@ index cb471907a5..0defdbb3e1 100644
      "//chrome/browser/ui:browser_element_identifiers",
      "//chrome/browser/ui:layout_constants",
 diff --git a/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc b/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc
-index bc3b0459ed..e5ead02394 100644
+index bc3b0459ed..83920d6dda 100644
 --- a/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc
 +++ b/chrome/browser/ui/views/tabs/vertical/vertical_tab_strip_bottom_container.cc
 @@ -4,7 +4,11 @@
@@ -316,7 +316,7 @@ index bc3b0459ed..e5ead02394 100644
  bool VerticalTabStripBottomContainer::IsPositionInWindowCaption(
      const gfx::Point& point) {
    for (views::View* child : children()) {
-@@ -87,21 +115,20 @@ void VerticalTabStripBottomContainer::OnNewTabButtonContextMenuClosed() {
+@@ -87,21 +115,22 @@ void VerticalTabStripBottomContainer::OnNewTabButtonContextMenuClosed() {
  }
  
  void VerticalTabStripBottomContainer::UpdateButtonStyles(bool collapsed) {
@@ -324,7 +324,9 @@ index bc3b0459ed..e5ead02394 100644
 -                               : views::LayoutOrientation::kHorizontal;
 +  auto orientation = views::LayoutOrientation::kVertical;
 +  workspace_footer_->SetVisible(!collapsed);
-+  workspace_spacer_->SetVisible(!collapsed);
++  // The independent workspace tree now owns the flexible region above us.
++  // This footer must stay at its natural height.
++  workspace_spacer_->SetVisible(false);
  
    // Setting button's layout based on collapsed state
    SetOrientation(orientation);
@@ -410,10 +412,10 @@ index 0000000000..81d8cc8298
 +#endif
 diff --git a/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.cc b/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.cc
 new file mode 100644
-index 0000000000..b3ea15471d
+index 0000000000..dc4b82e836
 --- /dev/null
 +++ b/chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.cc
-@@ -0,0 +1,769 @@
+@@ -0,0 +1,777 @@
 +// Copyright 2026 Aelo contributors. BSD-style license.
 +#include "chrome/browser/ui/views/tabs/vertical/aelo_workspace_header.h"
 +
@@ -611,9 +613,12 @@ index 0000000000..b3ea15471d
 +  move_picker_->SetTooltipTextAndAccessibleName(
 +      u"Move selected item to folder or Space");
 +  move_picker_->SetSizeToLargestLabel(false);
++  // Only the width may flex in this horizontal row. An unbounded height
++  // here would consume the sidebar's remaining height before the tree.
 +  move_picker_->SetProperty(
 +      views::kFlexBehaviorKey,
-+      views::FlexSpecification(views::MinimumFlexSizeRule::kScaleToZero,
++      views::FlexSpecification(views::LayoutOrientation::kHorizontal,
++                               views::MinimumFlexSizeRule::kScaleToZero,
 +                               views::MaximumFlexSizeRule::kUnbounded));
 +  Button(move, u"Move",
 +         base::BindRepeating(&AeloWorkspaceHeader::MoveSelected,
@@ -957,6 +962,11 @@ index 0000000000..b3ea15471d
 +void AeloWorkspaceHeader::SelectSpace() {
 +  auto index = picker_->GetSelectedIndex().value_or(0);
 +  if (index >= spaces_.size() || !Load()) {
++    return;
++  }
++  const auto* chosen_space = tree_.Find(spaces_[index]);
++  if (!chosen_space || chosen_space->kind != aelo::Kind::kSpace) {
++    ScheduleRefresh();
 +    return;
 +  }
 +  space_ = spaces_[index];

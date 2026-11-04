@@ -50,8 +50,10 @@ restoration checks passed. Distribution signing and broad compatibility remain o
 See the [migration status and build instructions](docs/chromium-migration.md)
 and [workspace port](docs/chromium-workspace-port.md). An independent
 [custom sidebar with nested folders](docs/chromium-folder-sidebar.md) is now
-implemented and passes model/compile checks; its full rebuild and live folder
-qualification are still pending. It replaces the group-backed organization.
+implemented and built. Basic nested-folder and restart checks passed, but a
+later omnibox crash leaves stability qualification open. It replaces the
+group-backed organization. The [Arc implementation evidence](docs/arc-sidebar-implementation.md)
+guides the next renderer correction.
 
 The command below builds the released **CEF preview**.
 

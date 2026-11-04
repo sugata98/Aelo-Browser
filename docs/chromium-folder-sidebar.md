@@ -2,12 +2,21 @@
 
 ## Status — 4 November 2026
 
-The custom sidebar implementation and standalone model tests are in source.
-The initial full browser build completed successfully. A disposable live run
-reached the custom home and saved a created folder, but exposed a layout
-regression: the Move row stretched vertically and hid the tree. A scoped fix
-constrains that combobox's flex to the horizontal axis and keeps the footer at
-its natural height. Its rebuild and live tree qualification are pending. Earlier group-sidebar evidence does not qualify this replacement.
+The layout-fix full Chromium build succeeded (commit 221d813). A fresh
+synthetic-profile run verified a visible hierarchy, Projects > Research >
+Sources, a real page and pin inside Sources, expand/collapse, sibling Down
+ordering, and Move to the displayed root destination. A clean normal quit and
+no-URL restart preserved the exact 10-node tree including UUIDs, ordering,
+pins, an empty folder and an empty Space. Profile 1 had independent tree data
+and an empty fixture cookie while Default retained its synthetic cookie.
+Five observed renderers and the GPU were sandboxed.
+
+Qualification is incomplete. Drag/non-default picker interactions were blocked
+by native-control capture/window errors. A later profile/window/new-tab typing
+sequence crashed in Chromium's omnibox popup-state validator. The cause is
+unestablished, and stability is not qualified. See the latest findings below.
+The user's requested [Arc implementation investigation](arc-sidebar-implementation.md)
+now guides replacement of the provisional button-stack renderer.
 
 ## Organization and browser ownership
 
@@ -107,3 +116,35 @@ the remaining height with no visible tree rows. Folder interaction is therefore
 not qualified. A normal application Quit closed the test endpoint; no personal
 data or browser protection was changed. The fix also guards against selection
 of a Space removed by another window while its menu is open.
+
+
+## Later live results and failure
+
+Disposable root: /private/tmp/aelo-folders-fixed-xkkkx2r1. On clean Quit,
+Default/Preferences recorded exit_type Normal. The complete workspace tree
+before and after no-URL restart compared equal, with no new page UUIDs. An
+empty Empty Space was selected after restart. Saved on-disk data and live
+native state, not model snapshots alone, establish this bounded result.
+
+Native-control coordinate/drag calls returned noWindowsAvailable and some
+captures failed with ScreenCaptureKit -3811. AX button actions still supported
+folder creation/renaming, collapse/expand, pinning, sibling reordering and Move
+to the displayed default destination. No drag or non-default-picker pass is
+claimed. Collapse-state persistence itself was not compared in a deliberately
+collapsed final snapshot.
+
+A later process (21668) exited after profile/window transitions, +Tab and URL
+input. The log .build/chromium-folder-restart.log records a fatal at
+location_bar_view.cc:1986: kClassic popup state with classic=0, aim=0 while the
+omnibox had focus. The stack is in omnibox key/popup validation, with no Aelo
+sidebar frame. This does not establish causality. Source review found an
+unconditional kClassic publication after presenter Show and a possible external
+native visibility synchronization gap; both require lifecycle evidence before
+fixing. No validator, sandbox or security check was disabled. The disposable
+profile marked Crashed after this later failure; this does not erase the earlier
+separately verified normal shutdown/restoration result.
+
+The native-control recovery opened an incidental blank default window after
+that test process exited; the blank window was closed normally, and no personal
+content was used for testing. Do not call getApp unless the disposable endpoint
+is confirmed live. The browser is not left open as a qualified stable build.

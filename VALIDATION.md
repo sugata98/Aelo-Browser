@@ -213,3 +213,21 @@ docs/chromium-folder-sidebar.md for controls, persistence and remaining gates.
   Move row stretched vertically and hid the tree. This is a failed layout
   gate, not successful folder qualification. A scoped axis/footer layout fix
   is rebuilding before the remaining live checks.
+
+
+### Folder sidebar live results — bounded qualification, 4 November 2026
+
+- Layout-fix full build 221d813 succeeded, zero remaining build steps.
+- Fresh synthetic Default profile showed the hierarchy. Projects > Research >
+  Sources, nested page creation, per-folder pin, expand/collapse, sibling Down,
+  root Move, empty folder/Space and exact 10-node no-URL restart persistence
+  passed. Normal Quit recorded Normal exit and closed CDP. No UUID duplication
+  was observed on that restart.
+- Profile 1 had separate tree data and no fixture cookie, while Default's
+  marker remained. Five observed renderers and GPU were sandboxed (1, errno0),
+  broker0. All browser protections retained.
+- Drag/non-default picker tests remain unverified due CUA capture/window errors.
+- Later typing after profile/window/new-tab transitions caused an omnibox
+  kClassic-state DCHECK fatal at location_bar_view.cc1986. Cause not proved;
+  browser stability is not qualified. Earlier normal restart result is bounded.
+- See docs/chromium-folder-sidebar.md and the new Arc implementation evidence.

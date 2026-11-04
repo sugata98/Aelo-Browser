@@ -1,11 +1,11 @@
 # Full Chromium workspace UI port
 
-## Status — 3 November 2026
+## Status — 4 November 2026
 
 The first full Chromium fork build and disposable-profile launch passed before
 this change. The launched browser used upstream Chromium window controls, not
-the existing AppKit workspace shell. The new workspace UI now passes a full chrome target build. It has **not yet
-passed live interaction checks**.
+the existing AppKit workspace shell. The new workspace UI passes the full chrome target build and the basic live
+workspace checks below, using disposable Chromium profiles.
 
 ## Current implementation
 
@@ -31,7 +31,7 @@ passed live interaction checks**.
   certificate checks and renderer sandbox settings are not changed.
 - The default macOS startup mode resumes the previous session, using Chromium
   session persistence. Explicit user startup choices and policy take priority.
-  Live session/Space restoration still needs verification.
+  Live session/Space restoration passed the controlled quit/relaunch check.
 
 ## Storage and migration boundaries
 
@@ -66,20 +66,13 @@ previous CEF watchdog regression remain separate unfinished work.
   toolchain. Driver state is action_completed/build; both workspace header and
   region view objects and the real application executable exist. Log: ignored
   .build/chromium-build-workspace-retry.log.
-- Host launch from the agent sandbox remains blocked: Launch Services reports
-  kLSNoExecutableErr despite the verified executable; direct execution reaches
-  Crashpad and fails Mach bootstrap registration with permission denied. The
-  disposable debug endpoint was not created. No browser protection was disabled.
-  A launch outside the agent shell context is needed for live qualification.
-- A possible build-scope optimization (putting the 248-point default in profile
-  prefs) was identified but not applied. The broad rebuild has now completed;
-  do not change the shared width header solely to repeat that completed work.
-
-Required live gates: new-tab appearance; create, edit and switch two Spaces;
-new-tab membership while focused; All tabs escape; pin/unpin behavior; split
-creation and navigation; close/reopen; sidebar collapse; quit/relaunch session
-restoration; separate-profile isolation; renderer sandbox. Use disposable
---user-data-dir only and retain evidence in docs after actual verification.
+- The label-fix rebuild completed successfully on 4 November at 02:03 UTC,
+  with 18 jobs and zero remaining build steps. The ignored log is
+  .build/chromium-build-workspace-label-fix.log.
+- Agent-shell GUI launch cannot register Crashpad Mach ports. REA provided an
+  ordinary-user launch; no security-disabling flags or injected scripts were
+  used. Native UI actions were checked through computer use, with read-only
+  CDP diagnostics for page, process and profile evidence.
 
 ## Launch regression found on 4 November 2026
 
@@ -100,5 +93,36 @@ The sidebar's new labels used subpixel text on the vertical strip's transparent
 composited layer. They now use grayscale text rendering, including the new
 button labels. The opacity invariant remains enabled. The footer also keeps
 New Tab at its preferred height and uses a dedicated spacer to position the
-profile/split controls at the bottom. These changes are rebuilding; a live
-launch must establish the fix before this regression is marked resolved.
+profile/split controls at the bottom. The rebuilt app passed first paint and the live checks below. The observed
+label-paint startup regression is resolved in this build; broader stability
+is not established by these checks.
+
+
+## Live qualification — 4 November 2026
+
+The disposable run verified the original home page and native sidebar; creation,
+editing and switching of Personal and Focus; focused Cmd+T membership; All tabs;
+pin/unpin; close/Reopen; independently navigable split panes; and sidebar
+collapse/expand. Pinning removes a tab from its Space into native global pins.
+
+Personal and Focus shared a synthetic cookie in Default. A separate regular
+Profile 1 showed an empty cookie store at the same fixture origin. Both profile
+paths and the built executable were verified through chrome://version. All 14
+observed renderers and the GPU returned sandbox_check=1, errno=0; the browser
+broker returned 0. No browser protection was disabled.
+
+A normal application Quit closed the endpoint and recorded exit_type=Normal.
+Relaunch with the same disposable root and no startup URL restored Personal
+selected, both Spaces, tabs and split membership. The browser was left open on
+Personal with the original home page.
+
+One earlier verification process disappeared unexpectedly; its cause was not
+established. Recovery restored the synthetic session, and the later controlled
+normal quit/relaunch passed. This does not establish long-term stability or
+resolve the separate CEF shutdown watchdog. Distribution resource-seal signing,
+embedded revision provenance and broad extension compatibility remain open.
+
+See [structured evidence](chromium-workspace-launch-evidence.json) and the
+[home page capture](chromium-workspace-home.png). The PNG captures page content
+only; native sidebar and interaction results came from live UI inspection.
+Runtime logs and disposable profiles remain excluded from Git.

@@ -171,3 +171,25 @@ CEF UI investigation is paused while the full Chromium build is prioritized.
   labels now request grayscale rendering; no checks were disabled. Incremental
   rebuild and live regression verification are pending. The earlier request
   for user Terminal launch is superseded by the working REA launch route.
+
+
+### Workspace live qualification — 4 November 2026
+
+This supersedes the pending build/live status above. The label-fix full chrome
+build completed successfully at 02:03 UTC. REA supplied a working ordinary-user
+launch without requiring the user to run Terminal. The app stayed open through
+native UI checks of home/sidebar, create/edit/switch Spaces, focused new-tab
+membership, All tabs, pin/unpin, close/Reopen, split navigation and collapse.
+
+Default shared the synthetic fixture cookie across Spaces; separate Profile 1
+had no cookie at the same origin. Version pages confirmed both disposable
+profile paths and the built executable. Fourteen observed renderers and the GPU
+were sandboxed (sandbox_check=1, errno=0); broker=0. A controlled application
+Quit recorded Normal exit and closed CDP; relaunch without a startup URL
+restored Personal selection, both Spaces, tabs and split membership.
+
+The prior label-paint startup fatal did not recur. An earlier test process
+disappeared for an unknown reason, so these checks do not establish long-term
+stability. The independent CEF watchdog, empty-Space/per-Space-pin parity, import,
+nested folders, broad extensions and distribution signing remain unfinished.
+See docs/chromium-workspace-launch-evidence.json and docs/chromium-workspace-port.md.

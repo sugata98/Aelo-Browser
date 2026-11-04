@@ -45,7 +45,8 @@ Right-click a tab for pinning, renaming, splitting and archiving. In the command
 target with Aelo's independent browser identity. The full Chromium Aelo fork
 has built and launched with a disposable profile; HTTPS rendering and macOS
 renderer sandbox checks passed. The workspace UI port also builds successfully;
-its live interaction checks are pending. Distribution signing and broad compatibility remain open.
+its basic live Spaces, split browsing, profile isolation, sandbox and session
+restoration checks passed. Distribution signing and broad compatibility remain open.
 See the [migration status and build instructions](docs/chromium-migration.md)
 and [workspace port](docs/chromium-workspace-port.md).
 

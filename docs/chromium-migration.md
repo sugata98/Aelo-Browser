@@ -299,7 +299,7 @@ The build/launch monitor can now stop.
 
 The native AppKit sidebar/Spaces design belongs to the CEF preview and was not
 automatically inherited by the first full Chromium build. A native Views port
-is now in progress. See [workspace port status](chromium-workspace-port.md) for
-its current implementation, storage boundaries, differences and validation
-gates. Do not equate the previously verified full-browser launch with a
-verified workspace UI port.
+now passes the full build and basic disposable-profile workspace interaction,
+isolation, sandbox and quit/relaunch checks. See [workspace port status](chromium-workspace-port.md)
+for evidence, storage boundaries and remaining differences. This is a bounded
+qualification of the Aelo fork, not complete Arc or CEF workspace parity.

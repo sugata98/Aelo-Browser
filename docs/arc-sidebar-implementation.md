@@ -54,10 +54,10 @@ Swift's [reflection records](https://github.com/swiftlang/swift/blob/main/includ
 and [reflection explanation](https://www.swift.org/blog/how-mirror-works/).
 This pass observed compiled declarations, not an Arc store's live values.
 
-## Why Aelo's current UI still differs
+## Why the first Aelo renderer differed
 
 Aelo's portable tree now supports independent nesting and preserved UUIDs. That
-is the useful domain boundary to retain. Its first renderer remains provisional:
+is the useful domain boundary to retain. Its first renderer (through the diagnostic a9fd1c1 binary) was provisional:
 
 - `AeloWorkspaceHeader::Refresh` calls `rows_->RemoveAllChildViews()` and rebuilds
   all rows; it also replaces picker models and resets the move destination.
@@ -68,7 +68,7 @@ is the useful domain boundary to retain. Its first renderer remains provisional:
 - Every closed page remains saved. Arc-style temporary/Today versus saved-pin
   behavior is not implemented.
 
-These are Aelo source observations, not claims that Arc uses a particular diff
+These are observations of that earlier Aelo source, not claims that Arc uses a particular diff
 algorithm. The observed Arc components support a different architecture than
 the current button stack. The user's report of unstable layout is consistent
 with the actual Move-row flex regression found in live testing.
@@ -113,3 +113,8 @@ stability failure. Source review identifies candidate state synchronization
 paths, but not a proved cause. Keep the validator enabled and capture the
 Show/Hide/visibility/focus sequence before changing behavior. Successful tree
 persistence must not be reported as full stable-browser qualification.
+
+The subsequent [keyed renderer correction](chromium-sidebar-renderer.md) preserves
+UUID-keyed native rows, uses plain row states and contextual editors, and retains
+the independent model. This is an Aelo design guided by the observed architecture;
+it still needs full-build/live qualification and is not Arc source recovery.

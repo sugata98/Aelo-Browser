@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-04",
+  "app_commit": "a9fd1c1",
+  "disposable_root": "/private/tmp/aelo-folder-gates-iq7mu308",
+  "original_pid": 13822,
+  "restart_pid": 14526,
+  "target_identity": "Only the selected disposable Aelo broker was listed before each bind; first native fixture navigation matched CDP /folder-gates.",
+  "passed": [
+    "Non-default Move picker: page moved to Focus, then to Personal / Projects",
+    "Native close followed by native Reopen returned the fixture page; all six workspace UUIDs remained unchanged with one Nested Page record",
+    "No-startup-URL native session restore retained all six workspace IDs and page bindings"
+  ],
+  "evidence": {
+    "intermediate_focus_snapshot": ".build/chromium/folder-gates-before-drag.json",
+    "normal_quit_snapshot": ".build/chromium/folder-gates-before-restart.json",
+    "restart_snapshot": ".build/chromium/folder-gates-after-restart.json"
+  },
+  "collapse_gate": {
+    "status": "confounded_not_passed",
+    "observation": "Projects was expanded=false in flushed Normal-quit snapshot; restarted UI/preferences showed expanded=true with the same UUIDs.",
+    "limitation": "CUA later explicitly reported user interaction with the app; the displayed active page and selected row had also changed. External input is not excluded, so this observation is not attributed to source or restore logic."
+  },
+  "drag_gate": {
+    "status": "not_qualified",
+    "attempts": [
+      "Native drag Nested Page onto Research completed with no visible nesting change; flushed data kept parent Projects",
+      "A later drag toward Space root returned noWindowsAvailable; browser CDP stayed alive"
+    ],
+    "limitation": "No source drag lifecycle logs in this binary, so a successful native drag delivery is not established. No live sibling reorder/cycle-rejection pass claimed."
+  },
+  "cleanup": {
+    "endpoint_closed": true,
+    "exit_type": "Normal"
+  },
+  "omnibox": "No fatal lines observed in this bounded folder run; prior fatal remains unresolved."
+}

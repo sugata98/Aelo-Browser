@@ -253,3 +253,12 @@ docs/chromium-folder-sidebar.md for controls, persistence and remaining gates.
   restored Profile 1 + Tab/input succeeded. Thirty pre-quit lifecycle events
   contained two open Show returns and no fatal. Both profiles again recorded
   Normal exit and CDP closed. Original crash cause remains unresolved.
+
+- Further a9fd1c1 live gates passed non-default Move and native close/Reopen with
+  the same six workspace UUIDs. Deliberately collapsed restart is confounded by
+  reported external input; drag delivery is still unqualified. Evidence is in
+  docs/chromium-folder-interaction-evidence.json.
+- New renderer source preserves keyed row identity and Move choice and moves
+  editing into contextual UI. Header checks and changed-object compilation
+  passed, as did all three CTest suites. Full linking/live verification of the
+  new renderer is pending; no stability or Arc parity claim is made.

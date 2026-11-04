@@ -206,3 +206,23 @@ This follow-up recorded 30 pre-quit lifecycle events, two Show returns open=true
 and no fatal. Normal Quit again closed CDP and both profiles recorded Normal.
 The original crash remains unexplained; this is another bounded negative
 reproduction, not a stability fix.
+
+
+## Further folder gates and renderer correction
+
+The a9fd1c1 binary passed non-default Move to Focus and back into Projects. Native
+close/Reopen and restart retained all six UUIDs with no extra Nested Page record.
+Normal Quit closed CDP and recorded Normal. The deliberately collapsed Projects
+was later observed expanded after restart, but native control reported user
+interaction and the selected page also changed. External input is not excluded;
+this gate is confounded and is neither passed nor attributed to a source cause.
+Drag delivery remains unqualified: one attempt changed no nesting, another
+returned noWindowsAvailable while CDP stayed alive. See the
+[interaction evidence](chromium-folder-interaction-evidence.json).
+
+Source now replaces whole-row recreation/permanent edit stacks with a keyed
+projection, plain row selection/hover/focus states and contextual editors. See
+[renderer specification and pending live states](chromium-sidebar-renderer.md).
+The portable model and browser protections remain unchanged. The specification
+supersedes the Controls section for the next renderer build; prior live results
+apply to the earlier provisional UI until the new renderer is qualified.
